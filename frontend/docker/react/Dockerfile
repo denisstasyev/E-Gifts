@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:10
  
 COPY . /E-Gifts/www/frontend
 WORKDIR /E-Gifts/www/frontend
