@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := install
+
 build:
 	docker-compose build
 
@@ -7,10 +9,12 @@ up:
 down:
 	docker-compose down
 
-restart: 
+restart:
 	make down
 	make up
 
-logs: 
-	docker-compose logs -f
+install: build up
+
+logs:
+	docker-compose logs
 

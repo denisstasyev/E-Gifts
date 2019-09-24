@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := install
+
 build:
 	(cd frontend && make build)
 
@@ -10,3 +12,8 @@ down:
 restart:
 	make down
 	make up
+
+install: build up
+
+logs:
+	(cd frontend && make logs)
