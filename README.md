@@ -24,15 +24,15 @@ Stops the application and deletes Docker container with all dependencies (Docker
 
 ### `make up`
 
-Launches the application.
+Launches the application and installs (if necessary) some Docker images.
+
+### `make stop`
+
+Stops running containers without removing them.
 
 ### `make restart`
 
 Relaunches the application.
-
-### `make up`
-
-Launches the application.
 
 ### `make build`
 

@@ -6,6 +6,9 @@ build:
 up:
 	(cd frontend && make up)
 
+stop:
+	(cd frontend && make stop)
+
 down:
 	(cd frontend && make down)
 
