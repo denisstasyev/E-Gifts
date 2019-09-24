@@ -1,7 +1,7 @@
-FROM node:10
+FROM node:12
  
 COPY . /E-Gifts/www/frontend
 WORKDIR /E-Gifts/www/frontend
 
-RUN npm install
+RUN npm install typescript
 CMD ["npm", "start"]
