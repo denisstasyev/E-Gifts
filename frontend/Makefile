@@ -18,6 +18,9 @@ restart:
 
 install: build up
 
+rm:
+	docker-compose down --rmi 'all'
+
 logs:
 	docker-compose logs
 

@@ -18,5 +18,8 @@ restart:
 
 install: build up
 
+rm:
+	(cd frontend && make rm)
+
 logs:
 	(cd frontend && make logs)

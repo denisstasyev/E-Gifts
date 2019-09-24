@@ -42,6 +42,10 @@ Builds all custom Docker images.
 
 Builds and runs the application (the same as `make`).
 
+### `make rm`
+
+Deletes all installed Docker images (except for Node).
+
 ### `make logs`
 
 Shows all logs.
