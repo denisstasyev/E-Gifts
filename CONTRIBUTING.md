@@ -32,6 +32,9 @@
 5. `git push origin HEAD`
 ---
 6. Pull request в dev на Github
-### 7. `git pull origin dev`
+#### 7. `git pull origin dev`
+
+
+## Полезные ссылки
 
 [Пригодится для публикации релиза](https://habr.com/ru/post/106912/)

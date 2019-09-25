@@ -1,7 +1,6 @@
 <p align="center">
   <img alt="E-Gifts logo" src="docs/logos/transparent.png" width="100px" />
-  <h1 align="center">E-Gifts</h1>
-  <h2 align="center">Brings gifts to AR/VR!</h2>
+  <h1 align="center">E-Gifts - Brings gifts to AR/VR!</h1>
 </p>
 
 ## Quick Overview
