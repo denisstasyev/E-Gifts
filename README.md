@@ -3,9 +3,18 @@
   <h1 align="center">E-Gifts - Brings gifts to AR/VR!</h1>
 </p>
 
+You have found the E-Gifts GitHub repository, which is our graduation project of the TechnoTrack FullStack development course by Mail.Ru.
+
+## Index
+
+1. [Quick Overview](#quick-overview)
+2. [Quick Start](#quick-start)
+3. [Available Scripts](#available-scripts)
+4. [List of technologies used](#list-of-technologies-used)
+
 ## Quick Overview
 
-TechnoTrack FullStack development course by Mail.Ru graduation project.
+E-Gift is a web resource on which everyone can send a greeting gift in AR/VR to someone.
 
 ## Quick Start
 
@@ -50,3 +59,9 @@ Deletes all installed Docker images (except for Node).
 ### `make logs`
 
 Shows all logs.
+
+## List of technologies used
+
+Frontend: Make, Docker, Docker-Compose, Nginx, React.
+
+Backend:
