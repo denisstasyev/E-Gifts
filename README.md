@@ -1,6 +1,7 @@
-# E-Gifts
-
-Brings gifts to AR/VR!
+<p align="center">
+  <img alt="E-Gifts logo" src="docs/logos/transparent.png" width="100px" />
+  <h1 align="center">E-Gifts - Brings gifts to AR/VR!</h1>
+</p>
 
 ## Quick Overview
 
