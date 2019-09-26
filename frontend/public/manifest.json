@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "E-Gifts",
+  "name": "E-Gifts - Brings gifts to AR/VR!",
+  "description": "Gifts with AR/VR support",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#00ff39",
+  "background_color": "#00ffcd"
 }
