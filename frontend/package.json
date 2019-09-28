@@ -1,10 +1,17 @@
 {
   "name": "e-gifts",
   "version": "0.1.0",
+  "description": "Brings gifts to AR/VR!",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.4.3",
+    "@material-ui/icons": "^4.4.3",
+    "classnames": "^2.2.6",
+    "node-sass": "^4.12.0",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-router-dom": "^5.1.1",
     "react-scripts": "3.1.2"
   },
   "scripts": {
@@ -27,5 +34,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.18.2"
   }
 }
