@@ -10,7 +10,6 @@ You have found the E-Gifts GitHub repository, which is our graduation project of
 1. [Quick Overview](#quick-overview)
 2. [Quick Start](#quick-start)
 3. [Available Scripts](#available-scripts)
-4. [List of technologies used](#list-of-technologies-used)
 
 ## Quick Overview
 
@@ -59,9 +58,3 @@ Deletes all installed Docker images (except for Node).
 ### `make logs`
 
 Shows all logs.
-
-## List of technologies used
-
-Frontend: Make, Docker, Docker-Compose, Nginx, React.
-
-Backend:

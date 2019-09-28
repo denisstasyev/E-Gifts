@@ -4,6 +4,10 @@ Here you can find project frontend based on React.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## List of technologies used
+
+Make, Docker, Docker-Compose, Nginx, React, Prettier, ESLint.
+
 ## Available Scripts
 
 In the project directory, you can run:
