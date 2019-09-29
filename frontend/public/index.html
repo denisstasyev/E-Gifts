@@ -2,12 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+
+    <!-- Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Viewport -->
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+    />
+    <!-- <meta
+      name="viewport"
+      content="maximum-scale=1, user-scalable=0"
+    /> -->
 
     <meta name="description" content="Gifts with AR/VR support" />
 
+    <!-- Icons for web -->
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicons/favicon.ico" />
     <link
       rel="icon"
@@ -22,32 +33,40 @@
       href="favicons/favicon-16x16.png"
     />
 
+    <!-- Icons for iOS -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
       href="icons/apple-touch-icon.png"
     />
+
+    <!-- Icons for MacOS -->
     <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#00ff39" />
 
-    <meta name="msapplication-TileImage" content="icons/mstile-150x150.png" />
+    <!-- Icons for Windows -->
+    <meta name="msapplication-tileimage" content="icons/mstile-150x150.png" />
+
+    <!-- PWA for Android -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="E-Gifts" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- PWA for iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="E-Gifts" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <!-- PWA for Windows -->
     <meta
       name="msapplication-tooltip"
       content="E-Gifts - Brings gifts to AR/VR!"
     />
     <meta name="msapplication-starturl" content="./" />
     <meta name="msapplication-config" content="browserconfig.xml" />
+    <meta name="msapplication-tilecolor" content="#ffffff" />
 
-    <meta name="apple-mobile-web-app-title" content="E-Gifts" />
-    <meta name="application-name" content="E-Gifts" />
-
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="theme-color" content="#ffffff" />
-
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-touch-fullscreen" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
+    <!-- Splashscreens for iOS -->
     <link
       rel="apple-touch-startup-image"
       media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
@@ -158,6 +177,17 @@
       href="splashscreens/ipadpro2_splash_landscape.png"
     />
 
+    <!-- Material-UI -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <!-- Title -->
     <title>E-Gifts</title>
   </head>
   <body ontouchstart="">

@@ -1,11 +1,18 @@
 import React from "react";
-import { Button } from "antd";
+// import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
+
+import LabelBottomNavigation from "components/LabelBottomNavigation";
 
 function App() {
   return (
     <div className="App">
-      <Button type="primary">Button</Button>
+      <LabelBottomNavigation />
+      {/* <BrowserRouter> */}
+      {/* <Router history={hist}> */}
+      {/* <Switch><Route path="/" component={LandingPage} /></Switch> */}
+      {/* </Router> */}
+      {/* </BrowserRouter> */}
     </div>
   );
 }
