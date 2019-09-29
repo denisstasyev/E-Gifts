@@ -1,6 +1,0 @@
-history
-moment
-nouislider
-react-datetime
-react-slick
-react-swipeable-views
