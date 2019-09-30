@@ -1,17 +1,26 @@
 import React from "react";
-// import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+
+import Home from "containers/Home";
+import Gallery from "containers/Gallery";
 
 import LabelBottomNavigation from "components/LabelBottomNavigation";
 
 function App() {
   return (
-    <div className="App">
-      <LabelBottomNavigation />
-      {/* <BrowserRouter> */}
-      {/* <Router history={hist}> */}
-      {/* <Switch><Route path="/" component={LandingPage} /></Switch> */}
-      {/* </Router> */}
-      {/* </BrowserRouter> */}
+    <div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+          <Route path="/home" component={Home} />
+          <Route path="/gallery" component={Gallery} />
+          <Route path="/camera" component={Gallery} />
+          <Route path="/account" component={Gallery} />
+        </Switch>
+        <LabelBottomNavigation />
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink, withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -13,14 +14,17 @@ const useStyles = makeStyles({
   root: {
     width: "100%",
     position: "fixed",
-    bottom: 0
-    // backgroundColor: "#00ffcd"
+    bottom: "0"
   }
 });
 
-export default function LabelBottomNavigation() {
+export default withRouter(props => {
   const classes = useStyles();
-  const [value, setValue] = React.useState("home");
+  const [value, setValue] = React.useState(props.location.pathname);
+
+  React.useEffect(() => {
+    setValue(props.location.pathname);
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -32,22 +36,34 @@ export default function LabelBottomNavigation() {
       onChange={handleChange}
       className={classes.root}
     >
-      <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
+      <BottomNavigationAction
+        label="Home"
+        value="/home"
+        icon={<HomeIcon />}
+        component={NavLink}
+        to="/home"
+      />
       <BottomNavigationAction
         label="Gallery"
-        value="gallery"
+        value="/gallery"
         icon={<GalleryIcon />}
+        component={NavLink}
+        to="/gallery"
       />
       <BottomNavigationAction
         label="Camera"
-        value="camera"
+        value="/camera"
         icon={<CameraIcon />}
+        component={NavLink}
+        to="/camera"
       />
       <BottomNavigationAction
         label="Account"
-        value="account"
+        value="/account"
         icon={<AccountIcon />}
+        component={NavLink}
+        to="/account"
       />
     </BottomNavigation>
   );
-}
+});
