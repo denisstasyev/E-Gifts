@@ -1,21 +1,26 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import FolderIcon from "@material-ui/icons/Folder";
-import RestoreIcon from "@material-ui/icons/Restore";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+
+import HomeIcon from "@material-ui/icons/Home";
+import GalleryIcon from "@material-ui/icons/Redeem";
+import CameraIcon from "@material-ui/icons/CameraAlt";
+import AccountIcon from "@material-ui/icons/AccountCircle";
 
 const useStyles = makeStyles({
   root: {
-    width: "100%"
+    width: "100%",
+    position: "fixed",
+    bottom: 0
+    // backgroundColor: "#00ffcd"
   }
 });
 
 export default function LabelBottomNavigation() {
   const classes = useStyles();
-  const [value, setValue] = React.useState("recents");
+  const [value, setValue] = React.useState("home");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -27,25 +32,21 @@ export default function LabelBottomNavigation() {
       onChange={handleChange}
       className={classes.root}
     >
+      <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
       <BottomNavigationAction
-        label="Recents"
-        value="recents"
-        icon={<RestoreIcon />}
+        label="Gallery"
+        value="gallery"
+        icon={<GalleryIcon />}
       />
       <BottomNavigationAction
-        label="Favorites"
-        value="favorites"
-        icon={<FavoriteIcon />}
+        label="Camera"
+        value="camera"
+        icon={<CameraIcon />}
       />
       <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
-        icon={<LocationOnIcon />}
-      />
-      <BottomNavigationAction
-        label="Folder"
-        value="folder"
-        icon={<FolderIcon />}
+        label="Account"
+        value="account"
+        icon={<AccountIcon />}
       />
     </BottomNavigation>
   );
