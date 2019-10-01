@@ -24,7 +24,8 @@ namespace EGifts.DataBase
             {
                 throw new Exception("No Connection string in MainDbContext!");
             }
-            Database.Migrate();            
+            //Database.EnsureCreated();
+            //Database.Migrate();            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
