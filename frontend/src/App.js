@@ -1,8 +1,10 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
-import Home from "containers/Home";
-import Gallery from "containers/Gallery";
+// import Home from "containers/Home";
+// import Gallery from "containers/Gallery";
+// import Camera from "containers/Camera";
+import Account from "containers/Account";
 
 import LabelBottomNavigation from "components/LabelBottomNavigation";
 
@@ -14,10 +16,10 @@ function App() {
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
-          <Route path="/home" component={Home} />
-          <Route path="/gallery" component={Gallery} />
-          <Route path="/camera" component={Gallery} />
-          <Route path="/account" component={Gallery} />
+          <Route path="/home" component={Account} />
+          <Route path="/gallery" component={Account} />
+          <Route path="/camera" component={Account} />
+          <Route path="/account" component={Account} />
         </Switch>
         <LabelBottomNavigation />
       </BrowserRouter>

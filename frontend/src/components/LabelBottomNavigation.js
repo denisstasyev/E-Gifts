@@ -24,7 +24,7 @@ export default withRouter(props => {
 
   React.useEffect(() => {
     setValue(props.location.pathname);
-  });
+  }, [props.location.pathname]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
