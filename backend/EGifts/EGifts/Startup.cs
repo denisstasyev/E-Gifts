@@ -38,6 +38,15 @@ namespace EGifts
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        // TODO: брать кхUям к релизу!
+                        builder.AllowAnyOrigin(); //.WithOrigins("http://localhost", "http://www.contoso.com");
+                    });
+            });
             try
             {
                 using var context = new MainDbContext();
@@ -49,7 +58,8 @@ namespace EGifts
                     Name = UserName, 
                     PasswordHash = passwordHash,
                     FirstName = "FirstNane",
-                    LastName = "LastName"
+                    LastName = "LastName",
+                    Mail = "Test@mail.ru",
                 });
                 context.SaveChanges();
             }
@@ -58,15 +68,6 @@ namespace EGifts
                 Console.WriteLine(e);
                 throw;
             }
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost",
-                            "http://www.contoso.com");
-                    });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,12 +78,13 @@ namespace EGifts
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseRouting();
 
+            // TODO: все обработки - выкинуть отсюда.
             app.UseEndpoints(endpoints =>
             {
                 var dbContext = new MainDbContext();
-                var userName = dbContext.Users.FirstOrDefault()?.Name;
                 endpoints.MapGet("/login", async context =>
                 {
                     LoginResponse response;

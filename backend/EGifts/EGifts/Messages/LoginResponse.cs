@@ -9,6 +9,7 @@ namespace EGifts.Messages
         public bool Result;
         public string ResultMessage;
         public string Name;
+        public string Mail;
         public string FirstName;
         public string LastName;
         public Guid Token;
