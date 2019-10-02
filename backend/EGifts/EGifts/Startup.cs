@@ -38,6 +38,15 @@ namespace EGifts
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        // TODO: брать кхUям к релизу!
+                        builder.AllowAnyOrigin(); //.WithOrigins("http://localhost", "http://www.contoso.com");
+                    });
+            });
             try
             {
                 using var context = new MainDbContext();
@@ -49,7 +58,8 @@ namespace EGifts
                     Name = UserName, 
                     PasswordHash = passwordHash,
                     FirstName = "FirstNane",
-                    LastName = "LastName"
+                    LastName = "LastName",
+                    Mail = "Test@mail.ru",
                 });
                 context.SaveChanges();
             }
@@ -58,15 +68,6 @@ namespace EGifts
                 Console.WriteLine(e);
                 throw;
             }
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost",
-                            "http://www.contoso.com");
-                    });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,12 +78,13 @@ namespace EGifts
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseRouting();
 
+            // TODO: все обработки - выкинуть отсюда.
             app.UseEndpoints(endpoints =>
             {
                 var dbContext = new MainDbContext();
-                var userName = dbContext.Users.FirstOrDefault()?.Name;
                 endpoints.MapGet("/login", async context =>
                 {
                     LoginResponse response;
@@ -103,6 +105,7 @@ namespace EGifts
                         var login = context.Request.Query["login"].ToString(); //TODO:  константы.
                         var user = dbContext.Users.FirstOrDefault(u => u.Name.ToLower() == login.ToLower() &&
                                                                        u.PasswordHash.SequenceEqual(password));
+                        //TODO: вход по почте. Тогда при создании валидация логина - не должен содержать собаку.
                         if (null == user)
                         {
                             response = new LoginResponse
@@ -130,18 +133,84 @@ namespace EGifts
                                 FirstName = user.FirstName,
                                 LastName = user.LastName,
                                 Token = token.Guid,
+                                Mail = user.Mail,
                             };
                         }
                     }
-                    
-
                     //TODO: единую функу-сериализатор, или метод-сериализатор у общего базового класса.
                     var jsonFormatter = new DataContractJsonSerializer(typeof(LoginResponse));
                     using var fs = new MemoryStream();
                     jsonFormatter.WriteObject(fs, response);
                     var str = Encoding.UTF8.GetString(fs.ToArray());
                     await context.Response.WriteAsync(str);
-                });
+                }).RequireCors(MyAllowSpecificOrigins);
+                
+                endpoints.MapGet("/reg", async context =>
+                {
+                    UserRegistrationResponse response;
+                    if (!context.Request.Query.ContainsKey("login") ||
+                        (!context.Request.Query.ContainsKey("password")))
+                    {
+                        response = new UserRegistrationResponse
+                        {
+                            Result = false,
+                            ResultMessage = "No important parameters in request."
+                        };
+                    }
+                    else
+                    {
+                        // TODO: реобразование пароля в отдельную функу.
+                        var requestData = context.Request.Query;
+                        string queryPassword = requestData["password"];
+                        var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
+                        var login = requestData["login"].ToString(); //TODO:  константы.
+                        var mail = requestData.ContainsKey("mail") ? requestData["mail"].ToString() : "";
+                        var firstName = requestData.ContainsKey("firstname") ? requestData["firstname"].ToString() : "";
+                        var lastName = requestData.ContainsKey("lastname") ? requestData["lastname"].ToString() : "";
+                        
+                        if (dbContext.Users.Any(u => u.Name.ToLower() == login.ToLower()))
+                        {
+                            response = new UserRegistrationResponse
+                            {
+                                Result = false,
+                                ResultMessage = "Login already exists."
+                            };
+                        }
+                        else if (!string.IsNullOrEmpty(mail) &&
+                                 dbContext.Users.Any(u => u.Mail.ToLower() == mail.ToLower()))
+                        {
+                            response = new UserRegistrationResponse
+                            {
+                                Result = false,
+                                ResultMessage = "Mail already exists."
+                            };
+                        }
+                        else
+                        {
+                            dbContext.Users.Add(new User
+                            {
+                                Name = login,
+                                Mail = mail,
+                                FirstName = firstName,
+                                LastName = lastName,
+                                PasswordHash = password,
+
+                            });
+                            dbContext.SaveChanges();
+                            response = new UserRegistrationResponse
+                            {
+                                Result = true,
+                                ResultMessage = "",
+                            };
+                        }
+                    }
+                    //TODO: единую функу-сериализатор, или метод-сериализатор у общего базового класса.
+                    var jsonFormatter = new DataContractJsonSerializer(typeof(UserRegistrationResponse));
+                    using var fs = new MemoryStream();
+                    jsonFormatter.WriteObject(fs, response);
+                    var str = Encoding.UTF8.GetString(fs.ToArray());
+                    await context.Response.WriteAsync(str);
+                }).RequireCors(MyAllowSpecificOrigins);
             });
             app.Run((async (context) => { await context.Response.WriteAsync("DefaultPage"); }));
         }
