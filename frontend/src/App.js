@@ -7,6 +7,9 @@ import Gallery from "containers/Gallery";
 import Camera from "containers/Camera";
 import Account from "containers/Account";
 
+import SignIn from "components/SignIn";
+import SignUp from "components/SignUp";
+
 import LabelBottomNavigation from "components/LabelBottomNavigation";
 
 const theme = createMuiTheme({
@@ -33,7 +36,9 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/camera" component={Camera} />
-          <Route path="/account" component={Account} />
+          <Route exact path="/account" component={Account} />
+          <Route path="/account/signup" component={SignUp} />
+          <Route path="/account/signin" component={SignIn} />
         </Switch>
         <LabelBottomNavigation />
       </MuiThemeProvider>

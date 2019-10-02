@@ -9,19 +9,19 @@ import App from "./App";
 import userReducer from "store/reducers/user";
 // import * as serviceWorker from "./unused/serviceWorker";
 
-// const rootReducer = combineReducers({
-//   userReducer
-// });
+const rootReducer = combineReducers({
+  userReducer
+});
 
-// const store = createStore(
-//   rootReducer,
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// );
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
-  // <Provider store={store}>
-  <App />,
-  // </Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById("root")
 );
 
