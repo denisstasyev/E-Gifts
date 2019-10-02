@@ -133,15 +133,13 @@ namespace EGifts
                             };
                         }
                     }
-                    
-
                     //TODO: единую функу-сериализатор, или метод-сериализатор у общего базового класса.
                     var jsonFormatter = new DataContractJsonSerializer(typeof(LoginResponse));
                     using var fs = new MemoryStream();
                     jsonFormatter.WriteObject(fs, response);
                     var str = Encoding.UTF8.GetString(fs.ToArray());
                     await context.Response.WriteAsync(str);
-                });
+                }).RequireCors(MyAllowSpecificOrigins);
             });
             app.Run((async (context) => { await context.Response.WriteAsync("DefaultPage"); }));
         }
