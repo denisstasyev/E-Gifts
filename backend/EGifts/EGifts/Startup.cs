@@ -25,6 +25,7 @@ namespace EGifts
         const string UserName = "TestAdmin";
         const string Password = "passw0rd";
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             MainDbContext.ConnectionString = configuration.GetConnectionString("DefaultConnection");
@@ -57,6 +58,15 @@ namespace EGifts
                 Console.WriteLine(e);
                 throw;
             }
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost",
+                            "http://www.contoso.com");
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,6 +133,7 @@ namespace EGifts
                             };
                         }
                     }
+                    
 
                     //TODO: единую функу-сериализатор, или метод-сериализатор у общего базового класса.
                     var jsonFormatter = new DataContractJsonSerializer(typeof(LoginResponse));
