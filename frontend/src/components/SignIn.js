@@ -14,6 +14,13 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
+import axios from "axios";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -37,6 +44,48 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [values, setValues] = React.useState({
+    username: "",
+    password: "",
+    rememberMe: true,
+    showPassword: false
+  });
+
+  const handleChange = prop => event => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
+  const handleCheck = prop => event => {
+    setValues({ ...values, [prop]: event.target.checked });
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    console.log(values);
+    axios
+      .post(
+        `http://localhost:5000/login?login=${values.username}&password=${values.password}`
+      )
+      .then(function(response) {
+        // handle success
+        console.log(response);
+      })
+      .catch(function(error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function() {
+        // always executed
+      });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -54,10 +103,10 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            // id="username"
             label="Username"
-            // name="username"
-            autoComplete="username"
+            value={values.username}
+            onChange={handleChange("username")}
+            // autoComplete="username"
             // autoFocus
           />
           <TextField
@@ -65,14 +114,35 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            // name="password"
             label="Password"
-            type="password"
-            // id="password"
-            autoComplete="current-password"
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleChange("password")}
+            // autoComplete="current-password"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={
+              <Checkbox
+                checked={values.rememberMe}
+                onChange={handleCheck("rememberMe")}
+                value="remember me"
+                color="primary"
+              />
+            }
             label="Remember me"
           />
           <Button
@@ -81,6 +151,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign In
           </Button>
