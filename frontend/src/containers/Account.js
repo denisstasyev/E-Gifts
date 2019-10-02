@@ -14,7 +14,6 @@ export default function Account(props) {
       <Container>
         <Header topic="Account" />
         <Box my={2}>
-          Content is here
           {[...new Array(120)]
             .map(
               () => `Cras mattis consectetur purus sit amet fermentum.
