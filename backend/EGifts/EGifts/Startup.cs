@@ -63,7 +63,7 @@ namespace EGifts
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://example.com",
+                        builder.WithOrigins("http://localhost",
                             "http://www.contoso.com");
                     });
             });
