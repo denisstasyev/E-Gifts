@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default withRouter(props => {
+const LabelBottomNavigation = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState(
     props.location.pathname.split("/")[1]
@@ -28,7 +28,7 @@ export default withRouter(props => {
     setValue(props.location.pathname.split("/")[1]);
   }, [props.location.pathname]);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = newValue => {
     setValue(newValue);
   };
 
@@ -68,4 +68,6 @@ export default withRouter(props => {
       />
     </BottomNavigation>
   );
-});
+};
+
+export default withRouter(LabelBottomNavigation);

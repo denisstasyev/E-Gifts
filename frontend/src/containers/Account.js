@@ -8,7 +8,7 @@ import Box from "@material-ui/core/Box";
 
 import SignIn from "components/SignIn";
 
-function Account(props) {
+const Account = props => {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -31,21 +31,13 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
       <Toolbar />
     </React.Fragment>
   );
-}
+};
 
 const mapStateToProps = state => ({
   token: state.userReducer.token
 });
 
-const mapDispatchToProps = dispatch => ({
-  // handleFileSelect: file =>
-  //   dispatch({
-  //     type: actionTypes.SEND_FILE,
-  //     file
-  //   })
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Account);

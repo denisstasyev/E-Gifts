@@ -7,7 +7,7 @@ import Box from "@material-ui/core/Box";
 import Header from "components/Header";
 import ScrollTop from "components/ScrollTop";
 
-export default function Account(props) {
+const Account = props => {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -28,4 +28,6 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
       <Toolbar />
     </React.Fragment>
   );
-}
+};
+
+export default Account;

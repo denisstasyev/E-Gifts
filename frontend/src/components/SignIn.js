@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -11,7 +13,6 @@ import LinkButton from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -20,11 +21,14 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import axios from "axios";
+import { BACKEND_SERVER } from "config";
+
+import { AUTH_SIGNIN } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(16),
+    marginBottom: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -37,18 +41,23 @@ const useStyles = makeStyles(theme => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
+  alert: {
+    color: "red",
+    marginTop: theme.spacing(1)
+  },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(2, 0, 2)
   }
 }));
 
-export default function SignIn() {
+const SignIn = props => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     username: "",
     password: "",
     rememberMe: true,
-    showPassword: false
+    showPassword: false,
+    signInError: ""
   });
 
   const handleChange = prop => event => {
@@ -69,22 +78,27 @@ export default function SignIn() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(values);
-    axios
-      .post(
-        `http://localhost:5000/login?login=${values.username}&password=${values.password}`
-      )
-      .then(function(response) {
-        // handle success
-        console.log(response);
-      })
-      .catch(function(error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function() {
-        // always executed
-      });
+
+    if (values.username.length < 5 || values.password.length < 5) {
+      setValues({ ...values, signInError: "Wrong username or password" });
+    } else {
+      axios
+        .get(
+          `${BACKEND_SERVER}/login?login=${values.username}&password=${values.password}`
+        )
+        .then(function(response) {
+          if (response.data.Result) {
+            setValues({ ...values, signInError: "" });
+            props.handleSignIn(response.data);
+            //TODO: Direct to account page
+          } else {
+            setValues({ ...values, signInError: "Wrong username or password" });
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -107,7 +121,7 @@ export default function SignIn() {
             value={values.username}
             onChange={handleChange("username")}
             // autoComplete="username"
-            // autoFocus
+            autoFocus
           />
           <TextField
             variant="outlined"
@@ -145,6 +159,11 @@ export default function SignIn() {
             }
             label="Remember me"
           />
+          {values.signInError !== "" ? (
+            <Typography className={classes.alert} align="center">
+              {values.signInError}
+            </Typography>
+          ) : null}
           <Button
             type="submit"
             fullWidth
@@ -171,4 +190,17 @@ export default function SignIn() {
       </div>
     </Container>
   );
-}
+};
+
+const mapDispatchToProps = dispatch => ({
+  handleSignIn: response =>
+    dispatch({
+      type: AUTH_SIGNIN,
+      response
+    })
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignIn);
