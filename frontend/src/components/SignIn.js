@@ -90,7 +90,6 @@ const SignIn = props => {
           if (response.data.Result) {
             setValues({ ...values, signInError: "" });
             props.handleSignIn(response.data);
-            //TODO: Direct to account page
           } else {
             setValues({ ...values, signInError: "Wrong username or password" });
           }
@@ -102,15 +101,13 @@ const SignIn = props => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+        <Typography variant="h5">Sign in</Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -120,7 +117,7 @@ const SignIn = props => {
             label="Username"
             value={values.username}
             onChange={handleChange("username")}
-            // autoComplete="username"
+            autoComplete="username"
             autoFocus
           />
           <TextField
@@ -132,7 +129,7 @@ const SignIn = props => {
             type={values.showPassword ? "text" : "password"}
             value={values.password}
             onChange={handleChange("password")}
-            // autoComplete="current-password"
+            autoComplete="current-password"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
