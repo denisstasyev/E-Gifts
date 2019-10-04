@@ -18,6 +18,13 @@ const userReducer = (state = initialState, action) => {
       state.mail = action.response.Mail;
       state.token = action.response.Token;
       return Object.assign({}, state);
+    case AUTH_SIGNUP:
+      state.username = action.response.Name;
+      state.firstName = action.response.FirstName;
+      state.lastName = action.response.LastName;
+      state.mail = action.response.Mail;
+      state.token = action.response.Token;
+      return Object.assign({}, state);
     default:
       return state;
   }
