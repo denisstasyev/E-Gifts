@@ -24,6 +24,7 @@ import axios from "axios";
 import { BACKEND_SERVER } from "config";
 
 import { AUTH_SIGNIN } from "store/actionTypes";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -101,93 +102,111 @@ const SignIn = props => {
   };
 
   return (
-    <Container maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography variant="h5">Sign in</Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Username"
-            value={values.username}
-            onChange={handleChange("username")}
-            autoComplete="username"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Password"
-            type={values.showPassword ? "text" : "password"}
-            value={values.password}
-            onChange={handleChange("password")}
-            autoComplete="current-password"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    edge="end"
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={values.rememberMe}
-                onChange={handleCheck("rememberMe")}
-                value="remember me"
-                color="primary"
+    <React.Fragment>
+      {props.token !== null ? (
+        <Redirect to="/account" />
+      ) : (
+        <Container maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography variant="h5">Sign in</Typography>
+            <form className={classes.form} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Username"
+                value={values.username}
+                onChange={handleChange("username")}
+                autoComplete="username"
+                autoFocus
               />
-            }
-            label="Remember me"
-          />
-          {values.signInError !== "" ? (
-            <Typography className={classes.alert} align="center">
-              {values.signInError}
-            </Typography>
-          ) : null}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleSubmit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              {/* <Link href="#" variant="body2">
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Password"
+                type={values.showPassword ? "text" : "password"}
+                value={values.password}
+                onChange={handleChange("password")}
+                autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={values.rememberMe}
+                    onChange={handleCheck("rememberMe")}
+                    value="remember me"
+                    color="primary"
+                  />
+                }
+                label="Remember me"
+              />
+              {values.signInError !== "" ? (
+                <Typography className={classes.alert} align="center">
+                  {values.signInError}
+                </Typography>
+              ) : null}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleSubmit}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  {/* <Link href="#" variant="body2">
                 Forgot password?
               </Link> */}
-            </Grid>
-            <Grid item>
-              <LinkButton variant="body2" component={Link} to="/account/signup">
-                {"Don't have an account? Sign Up"}
-              </LinkButton>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+                </Grid>
+                <Grid item>
+                  <LinkButton
+                    variant="body2"
+                    component={Link}
+                    to="/account/signup"
+                  >
+                    {"Don't have an account? Sign Up"}
+                  </LinkButton>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+        </Container>
+      )}
+    </React.Fragment>
   );
 };
+
+const mapStateToProps = state => ({
+  token: state.userReducer.token
+});
 
 const mapDispatchToProps = dispatch => ({
   handleSignIn: response =>
@@ -198,6 +217,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignIn);

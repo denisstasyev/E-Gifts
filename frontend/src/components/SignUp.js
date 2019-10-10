@@ -24,6 +24,7 @@ import axios from "axios";
 import { BACKEND_SERVER } from "config";
 
 import { AUTH_SIGNUP } from "store/actionTypes";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -101,7 +102,7 @@ const SignUp = props => {
             setValues({ ...values, signUpError: "" });
             props.handleSignUp(response.data);
           } else {
-            setValues({ ...values, sigUpError: response.data.ResultMessage });
+            setValues({ ...values, signUpError: response.data.ResultMessage });
           }
         })
         .catch(function(error) {
@@ -111,128 +112,142 @@ const SignUp = props => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="First Name"
-                autoComplete="fname"
-                value={values.firstName}
-                onChange={handleChange("firstName")}
-                // autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Last Name"
-                autoComplete="lname"
-                value={values.lastName}
-                onChange={handleChange("lastName")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Email Address"
-                autoComplete="email"
-                value={values.mail}
-                onChange={handleChange("mail")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                label="Username"
-                autoComplete="username"
-                value={values.username}
-                onChange={handleChange("username")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                label="Password"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleChange("password")}
-                autoComplete="current-password"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {values.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-          </Grid>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={values.rememberMe}
-                onChange={handleCheck("rememberMe")}
-                value="remember me"
-                color="primary"
-              />
-            }
-            label="Remember me"
-          />
-          {values.signUpError !== "" ? (
-            <Typography className={classes.alert} align="center">
-              {values.signUpError}
+    <React.Fragment>
+      {props.token !== null ? (
+        <Redirect to="/account" />
+      ) : (
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign up
             </Typography>
-          ) : null}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleSubmit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <LinkButton variant="body2" component={Link} to="/account/signin">
-                Already have an account? Sign in
-              </LinkButton>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+            <form className={classes.form} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="First Name"
+                    autoComplete="fname"
+                    value={values.firstName}
+                    onChange={handleChange("firstName")}
+                    // autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Last Name"
+                    autoComplete="lname"
+                    value={values.lastName}
+                    onChange={handleChange("lastName")}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Email Address"
+                    autoComplete="email"
+                    value={values.mail}
+                    onChange={handleChange("mail")}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    label="Username"
+                    autoComplete="username"
+                    value={values.username}
+                    onChange={handleChange("username")}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    label="Password"
+                    type={values.showPassword ? "text" : "password"}
+                    value={values.password}
+                    onChange={handleChange("password")}
+                    autoComplete="current-password"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            edge="end"
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {values.showPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+              </Grid>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={values.rememberMe}
+                    onChange={handleCheck("rememberMe")}
+                    value="remember me"
+                    color="primary"
+                  />
+                }
+                label="Remember me"
+              />
+              {values.signUpError !== "" ? (
+                <Typography className={classes.alert} align="center">
+                  {values.signUpError}
+                </Typography>
+              ) : null}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleSubmit}
+              >
+                Sign Up
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <LinkButton
+                    variant="body2"
+                    component={Link}
+                    to="/account/signin"
+                  >
+                    Already have an account? Sign in
+                  </LinkButton>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+        </Container>
+      )}
+    </React.Fragment>
   );
 };
+
+const mapStateToProps = state => ({
+  token: state.userReducer.token
+});
 
 const mapDispatchToProps = dispatch => ({
   handleSignUp: response =>
@@ -243,6 +258,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignUp);

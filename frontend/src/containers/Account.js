@@ -6,17 +6,18 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 
-import SignIn from "components/SignIn";
 import Header from "components/Header";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+
+import { Redirect } from "react-router-dom";
 
 const Account = props => {
   return (
     <React.Fragment>
       <CssBaseline />
       {props.token === null ? (
-        <SignIn />
+        <Redirect to="/account/signin" />
       ) : (
         <Container>
           <Header topic={props.username} />
