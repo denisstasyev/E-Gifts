@@ -28,14 +28,12 @@ const LabelBottomNavigation = props => {
     setValue(props.location.pathname.split("/")[1]);
   }, [props.location.pathname]);
 
-  const handleChange = newValue => {
-    setValue(newValue);
-  };
-
   return (
     <BottomNavigation
       value={value}
-      onChange={handleChange}
+      onChange={(event, newValue) => {
+        setValue(newValue);
+      }}
       className={classes.root}
     >
       <BottomNavigationAction
