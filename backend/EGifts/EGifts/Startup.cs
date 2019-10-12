@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
 
 namespace EGifts
 {
@@ -87,14 +88,14 @@ namespace EGifts
                 var dbContext = new MainDbContext();
                 endpoints.MapGet("/login", async context =>
                 {
-                    LoginResponse response;
+                    LoginResponseMessage responseMessage;
                     if (!context.Request.Query.ContainsKey("login") ||
                         (!context.Request.Query.ContainsKey("password")))
                     {
-                        response = new LoginResponse
+                        responseMessage = new LoginResponseMessage
                         {
                             Result = false,
-                            ResultMessage = "No important parameters in request."
+                            ResultMessage = ResourcesErrorMessages.NoParameters,
                         };
                     }
                     else
@@ -108,10 +109,10 @@ namespace EGifts
                         //TODO: вход по почте. Тогда при создании валидация логина - не должен содержать собаку.
                         if (null == user)
                         {
-                            response = new LoginResponse
+                            responseMessage = new LoginResponseMessage
                             {
                                 Result = false,
-                                ResultMessage = "Wrong login password."
+                                ResultMessage = ResourcesErrorMessages.WrongLoginPassword,
                             };
                         }
                         else
@@ -119,13 +120,13 @@ namespace EGifts
                             var token = new Token
                             {
                                 Guid = Guid.NewGuid(),
-                                User = user,
                                 UserAgent = "someAgent",
                                 ValidThru = DateTime.Now.AddDays(7),
                             };
-                            
+                            user.Tokens.Add(token);
+                            dbContext.SaveChanges();
                             // TODO: б из юзера одной функой получать этот ответ? Или пересечёт транспорт и бд? (
-                            response = new LoginResponse
+                            responseMessage = new LoginResponseMessage
                             {
                                 Result = true,
                                 ResultMessage = "",
@@ -137,24 +138,19 @@ namespace EGifts
                             };
                         }
                     }
-                    //TODO: единую функу-сериализатор, или метод-сериализатор у общего базового класса.
-                    var jsonFormatter = new DataContractJsonSerializer(typeof(LoginResponse));
-                    using var fs = new MemoryStream();
-                    jsonFormatter.WriteObject(fs, response);
-                    var str = Encoding.UTF8.GetString(fs.ToArray());
-                    await context.Response.WriteAsync(str);
+                    await context.Response.WriteAsync(responseMessage.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 
                 endpoints.MapGet("/reg", async context =>
                 {
-                    UserRegistrationResponse response;
+                    LoginResponseMessage responseMessage;
                     if (!context.Request.Query.ContainsKey("login") ||
                         (!context.Request.Query.ContainsKey("password")))
                     {
-                        response = new UserRegistrationResponse
+                        responseMessage = new LoginResponseMessage
                         {
                             Result = false,
-                            ResultMessage = "No important parameters in request."
+                            ResultMessage = ResourcesErrorMessages.NoParameters,
                         };
                     }
                     else
@@ -164,29 +160,37 @@ namespace EGifts
                         string queryPassword = requestData["password"];
                         var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
                         var login = requestData["login"].ToString(); //TODO:  константы.
+                        
                         var mail = requestData.ContainsKey("mail") ? requestData["mail"].ToString() : "";
                         var firstName = requestData.ContainsKey("firstname") ? requestData["firstname"].ToString() : "";
                         var lastName = requestData.ContainsKey("lastname") ? requestData["lastname"].ToString() : "";
                         
                         if (dbContext.Users.Any(u => u.Name.ToLower() == login.ToLower()))
                         {
-                            response = new UserRegistrationResponse
+                            responseMessage = new LoginResponseMessage
                             {
                                 Result = false,
-                                ResultMessage = "Login already exists."
+                                ResultMessage = ResourcesErrorMessages.LoginExists,
                             };
                         }
                         else if (!string.IsNullOrEmpty(mail) &&
                                  dbContext.Users.Any(u => u.Mail.ToLower() == mail.ToLower()))
                         {
-                            response = new UserRegistrationResponse
+                            responseMessage = new LoginResponseMessage
                             {
                                 Result = false,
-                                ResultMessage = "Mail already exists."
+                                ResultMessage = ResourcesErrorMessages.MailExists,
                             };
                         }
                         else
                         {
+                            var token = new Token
+                            {
+                                Guid = Guid.NewGuid(),
+                                UserAgent = "someAgent",
+                                ValidThru = DateTime.Now.AddDays(7),
+                            };
+                            dbContext.SaveChanges();
                             dbContext.Users.Add(new User
                             {
                                 Name = login,
@@ -194,25 +198,26 @@ namespace EGifts
                                 FirstName = firstName,
                                 LastName = lastName,
                                 PasswordHash = password,
-
+                                Tokens = new List<Token> { token }, 
                             });
                             dbContext.SaveChanges();
-                            response = new UserRegistrationResponse
+                            responseMessage = new LoginResponseMessage
                             {
                                 Result = true,
                                 ResultMessage = "",
+                                Name = login,
+                                Mail = mail,
+                                FirstName = firstName,
+                                LastName = lastName,
+                                Token = token.Guid,
                             };
                         }
                     }
-                    //TODO: единую функу-сериализатор, или метод-сериализатор у общего базового класса.
-                    var jsonFormatter = new DataContractJsonSerializer(typeof(UserRegistrationResponse));
-                    using var fs = new MemoryStream();
-                    jsonFormatter.WriteObject(fs, response);
-                    var str = Encoding.UTF8.GetString(fs.ToArray());
-                    await context.Response.WriteAsync(str);
+
+                    await context.Response.WriteAsync(responseMessage.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
             });
-            app.Run((async (context) => { await context.Response.WriteAsync("DefaultPage"); }));
+            app.Run((async (context) => { await context.Response.WriteAsync("test"); }));
         }
     }
 }
