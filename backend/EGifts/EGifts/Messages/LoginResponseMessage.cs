@@ -19,5 +19,7 @@ namespace EGifts.Messages
         public string LastName { get; set; }
         [JsonPropertyName("token")]
         public Guid Token { get; set; }
+        [JsonPropertyName("birth_date")]
+        public DateTime? BirthDate { get; set; }
     }
 }

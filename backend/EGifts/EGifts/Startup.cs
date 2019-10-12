@@ -131,6 +131,7 @@ namespace EGifts
                                 Result = true,
                                 ResultMessage = "",
                                 Name = user.Name,
+                                BirthDate = user.BirthDate,
                                 FirstName = user.FirstName,
                                 LastName = user.LastName,
                                 Token = token.Guid,
@@ -160,12 +161,30 @@ namespace EGifts
                         string queryPassword = requestData["password"];
                         var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
                         var login = requestData["login"].ToString(); //TODO:  константы.
+
+                        var mail = requestData.ContainsKey("mail") ? requestData["mail"].ToString() : null;
+
+                        var firstName = requestData.ContainsKey("firstname") ? requestData["firstname"].ToString() : null;
+                        var lastName = requestData.ContainsKey("lastname") ? requestData["lastname"].ToString() : null;
+
+                        DateTime? birthDate = null;
+                        var dateString = requestData.ContainsKey("birthdate")
+                            ? requestData["birthdate"].ToString()
+                            : null;
+                        if (DateTime.TryParse(dateString, out var tmpDate))
+                        {
+                            birthDate = tmpDate;
+                        }
                         
-                        var mail = requestData.ContainsKey("mail") ? requestData["mail"].ToString() : "";
-                        var firstName = requestData.ContainsKey("firstname") ? requestData["firstname"].ToString() : "";
-                        var lastName = requestData.ContainsKey("lastname") ? requestData["lastname"].ToString() : "";
-                        
-                        if (dbContext.Users.Any(u => u.Name.ToLower() == login.ToLower()))
+                        if (null == birthDate && dateString != null)
+                        {
+                            responseMessage = new LoginResponseMessage
+                            {
+                                Result = false,
+                                ResultMessage = ResourcesErrorMessages.WrongDateFormar,
+                            };
+                        }
+                        else if (dbContext.Users.Any(u => u.Name.ToLower() == login.ToLower()))
                         {
                             responseMessage = new LoginResponseMessage
                             {
@@ -195,6 +214,7 @@ namespace EGifts
                             {
                                 Name = login,
                                 Mail = mail,
+                                BirthDate = birthDate,
                                 FirstName = firstName,
                                 LastName = lastName,
                                 PasswordHash = password,
@@ -206,6 +226,7 @@ namespace EGifts
                                 Result = true,
                                 ResultMessage = "",
                                 Name = login,
+                                BirthDate = birthDate,
                                 Mail = mail,
                                 FirstName = firstName,
                                 LastName = lastName,
@@ -217,7 +238,11 @@ namespace EGifts
                     await context.Response.WriteAsync(responseMessage.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
             });
-            app.Run((async (context) => { await context.Response.WriteAsync("test"); }));
+            app.Run((async (context) =>
+            {
+                await context.Response.WriteAsync(DateTime.Parse("10.10.2019").ToString()); 
+                
+            }));
         }
     }
 }

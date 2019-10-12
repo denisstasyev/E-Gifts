@@ -88,6 +88,15 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Wrong date format.
+        /// </summary>
+        internal static string WrongDateFormar {
+            get {
+                return ResourceManager.GetString("WrongDateFormar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Wrong login or password.
         /// </summary>
         internal static string WrongLoginPassword {

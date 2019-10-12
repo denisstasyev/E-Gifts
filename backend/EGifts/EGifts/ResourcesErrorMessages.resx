@@ -126,6 +126,9 @@
   <data name="NoParameters" xml:space="preserve">
     <value>No important parameters in request</value>
   </data>
+  <data name="WrongDateFormar" xml:space="preserve">
+    <value>Wrong date format</value>
+  </data>
   <data name="WrongLoginPassword" xml:space="preserve">
     <value>Wrong login or password</value>
   </data>

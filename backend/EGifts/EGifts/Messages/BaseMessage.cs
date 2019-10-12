@@ -10,6 +10,7 @@ namespace EGifts.Messages
     public class BaseMessage
     {
         [JsonIgnore]
-        public string ToJsonString => JsonSerializer.Serialize(this, GetType(), new JsonSerializerOptions { WriteIndented = true });
+        public string ToJsonString => JsonSerializer.Serialize(this, GetType(),
+            new JsonSerializerOptions {WriteIndented = true, IgnoreReadOnlyProperties = true});
     }
 }
