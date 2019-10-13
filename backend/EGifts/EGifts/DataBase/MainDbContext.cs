@@ -12,6 +12,7 @@ namespace EGifts.DataBase
         public DbSet<GiftReference> GiftReferences { get; set; }
         public DbSet<GiftTag> GiftTags { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Tag> Tags { get; set;  }
         public DbSet<Token> Tokens { get; set; }

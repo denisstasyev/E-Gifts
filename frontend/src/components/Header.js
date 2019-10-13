@@ -24,7 +24,7 @@ export default function Header(props) {
         alt="E-Gifts logo"
         width="40px"
       />
-      <Typography variant="h5">{props.topic}</Typography>
+      <Typography variant="h4">{props.topic}</Typography>
     </Toolbar>
   );
 }

@@ -36,7 +36,7 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/camera" component={Camera} />
-          <Route exact path="/account" component={Account} />
+          <Route exact path="/account" component={Account} /> 
           <Route path="/account/signup" component={SignUp} />
           <Route path="/account/signin" component={SignIn} />
         </Switch>
