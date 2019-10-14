@@ -1,25 +1,26 @@
+using EGifts.Messages.MessageNames;
 using System;
 using System.Text.Json.Serialization;
 
 namespace EGifts.Messages
 {
     public class LoginResponseMessage : BaseMessage
-    {        
-        [JsonPropertyName("result")]
+    {
+        [JsonPropertyName(LoginNames.Result)]
         public bool Result { get; set; }
-        [JsonPropertyName("result_message")]
+        [JsonPropertyName(LoginNames.ResultMessage)]
         public string ResultMessage { get; set; }
-        [JsonPropertyName("login")]
+        [JsonPropertyName(LoginNames.Login)]
         public string Name { get; set; }
-        [JsonPropertyName("mail")]
+        [JsonPropertyName(LoginNames.Mail)]
         public string Mail { get; set; }
-        [JsonPropertyName("first_name")]
+        [JsonPropertyName(LoginNames.FirstName)]
         public string FirstName { get; set; }
-        [JsonPropertyName("last_name")]
+        [JsonPropertyName(LoginNames.LastName)]
         public string LastName { get; set; }
-        [JsonPropertyName("token")]
+        [JsonPropertyName(LoginNames.Token)]
         public Guid Token { get; set; }
-        [JsonPropertyName("birth_date")]
+        [JsonPropertyName(LoginNames.BirthDate)]
         public DateTime? BirthDate { get; set; }
     }
 }

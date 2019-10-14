@@ -17,5 +17,6 @@ namespace EGifts.DataBase.DatabaseClasses
         public List<Session> Sessions { get; set; }
         public List<Token> Tokens { get; set; }
         public Role Role { get; set; }
+        //TODO: registrarion date.
     }
 }
