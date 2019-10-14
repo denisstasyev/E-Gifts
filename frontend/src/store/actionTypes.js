@@ -1,2 +1,3 @@
-export const AUTH_SIGNUP = "AUTH_SIGNUP";
-export const AUTH_SIGNIN = "AUTH_SIGNIN";
+export const USER_AUTH_SUCCESS = "USER_AUTH_SUCCESS";
+export const USER_AUTH_FAIL = "USER_AUTH_FAIL";
+export const USER_CLEAN_ERROR = "USER_CLEAN_ERROR";

@@ -20,11 +20,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-import axios from "axios";
-import { BACKEND_SERVER } from "config";
+// import { Redirect } from "react-router-dom";
 
-import { AUTH_SIGNIN } from "store/actionTypes";
-import { Redirect } from "react-router-dom";
+import * as userActionCreators from "store/actions/user";
+import { USER_CLEAN_ERROR } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -57,8 +56,7 @@ const SignIn = props => {
     username: "",
     password: "",
     rememberMe: true,
-    showPassword: false,
-    signInError: ""
+    showPassword: false
   });
 
   const handleChange = prop => event => {
@@ -81,138 +79,128 @@ const SignIn = props => {
     event.preventDefault();
 
     if (values.username.length < 5 || values.password.length < 5) {
-      setValues({ ...values, signInError: "Wrong username or password" });
+      props.handleError("Wrong username or password");
     } else {
-      axios
-        .get(
-          `${BACKEND_SERVER}/login?login=${values.username}&password=${values.password}`
-        )
-        .then(function(response) {
-          if (response.data.Result) {
-            setValues({ ...values, signInError: "" });
-            props.handleSignIn(response.data);
-          } else {
-            setValues({ ...values, signInError: "Wrong username or password" });
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      props.handleSubmit(values.username, values.password, values.rememberMe);
     }
   };
 
   return (
     <React.Fragment>
-      {props.token !== null ? (
+      {/* {props.token !== null ? (
         <Redirect to="/account" />
-      ) : (
-        <Container maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography variant="h5">Sign in</Typography>
-            <form className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Username"
-                value={values.username}
-                onChange={handleChange("username")}
-                autoComplete="username"
-                autoFocus
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleChange("password")}
-                autoComplete="current-password"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {values.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={values.rememberMe}
-                    onChange={handleCheck("rememberMe")}
-                    value="remember me"
-                    color="primary"
-                  />
-                }
-                label="Remember me"
-              />
-              {values.signInError !== "" ? (
-                <Typography className={classes.alert} align="center">
-                  {values.signInError}
-                </Typography>
-              ) : null}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSubmit}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  {/* <Link href="#" variant="body2">
+      ) : ( */}
+      <Container maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography variant="h5">Sign in</Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Username"
+              value={values.username}
+              onChange={handleChange("username")}
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Password"
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
+              onChange={handleChange("password")}
+              autoComplete="current-password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      edge="end"
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={values.rememberMe}
+                  onChange={handleCheck("rememberMe")}
+                  value="remember me"
+                  color="primary"
+                />
+              }
+              label="Remember me"
+            />
+            {props.errorMessage !== null ? (
+              <Typography className={classes.alert} align="center">
+                {props.errorMessage}
+              </Typography>
+            ) : null}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleSubmit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                {/* <Link href="#" variant="body2">
                 Forgot password?
               </Link> */}
-                </Grid>
-                <Grid item>
-                  <LinkButton
-                    variant="body2"
-                    component={Link}
-                    to="/account/signup"
-                  >
-                    {"Don't have an account? Sign Up"}
-                  </LinkButton>
-                </Grid>
               </Grid>
-            </form>
-          </div>
-        </Container>
-      )}
+              <Grid item>
+                <LinkButton
+                  variant="body2"
+                  component={Link}
+                  to="/account/signup"
+                  onClick={() => {
+                    if (props.errorMessage !== null)
+                      return props.handleRedirect();
+                  }}
+                >
+                  {"Don't have an account? Sign Up"}
+                </LinkButton>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
+      {/* )} */}
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => ({
-  token: state.userReducer.token
+  errorMessage: state.userReducer.errorMessage
+  // token: state.userReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleSignIn: response =>
+  handleError: errorMessage =>
+    dispatch(userActionCreators.authFail(errorMessage)),
+  handleSubmit: (username, password, rememberMe) =>
+    dispatch(userActionCreators.signIn(username, password, rememberMe)),
+  handleRedirect: () =>
     dispatch({
-      type: AUTH_SIGNIN,
-      response
+      type: USER_CLEAN_ERROR
     })
 });
 

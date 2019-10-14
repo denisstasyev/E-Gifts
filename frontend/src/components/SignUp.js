@@ -20,11 +20,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-import axios from "axios";
-import { BACKEND_SERVER } from "config";
+// import { Redirect } from "react-router-dom";
 
-import { AUTH_SIGNUP } from "store/actionTypes";
-import { Redirect } from "react-router-dom";
+import * as userActionCreators from "store/actions/user";
+import { USER_CLEAN_ERROR } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -60,8 +59,7 @@ const SignUp = props => {
     username: "",
     password: "",
     rememberMe: true,
-    showPassword: false,
-    signUpError: ""
+    showPassword: false
   });
 
   const handleChange = prop => event => {
@@ -83,177 +81,186 @@ const SignUp = props => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    console.log(values);
     if (values.username.length === 0) {
-      setValues({ ...values, signUpError: "Username required" });
+      props.handleError("Username required");
     } else if (values.password.length === 0) {
-      setValues({ ...values, signUpError: "Password required" });
+      props.handleError("Password required");
     } else if (values.username.length < 5) {
-      setValues({ ...values, signUpError: "Username is too short" });
+      props.handleError("Username is too short");
     } else if (values.password.length < 5) {
-      setValues({ ...values, signUpError: "Password is too short" });
+      props.handleError("Password is too short");
     } else {
-      axios
-        .get(
-          `${BACKEND_SERVER}/reg?login=${values.username}&password=${values.password}` //TODO fix this url
-        )
-        .then(function(response) {
-          if (response.data.Result) {
-            setValues({ ...values, signUpError: "" });
-            props.handleSignUp(response.data);
-          } else {
-            setValues({ ...values, signUpError: response.data.ResultMessage });
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      props.handleSubmit(
+        values.firstName,
+        values.lastName,
+        values.mail,
+        values.username,
+        values.password,
+        values.rememberMe
+      );
     }
   };
 
   return (
     <React.Fragment>
-      {props.token !== null ? (
+      {/* {props.token !== null ? (
         <Redirect to="/account" />
-      ) : (
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
-            <form className={classes.form} noValidate>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="First Name"
-                    autoComplete="fname"
-                    value={values.firstName}
-                    onChange={handleChange("firstName")}
-                    // autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Last Name"
-                    autoComplete="lname"
-                    value={values.lastName}
-                    onChange={handleChange("lastName")}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Email Address"
-                    autoComplete="email"
-                    value={values.mail}
-                    onChange={handleChange("mail")}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    label="Username"
-                    autoComplete="username"
-                    value={values.username}
-                    onChange={handleChange("username")}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    label="Password"
-                    type={values.showPassword ? "text" : "password"}
-                    value={values.password}
-                    onChange={handleChange("password")}
-                    autoComplete="current-password"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            edge="end"
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                          >
-                            {values.showPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
+      ) : ( */}
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="First Name"
+                  autoComplete="fname"
+                  value={values.firstName}
+                  onChange={handleChange("firstName")}
+                  // autoFocus
+                />
               </Grid>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={values.rememberMe}
-                    onChange={handleCheck("rememberMe")}
-                    value="remember me"
-                    color="primary"
-                  />
-                }
-                label="Remember me"
-              />
-              {values.signUpError !== "" ? (
-                <Typography className={classes.alert} align="center">
-                  {values.signUpError}
-                </Typography>
-              ) : null}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSubmit}
-              >
-                Sign Up
-              </Button>
-              <Grid container justify="flex-end">
-                <Grid item>
-                  <LinkButton
-                    variant="body2"
-                    component={Link}
-                    to="/account/signin"
-                  >
-                    Already have an account? Sign in
-                  </LinkButton>
-                </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="Last Name"
+                  autoComplete="lname"
+                  value={values.lastName}
+                  onChange={handleChange("lastName")}
+                />
               </Grid>
-            </form>
-          </div>
-        </Container>
-      )}
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="Email Address"
+                  autoComplete="email"
+                  value={values.mail}
+                  onChange={handleChange("mail")}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="Username"
+                  autoComplete="username"
+                  value={values.username}
+                  onChange={handleChange("username")}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="Password"
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  onChange={handleChange("password")}
+                  autoComplete="current-password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {values.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={values.rememberMe}
+                  onChange={handleCheck("rememberMe")}
+                  value="remember me"
+                  color="primary"
+                />
+              }
+              label="Remember me"
+            />
+            {props.errorMessage !== "" ? (
+              <Typography className={classes.alert} align="center">
+                {props.errorMessage}
+              </Typography>
+            ) : null}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleSubmit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <LinkButton
+                  variant="body2"
+                  component={Link}
+                  to="/account/signin"
+                  onClick={() => {
+                    if (props.errorMessage !== null)
+                      return props.handleRedirect();
+                  }}
+                >
+                  Already have an account? Sign in
+                </LinkButton>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
+      {/* )} */}
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => ({
-  token: state.userReducer.token
+  errorMessage: state.userReducer.errorMessage
+  // token: state.userReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleSignUp: response =>
+  handleError: errorMessage =>
+    dispatch(userActionCreators.authFail(errorMessage)),
+  handleSubmit: (firstName, lastName, mail, username, password, rememberMe) =>
+    dispatch(
+      userActionCreators.signUp(
+        firstName,
+        lastName,
+        mail,
+        username,
+        password,
+        rememberMe
+      )
+    ),
+  handleRedirect: () =>
     dispatch({
-      type: AUTH_SIGNUP,
-      response
+      type: USER_CLEAN_ERROR
     })
 });
 
