@@ -7,6 +7,6 @@ namespace EGifts.DataBase.DatabaseClasses
         public long Id { get; set; }
         public string Name { get; set; }
         public long Count { get; set; }
-        public List<GiftTag> GiftTags { get; set; }
+        public List<GiftTag> GiftTags { get; set; } = new List<GiftTag>();
     }
 }

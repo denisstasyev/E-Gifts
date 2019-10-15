@@ -10,7 +10,7 @@ namespace EGifts.DataBase.DatabaseClasses
         public double Cost { get; set; }
         public int DonationPercent { get; set; }
         public string DonationOrganisation { get; set; }
-        public List<GiftTag> GiftTags { get; set; }
-        public List<UserGift> UserGifts { get; set; }
+        public List<GiftTag> GiftTags { get; set; } = new List<GiftTag>();
+        public List<UserGift> UserGifts { get; set; } = new List<UserGift>();
     }
 }

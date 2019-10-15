@@ -12,10 +12,10 @@ namespace EGifts.DataBase.DatabaseClasses
         public string Mail { get; set; }
         public DateTime? BirthDate { get; set; } = null;
         public byte[] PasswordHash { get; set; }
-        public List<UserGift> UserGifts { get; set; }
-        public List<Payment> Payments { get; set; }
-        public List<Session> Sessions { get; set; }
-        public List<Token> Tokens { get; set; }
+        public List<UserGift> UserGifts { get; set; } = new List<UserGift>();
+        public List<Payment> Payments { get; set; } = new List<Payment>();
+        public List<Session> Sessions { get; set; } = new List<Session>();
+        public List<Token> Tokens { get; set; } = new List<Token>();
         public Role Role { get; set; }
         //TODO: registrarion date.
     }
