@@ -31,11 +31,14 @@ export const signIn = (username, password, rememberMe) => {
       )
       .then(response => {
         if (response.data[config.RESULT]) {
-          if (rememberMe) {
-            // localStorage.setItem("username", )
-            //TODO
-          }
           dispatch(authSuccess(response.data));
+          if (rememberMe) {
+            localStorage.setItem("username", response.data[config.USERNAME]);
+            localStorage.setItem("firstName", response.data[config.FIRST_NAME]); //TODO: fix null value
+            localStorage.setItem("lastName", response.data[config.LAST_NAME]);
+            localStorage.setItem("mail", response.data[config.MAIL]);
+            localStorage.setItem("token", response.data[config.TOKEN]);
+          }
         } else {
           dispatch(authFail("Wrong username or password"));
         }
@@ -57,15 +60,18 @@ export const signUp = (
   return dispatch => {
     axios
       .get(
-        `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}` //TODO fix this url
+        `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}&first_name=${firstName}&last_name=${lastName}&mail=${mail}`
       )
       .then(response => {
         if (response.data[config.RESULT]) {
-          if (rememberMe) {
-            // localStorage.setItem("username", )
-            //TODO
-          }
           dispatch(authSuccess(response.data));
+          if (rememberMe) {
+            localStorage.setItem("username", response.data[config.USERNAME]);
+            localStorage.setItem("firstName", response.data[config.FIRST_NAME]);
+            localStorage.setItem("lastName", response.data[config.LAST_NAME]);
+            localStorage.setItem("mail", response.data[config.MAIL]);
+            localStorage.setItem("token", response.data[config.TOKEN]);
+          }
         } else {
           dispatch(
             authFail(

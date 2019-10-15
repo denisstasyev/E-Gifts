@@ -20,8 +20,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-// import { Redirect } from "react-router-dom";
-
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
 
@@ -87,9 +85,6 @@ const SignIn = props => {
 
   return (
     <React.Fragment>
-      {/* {props.token !== null ? (
-        <Redirect to="/account" />
-      ) : ( */}
       <Container maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -176,21 +171,19 @@ const SignIn = props => {
                       return props.handleRedirect();
                   }}
                 >
-                  {"Don't have an account? Sign Up"}
+                  {"Don't have an account? Sign up"}
                 </LinkButton>
               </Grid>
             </Grid>
           </form>
         </div>
       </Container>
-      {/* )} */}
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => ({
   errorMessage: state.userReducer.errorMessage
-  // token: state.userReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
