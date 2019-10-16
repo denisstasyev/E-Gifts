@@ -18,12 +18,14 @@ import * as userActionCreators from "store/actions/user";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: "#fff",
+      light: "#7980ff",
       main: "#2d53fe",
-      dark: "#000"
+      dark: "#002aca"
     },
     secondary: {
-      main: "#f44336"
+      light: "#66ff4e",
+      main: "#00ff39",
+      dark: "#00d700"
     }
   }
 });
