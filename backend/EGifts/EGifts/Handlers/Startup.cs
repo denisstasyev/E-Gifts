@@ -26,28 +26,15 @@ namespace EGifts.Handlers
         const string UserName = "TestAdmin";
         const string Password = "passw0rd";
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             MainDbContext.ConnectionString = configuration.GetConnectionString("DefaultConnection");
 
             using var dbContext = new MainDbContext();
             dbContext.Database.Migrate();
-        }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder =>
-                    {
-                        // TODO: брать кхUям к релизу!
-                        builder.AllowAnyOrigin(); //.WithOrigins("http://localhost", "http://www.contoso.com");
-                    });
-            });
             try
             {
                 using var context = new MainDbContext();
@@ -71,6 +58,21 @@ namespace EGifts.Handlers
             }
         }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        // TODO: брать кхUям к релизу!
+                        builder.AllowAnyOrigin(); //.WithOrigins("http://localhost", "http://www.contoso.com");
+                    });
+            });
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -82,7 +84,6 @@ namespace EGifts.Handlers
             app.UseCors(MyAllowSpecificOrigins);
             app.UseRouting();
 
-            // TODO: все обработки - выкинуть отсюда.
             app.UseEndpoints(endpoints =>
             {
                 var dbContext = new MainDbContext();
