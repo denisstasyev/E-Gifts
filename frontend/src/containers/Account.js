@@ -12,12 +12,12 @@ import Grid from "@material-ui/core/Grid";
 
 import { Redirect } from "react-router-dom";
 
-const Account = props => {
+const Profile = props => {
   return (
     <React.Fragment>
       <CssBaseline />
       {!props.isAuth ? (
-        <Redirect to="/account/signin" />
+        <Redirect to="/profile/signin" />
       ) : (
         <Container>
           <Header topic={props.username} />
@@ -53,4 +53,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null
-)(Account);
+)(Profile);

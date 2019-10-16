@@ -6,7 +6,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Home from "containers/Home";
 import Gallery from "containers/Gallery";
 import Camera from "containers/Camera";
-import Account from "containers/Account";
+import Profile from "containers/Profile";
 
 import SignIn from "components/SignIn";
 import SignUp from "components/SignUp";
@@ -49,9 +49,9 @@ const App = props => {
           <Route path="/home" component={Home} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/camera" component={Camera} />
-          <Route exact path="/account" component={Account} />
-          <Route path="/account/signup" component={SignUp} />
-          <Route path="/account/signin" component={SignIn} />
+          <Route exact path="/profile" component={Profile} />
+          <Route path="/profile/signup" component={SignUp} />
+          <Route path="/profile/signin" component={SignIn} />
         </Switch>
         <LabelBottomNavigation />
       </MuiThemeProvider>

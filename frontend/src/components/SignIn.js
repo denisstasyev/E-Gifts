@@ -88,7 +88,7 @@ const SignIn = props => {
   return (
     <React.Fragment>
       {props.isAuth ? (
-        <Redirect to="/account" />
+        <Redirect to="/profile" />
       ) : (
         <Container maxWidth="xs">
           <CssBaseline />
@@ -174,7 +174,7 @@ const SignIn = props => {
                   <LinkButton
                     variant="body2"
                     component={Link}
-                    to="/account/signup"
+                    to="/profile/signup"
                     onClick={() => {
                       if (props.errorMessage !== null)
                         return props.handleRedirect();
