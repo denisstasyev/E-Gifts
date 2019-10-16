@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
@@ -11,6 +12,8 @@ import SignIn from "components/SignIn";
 import SignUp from "components/SignUp";
 
 import LabelBottomNavigation from "components/LabelBottomNavigation";
+
+import { USER_AUTH_SUCCESS } from "store/actionTypes";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,7 +28,17 @@ const theme = createMuiTheme({
   }
 });
 
-function App() {
+const App = props => {
+  let data = {};
+  data.username = localStorage.getItem("username");
+  data.token = localStorage.getItem("token");
+  if (data.username && data.token) {
+    data.firstName = localStorage.getItem("firstName");
+    data.lastName = localStorage.getItem("lastName");
+    data.mail = localStorage.getItem("mail");
+    props.handleAuthSuccess(data);
+  }
+
   return (
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
@@ -36,7 +49,7 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/camera" component={Camera} />
-          <Route exact path="/account" component={Account} /> 
+          <Route exact path="/account" component={Account} />
           <Route path="/account/signup" component={SignUp} />
           <Route path="/account/signin" component={SignIn} />
         </Switch>
@@ -44,6 +57,21 @@ function App() {
       </MuiThemeProvider>
     </BrowserRouter>
   );
-}
+};
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  handleAuthSuccess: data =>
+    dispatch({
+      type: USER_AUTH_SUCCESS,
+      username: data.username,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      mail: data.mail,
+      token: data.token
+    })
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

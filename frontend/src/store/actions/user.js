@@ -4,6 +4,7 @@ import * as config from "config";
 import * as actionTypes from "store/actionTypes";
 
 // import { preventXSSAttack } from "utils";
+import { nullStringToEmpty } from "utils";
 
 export const authSuccess = data => {
   return {
@@ -34,9 +35,18 @@ export const signIn = (username, password, rememberMe) => {
           dispatch(authSuccess(response.data));
           if (rememberMe) {
             localStorage.setItem("username", response.data[config.USERNAME]);
-            localStorage.setItem("firstName", response.data[config.FIRST_NAME]); //TODO: fix null value
-            localStorage.setItem("lastName", response.data[config.LAST_NAME]);
-            localStorage.setItem("mail", response.data[config.MAIL]);
+            localStorage.setItem(
+              "firstName",
+              nullStringToEmpty(response.data[config.FIRST_NAME])
+            );
+            localStorage.setItem(
+              "lastName",
+              nullStringToEmpty(response.data[config.LAST_NAME])
+            );
+            localStorage.setItem(
+              "mail",
+              nullStringToEmpty(response.data[config.MAIL])
+            );
             localStorage.setItem("token", response.data[config.TOKEN]);
           }
         } else {
@@ -67,9 +77,18 @@ export const signUp = (
           dispatch(authSuccess(response.data));
           if (rememberMe) {
             localStorage.setItem("username", response.data[config.USERNAME]);
-            localStorage.setItem("firstName", response.data[config.FIRST_NAME]);
-            localStorage.setItem("lastName", response.data[config.LAST_NAME]);
-            localStorage.setItem("mail", response.data[config.MAIL]);
+            localStorage.setItem(
+              "firstName",
+              nullStringToEmpty(response.data[config.FIRST_NAME])
+            );
+            localStorage.setItem(
+              "lastName",
+              nullStringToEmpty(response.data[config.LAST_NAME])
+            );
+            localStorage.setItem(
+              "mail",
+              nullStringToEmpty(response.data[config.MAIL])
+            );
             localStorage.setItem("token", response.data[config.TOKEN]);
           }
         } else {

@@ -19,3 +19,11 @@ export const preventXSSAttack = text => {
     return sanitize(text);
   }
 };
+
+export const nullStringToEmpty = text => {
+  if (text === null) {
+    return "";
+  } else {
+    return text;
+  }
+};

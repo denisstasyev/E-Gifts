@@ -20,6 +20,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
+import { Redirect } from "react-router-dom";
+
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
 
@@ -85,105 +87,114 @@ const SignIn = props => {
 
   return (
     <React.Fragment>
-      <Container maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography variant="h5">Sign in</Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Username"
-              value={values.username}
-              onChange={handleChange("username")}
-              autoComplete="username"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Password"
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={values.rememberMe}
-                  onChange={handleCheck("rememberMe")}
-                  value="remember me"
-                  color="primary"
-                />
-              }
-              label="Remember me"
-            />
-            {props.errorMessage !== null ? (
-              <Typography className={classes.alert} align="center">
-                {props.errorMessage}
-              </Typography>
-            ) : null}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleSubmit}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                {/* <Link href="#" variant="body2">
+      {props.isAuth ? (
+        <Redirect to="/account" />
+      ) : (
+        <Container maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography variant="h5">Sign in</Typography>
+            <form className={classes.form} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Username"
+                value={values.username}
+                onChange={handleChange("username")}
+                autoComplete="username"
+                autoFocus
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Password"
+                type={values.showPassword ? "text" : "password"}
+                value={values.password}
+                onChange={handleChange("password")}
+                autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={values.rememberMe}
+                    onChange={handleCheck("rememberMe")}
+                    value="remember me"
+                    color="primary"
+                  />
+                }
+                label="Remember me"
+              />
+              {props.errorMessage !== null ? (
+                <Typography className={classes.alert} align="center">
+                  {props.errorMessage}
+                </Typography>
+              ) : null}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleSubmit}
+              >
+                Sign in
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  {/* <Link href="#" variant="body2">
                 Forgot password?
               </Link> */}
+                </Grid>
+                <Grid item>
+                  <LinkButton
+                    variant="body2"
+                    component={Link}
+                    to="/account/signup"
+                    onClick={() => {
+                      if (props.errorMessage !== null)
+                        return props.handleRedirect();
+                    }}
+                  >
+                    {"Don't have an account? Sign up"}
+                  </LinkButton>
+                </Grid>
               </Grid>
-              <Grid item>
-                <LinkButton
-                  variant="body2"
-                  component={Link}
-                  to="/account/signup"
-                  onClick={() => {
-                    if (props.errorMessage !== null)
-                      return props.handleRedirect();
-                  }}
-                >
-                  {"Don't have an account? Sign up"}
-                </LinkButton>
-              </Grid>
-            </Grid>
-          </form>
-        </div>
-      </Container>
+            </form>
+          </div>
+        </Container>
+      )}
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => ({
-  errorMessage: state.userReducer.errorMessage
+  errorMessage: state.userReducer.errorMessage,
+  isAuth: state.userReducer.username && state.userReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
