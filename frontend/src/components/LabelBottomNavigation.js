@@ -51,11 +51,11 @@ const LabelBottomNavigation = props => {
         to="/gallery"
       />
       <BottomNavigationAction
-        label="Camera"
-        value="camera"
+        label="View"
+        value="view"
         icon={<CameraIcon />}
         component={Link}
-        to="/camera"
+        to="/view"
       />
       <BottomNavigationAction
         label="Profile"

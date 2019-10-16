@@ -7,12 +7,25 @@ import Box from "@material-ui/core/Box";
 import Header from "components/Header";
 import ScrollTop from "components/ScrollTop";
 
-export default function Camera(props) {
+// import { Scene } from "aframe-react";
+
+const View = () => {
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
-        <Header topic="Camera" />
+        <Header topic="View" />
+
+        {/* <Scene artoolkit={{ sourceType: "webcam", trackingMethod: "best" }}>
+          <a-anchor hit-testing-enabled="true">
+            <a-box
+              position="0 0 0.5"
+              material="opacity: 0.7; color: yellow;"
+            ></a-box>
+          </a-anchor>
+          <a-camera-static preset="hiro" />
+        </Scene> */}
+
         <Box my={2}>
           {[...new Array(120)]
             .map(
@@ -28,4 +41,6 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
       <Toolbar />
     </React.Fragment>
   );
-}
+};
+
+export default View;

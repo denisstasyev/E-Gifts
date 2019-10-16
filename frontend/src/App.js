@@ -5,7 +5,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import Home from "containers/Home";
 import Gallery from "containers/Gallery";
-import Camera from "containers/Camera";
+import View from "containers/View";
 import Profile from "containers/Profile";
 
 import SignIn from "components/SignIn";
@@ -40,7 +40,7 @@ const App = props => {
           </Route>
           <Route path="/home" component={Home} />
           <Route path="/gallery" component={Gallery} />
-          <Route path="/camera" component={Camera} />
+          <Route path="/view" component={View} />
           <Route exact path="/profile" component={Profile} />
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />
