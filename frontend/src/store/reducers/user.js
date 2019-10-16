@@ -25,6 +25,14 @@ const userReducer = (state = initialState, action) => {
     case actionTypes.USER_CLEAN_ERROR:
       state.errorMessage = null;
       return Object.assign({}, state);
+    case actionTypes.USER_AUTH_EXIT:
+      state.username = null;
+      state.firstName = null;
+      state.lastName = null;
+      state.mail = null;
+      state.token = null;
+      state.errorMessage = null;
+      return Object.assign({}, state);
     default:
       return state;
   }

@@ -13,7 +13,7 @@ import SignUp from "components/SignUp";
 
 import LabelBottomNavigation from "components/LabelBottomNavigation";
 
-import { USER_AUTH_SUCCESS } from "store/actionTypes";
+import * as userActionCreators from "store/actions/user";
 
 const theme = createMuiTheme({
   palette: {
@@ -29,15 +29,7 @@ const theme = createMuiTheme({
 });
 
 const App = props => {
-  let data = {};
-  data.username = localStorage.getItem("username");
-  data.token = localStorage.getItem("token");
-  if (data.username && data.token) {
-    data.firstName = localStorage.getItem("firstName");
-    data.lastName = localStorage.getItem("lastName");
-    data.mail = localStorage.getItem("mail");
-    props.handleAuthSuccess(data);
-  }
+  props.handleAuthCheck();
 
   return (
     <BrowserRouter>
@@ -60,15 +52,7 @@ const App = props => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  handleAuthSuccess: data =>
-    dispatch({
-      type: USER_AUTH_SUCCESS,
-      username: data.username,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      mail: data.mail,
-      token: data.token
-    })
+  handleAuthCheck: () => dispatch(userActionCreators.authCheck())
 });
 
 export default connect(

@@ -113,7 +113,7 @@ const SignUp = props => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Sign Up
             </Typography>
             <form className={classes.form} noValidate>
               <Grid container spacing={2}>
@@ -214,7 +214,7 @@ const SignUp = props => {
                 className={classes.submit}
                 onClick={handleSubmit}
               >
-                Sign up
+                Sign Up
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
@@ -227,7 +227,7 @@ const SignUp = props => {
                         return props.handleRedirect();
                     }}
                   >
-                    Already have an account? Sign in
+                    Already have an account? Sign In
                   </LinkButton>
                 </Grid>
               </Grid>

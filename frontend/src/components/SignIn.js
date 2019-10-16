@@ -96,7 +96,7 @@ const SignIn = props => {
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography variant="h5">Sign in</Typography>
+            <Typography variant="h5">Sign In</Typography>
             <form className={classes.form} noValidate>
               <TextField
                 variant="outlined"
@@ -162,7 +162,7 @@ const SignIn = props => {
                 className={classes.submit}
                 onClick={handleSubmit}
               >
-                Sign in
+                Sign In
               </Button>
               <Grid container>
                 <Grid item xs>
@@ -180,7 +180,7 @@ const SignIn = props => {
                         return props.handleRedirect();
                     }}
                   >
-                    {"Don't have an account? Sign up"}
+                    {"Don't have an account? Sign Up"}
                   </LinkButton>
                 </Grid>
               </Grid>

@@ -24,6 +24,27 @@ export const authFail = errorMessage => {
   };
 };
 
+export const authCheck = () => {
+  return dispatch => {
+    let data = {};
+    data.username = localStorage.getItem("username");
+    data.token = localStorage.getItem("token");
+    if (data.username && data.token) {
+      data.firstName = localStorage.getItem("firstName");
+      data.lastName = localStorage.getItem("lastName");
+      data.mail = localStorage.getItem("mail");
+      dispatch({
+        type: actionTypes.USER_AUTH_SUCCESS,
+        username: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        mail: data.mail,
+        token: data.token
+      });
+    }
+  };
+};
+
 export const signIn = (username, password, rememberMe) => {
   return dispatch => {
     axios
@@ -104,5 +125,16 @@ export const signUp = (
       .catch(() => {
         dispatch(authFail("Network problem, try again later"));
       });
+  };
+};
+
+export const signOut = () => {
+  return dispatch => {
+    dispatch({ type: actionTypes.USER_AUTH_EXIT });
+    localStorage.removeItem("username");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
+    localStorage.removeItem("mail");
+    localStorage.removeItem("token");
   };
 };
