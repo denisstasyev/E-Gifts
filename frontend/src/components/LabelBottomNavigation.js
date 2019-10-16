@@ -58,11 +58,11 @@ const LabelBottomNavigation = props => {
         to="/camera"
       />
       <BottomNavigationAction
-        label="Account"
-        value="account"
+        label="Profile"
+        value="profile"
         icon={<AccountIcon />}
         component={Link}
-        to="/account"
+        to="/profile"
       />
     </BottomNavigation>
   );

@@ -7,7 +7,7 @@ import Box from "@material-ui/core/Box";
 import Header from "components/Header";
 import ScrollTop from "components/ScrollTop";
 
-export default function Account(props) {
+export default function Camera(props) {
   return (
     <React.Fragment>
       <CssBaseline />

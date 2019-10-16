@@ -1,16 +1,19 @@
 import React from "react";
+import { connect } from "react-redux";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import Home from "containers/Home";
 import Gallery from "containers/Gallery";
 import Camera from "containers/Camera";
-import Account from "containers/Account";
+import Profile from "containers/Profile";
 
 import SignIn from "components/SignIn";
 import SignUp from "components/SignUp";
 
 import LabelBottomNavigation from "components/LabelBottomNavigation";
+
+import * as userActionCreators from "store/actions/user";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,7 +28,9 @@ const theme = createMuiTheme({
   }
 });
 
-function App() {
+const App = props => {
+  props.handleAuthCheck();
+
   return (
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
@@ -36,14 +41,21 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/camera" component={Camera} />
-          <Route exact path="/account" component={Account} /> 
-          <Route path="/account/signup" component={SignUp} />
-          <Route path="/account/signin" component={SignIn} />
+          <Route exact path="/profile" component={Profile} />
+          <Route path="/profile/signup" component={SignUp} />
+          <Route path="/profile/signin" component={SignIn} />
         </Switch>
         <LabelBottomNavigation />
       </MuiThemeProvider>
     </BrowserRouter>
   );
-}
+};
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  handleAuthCheck: () => dispatch(userActionCreators.authCheck())
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

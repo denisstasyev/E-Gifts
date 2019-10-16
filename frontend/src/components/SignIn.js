@@ -20,11 +20,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-import axios from "axios";
-import { BACKEND_SERVER } from "config";
-
-import { AUTH_SIGNIN } from "store/actionTypes";
 import { Redirect } from "react-router-dom";
+
+import * as userActionCreators from "store/actions/user";
+import { USER_CLEAN_ERROR } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -57,8 +56,7 @@ const SignIn = props => {
     username: "",
     password: "",
     rememberMe: true,
-    showPassword: false,
-    signInError: ""
+    showPassword: false
   });
 
   const handleChange = prop => event => {
@@ -81,30 +79,16 @@ const SignIn = props => {
     event.preventDefault();
 
     if (values.username.length < 5 || values.password.length < 5) {
-      setValues({ ...values, signInError: "Wrong username or password" });
+      props.handleError("Wrong username or password");
     } else {
-      axios
-        .get(
-          `${BACKEND_SERVER}/login?login=${values.username}&password=${values.password}`
-        )
-        .then(function(response) {
-          if (response.data.Result) {
-            setValues({ ...values, signInError: "" });
-            props.handleSignIn(response.data);
-          } else {
-            setValues({ ...values, signInError: "Wrong username or password" });
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      props.handleSubmit(values.username, values.password, values.rememberMe);
     }
   };
 
   return (
     <React.Fragment>
-      {props.token !== null ? (
-        <Redirect to="/account" />
+      {props.isAuth ? (
+        <Redirect to="/profile" />
       ) : (
         <Container maxWidth="xs">
           <CssBaseline />
@@ -112,7 +96,7 @@ const SignIn = props => {
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography variant="h5">Sign in</Typography>
+            <Typography variant="h5">Sign In</Typography>
             <form className={classes.form} noValidate>
               <TextField
                 variant="outlined"
@@ -165,9 +149,9 @@ const SignIn = props => {
                 }
                 label="Remember me"
               />
-              {values.signInError !== "" ? (
+              {props.errorMessage !== null ? (
                 <Typography className={classes.alert} align="center">
-                  {values.signInError}
+                  {props.errorMessage}
                 </Typography>
               ) : null}
               <Button
@@ -190,7 +174,11 @@ const SignIn = props => {
                   <LinkButton
                     variant="body2"
                     component={Link}
-                    to="/account/signup"
+                    to="/profile/signup"
+                    onClick={() => {
+                      if (props.errorMessage !== null)
+                        return props.handleRedirect();
+                    }}
                   >
                     {"Don't have an account? Sign Up"}
                   </LinkButton>
@@ -205,14 +193,18 @@ const SignIn = props => {
 };
 
 const mapStateToProps = state => ({
-  token: state.userReducer.token
+  errorMessage: state.userReducer.errorMessage,
+  isAuth: state.userReducer.username && state.userReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleSignIn: response =>
+  handleError: errorMessage =>
+    dispatch(userActionCreators.authFail(errorMessage)),
+  handleSubmit: (username, password, rememberMe) =>
+    dispatch(userActionCreators.signIn(username, password, rememberMe)),
+  handleRedirect: () =>
     dispatch({
-      type: AUTH_SIGNIN,
-      response
+      type: USER_CLEAN_ERROR
     })
 });
 

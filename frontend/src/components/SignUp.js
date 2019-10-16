@@ -20,11 +20,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-import axios from "axios";
-import { BACKEND_SERVER } from "config";
-
-import { AUTH_SIGNUP } from "store/actionTypes";
 import { Redirect } from "react-router-dom";
+
+import * as userActionCreators from "store/actions/user";
+import { USER_CLEAN_ERROR } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -60,8 +59,7 @@ const SignUp = props => {
     username: "",
     password: "",
     rememberMe: true,
-    showPassword: false,
-    signUpError: ""
+    showPassword: false
   });
 
   const handleChange = prop => event => {
@@ -83,38 +81,30 @@ const SignUp = props => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    console.log(values);
     if (values.username.length === 0) {
-      setValues({ ...values, signUpError: "Username required" });
+      props.handleError("Username required");
     } else if (values.password.length === 0) {
-      setValues({ ...values, signUpError: "Password required" });
+      props.handleError("Password required");
     } else if (values.username.length < 5) {
-      setValues({ ...values, signUpError: "Username is too short" });
+      props.handleError("Username is too short");
     } else if (values.password.length < 5) {
-      setValues({ ...values, signUpError: "Password is too short" });
+      props.handleError("Password is too short");
     } else {
-      axios
-        .get(
-          `${BACKEND_SERVER}/reg?login=${values.username}&password=${values.password}` //TODO fix this url
-        )
-        .then(function(response) {
-          if (response.data.Result) {
-            setValues({ ...values, signUpError: "" });
-            props.handleSignUp(response.data);
-          } else {
-            setValues({ ...values, signUpError: response.data.ResultMessage });
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      props.handleSubmit(
+        values.firstName,
+        values.lastName,
+        values.mail,
+        values.username,
+        values.password,
+        values.rememberMe
+      );
     }
   };
 
   return (
     <React.Fragment>
-      {props.token !== null ? (
-        <Redirect to="/account" />
+      {props.isAuth ? (
+        <Redirect to="/profile" />
       ) : (
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -123,7 +113,7 @@ const SignUp = props => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Sign Up
             </Typography>
             <form className={classes.form} noValidate>
               <Grid container spacing={2}>
@@ -211,9 +201,9 @@ const SignUp = props => {
                 }
                 label="Remember me"
               />
-              {values.signUpError !== "" ? (
+              {props.errorMessage !== "" ? (
                 <Typography className={classes.alert} align="center">
-                  {values.signUpError}
+                  {props.errorMessage}
                 </Typography>
               ) : null}
               <Button
@@ -231,9 +221,13 @@ const SignUp = props => {
                   <LinkButton
                     variant="body2"
                     component={Link}
-                    to="/account/signin"
+                    to="/profile/signin"
+                    onClick={() => {
+                      if (props.errorMessage !== null)
+                        return props.handleRedirect();
+                    }}
                   >
-                    Already have an account? Sign in
+                    Already have an account? Sign In
                   </LinkButton>
                 </Grid>
               </Grid>
@@ -246,14 +240,27 @@ const SignUp = props => {
 };
 
 const mapStateToProps = state => ({
-  token: state.userReducer.token
+  errorMessage: state.userReducer.errorMessage,
+  isAuth: state.userReducer.username && state.userReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleSignUp: response =>
+  handleError: errorMessage =>
+    dispatch(userActionCreators.authFail(errorMessage)),
+  handleSubmit: (firstName, lastName, mail, username, password, rememberMe) =>
+    dispatch(
+      userActionCreators.signUp(
+        firstName,
+        lastName,
+        mail,
+        username,
+        password,
+        rememberMe
+      )
+    ),
+  handleRedirect: () =>
     dispatch({
-      type: AUTH_SIGNUP,
-      response
+      type: USER_CLEAN_ERROR
     })
 });
 
