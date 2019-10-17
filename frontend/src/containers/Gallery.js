@@ -7,25 +7,55 @@ import Box from "@material-ui/core/Box";
 import Header from "components/Header";
 import ScrollTop from "components/ScrollTop";
 
-export default function Gallery(props) {
+import { makeStyles } from "@material-ui/core/styles";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import tileData from "./tileData";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper
+  },
+  gridList: {
+    width: 500,
+    height: 450
+  }
+}));
+
+const Gallery = () => {
+  const classes = useStyles();
+
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
         <Header topic="Gallery" />
         <Box my={2}>
-          {[...new Array(120)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join("\n")}
+          <div className={classes.root}>
+            <GridList cellHeight={200} cols={3}>
+              <GridListTile key="Subheader" cols={3} style={{ height: "auto" }}>
+                <ListSubheader component="div">List of gifts</ListSubheader>
+              </GridListTile>
+              {tileData.map(tile => (
+                <GridListTile key={tile.img} cols={tile.cols || 1}>
+                  <img src={tile.img} alt={tile.title} />
+                  <GridListTileBar title={tile.title} />
+                </GridListTile>
+              ))}
+            </GridList>
+          </div>
         </Box>
       </Container>
       <ScrollTop />
       <Toolbar />
     </React.Fragment>
   );
-}
+};
+
+export default Gallery;

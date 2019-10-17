@@ -14,6 +14,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from "@material-ui/pickers";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -138,7 +143,7 @@ const SignUp = props => {
                     onChange={handleChange("lastName")}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
                     fullWidth
@@ -147,6 +152,23 @@ const SignUp = props => {
                     value={values.mail}
                     onChange={handleChange("mail")}
                   />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      inputVariant="outlined"
+                      //TODO: add Birth Date
+                      // margin="normal"
+                      // id="date-picker-dialog"
+                      label="Birth Date"
+                      format="MM/dd/yyyy"
+                      // value={selectedDate}
+                      // onChange={handleDateChange}
+                      // KeyboardButtonProps={{
+                      //   "aria-label": "change date"
+                      // }}
+                    />
+                  </MuiPickersUtilsProvider>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
