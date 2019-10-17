@@ -25,85 +25,82 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.NoParameters,
                 };
             }
-            else
+
+            using var dbContext = new MainDbContext();
+            // TODO: реобразование пароля в отдельную функу.
+            var requestData = context.Request.Query;
+            string queryPassword = requestData[LoginNames.Password];
+            var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
+            var login = requestData[LoginNames.Login].ToString();
+            var mail = requestData.ContainsKey(LoginNames.Mail) ? requestData[LoginNames.Mail].ToString() : null;
+
+            var firstName = requestData.ContainsKey(LoginNames.FirstName) ? requestData[LoginNames.FirstName].ToString() : null;
+            var lastName = requestData.ContainsKey(LoginNames.LastName) ? requestData[LoginNames.LastName].ToString() : null;
+
+            DateTime? birthDate = null;
+            var dateString = requestData.ContainsKey(LoginNames.BirthDate)
+                ? requestData[LoginNames.BirthDate].ToString()
+                : null;
+            if (DateTime.TryParse(dateString, out var tmpDate))
             {
-                using var dbContext = new MainDbContext();
-                // TODO: реобразование пароля в отдельную функу.
-                var requestData = context.Request.Query;
-                string queryPassword = requestData[LoginNames.Password];
-                var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
-                var login = requestData[LoginNames.Login].ToString();
+                birthDate = tmpDate;
+            }
 
-                var mail = requestData.ContainsKey(LoginNames.Mail) ? requestData[LoginNames.Mail].ToString() : null;
-
-                var firstName = requestData.ContainsKey(LoginNames.FirstName) ? requestData[LoginNames.FirstName].ToString() : null;
-                var lastName = requestData.ContainsKey(LoginNames.LastName) ? requestData[LoginNames.LastName].ToString() : null;
-
-                DateTime? birthDate = null;
-                var dateString = requestData.ContainsKey(LoginNames.BirthDate)
-                    ? requestData[LoginNames.BirthDate].ToString()
-                    : null;
-                if (DateTime.TryParse(dateString, out var tmpDate))
-                {
-                    birthDate = tmpDate;
-                }
-
-                if (null == birthDate && dateString != null)
-                {
-                    return new LoginResponseMessage
-                    {
-                        Result = false,
-                        ResultMessage = ResourcesErrorMessages.WrongDateFormar,
-                    };
-                }
-                if (dbContext.Users.Any(u => u.Name.ToUpper() == login.ToUpper()))
-                {
-                    return new LoginResponseMessage
-                    {
-                        Result = false,
-                        ResultMessage = ResourcesErrorMessages.LoginExists,
-                    };
-                }
-                if (!string.IsNullOrEmpty(mail) &&
-                         dbContext.Users.Any(u => u.Mail.ToUpper() == mail.ToUpper()))
-                {
-                    return new LoginResponseMessage
-                    {
-                        Result = false,
-                        ResultMessage = ResourcesErrorMessages.MailExists,
-                    };
-                }
-
-                var token = new Token
-                {
-                    Guid = Guid.NewGuid(),
-                    UserAgent = "someAgent",
-                    ValidThru = DateTime.Now.AddDays(7),
-                };
-                dbContext.SaveChanges();
-                dbContext.Users.Add(new User
-                {
-                    Name = login,
-                    Mail = mail,
-                    BirthDate = birthDate,
-                    FirstName = firstName,
-                    LastName = lastName,
-                    PasswordHash = password,
-                    Tokens = new List<Token> { token },
-                });
-                dbContext.SaveChanges();
+            if (null == birthDate && dateString != null)
+            {
                 return new LoginResponseMessage
                 {
-                    Result = true,
-                    ResultMessage = "",
-                    Name = login,
-                    BirthDate = birthDate,
-                    Mail = mail,
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Token = token.Guid,
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.WrongDateFormar,
                 };
             }
+            if (dbContext.Users.Any(u => u.Name.ToUpper() == login.ToUpper()))
+            {
+                return new LoginResponseMessage
+                {
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.LoginExists,
+                };
+            }
+            if (!string.IsNullOrEmpty(mail) &&
+                dbContext.Users.Any(u => u.Mail.ToUpper() == mail.ToUpper()))
+            {
+                return new LoginResponseMessage
+                {
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.MailExists,
+                };
+            }
+
+            var token = new Token
+            {
+                Guid = Guid.NewGuid(),
+                UserAgent = "someAgent",
+                ValidThru = DateTime.Now.AddDays(7),
+            };
+            dbContext.SaveChanges();
+            dbContext.Users.Add(new User
+            {
+                Name = login,
+                Mail = mail,
+                BirthDate = birthDate,
+                FirstName = firstName,
+                LastName = lastName,
+                PasswordHash = password,
+                Tokens = new List<Token> { token },
+            });
+            dbContext.SaveChanges();
+            return new LoginResponseMessage
+            {
+                Result = true,
+                ResultMessage = "",
+                Name = login,
+                BirthDate = birthDate,
+                Mail = mail,
+                FirstName = firstName,
+                LastName = lastName,
+                Token = token.Guid,
+            };
         }
     }
 }
