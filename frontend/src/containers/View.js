@@ -5,7 +5,6 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 
 import Header from "components/Header";
-import ScrollTop from "components/ScrollTop";
 
 // import { Scene } from "aframe-react";
 

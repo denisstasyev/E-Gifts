@@ -1,4 +1,4 @@
-import image from "static/products/cat.jpg";
+import image from "static/products/template.jpg";
 
 const tileData = [
   {
