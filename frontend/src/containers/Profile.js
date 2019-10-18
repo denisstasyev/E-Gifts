@@ -10,11 +10,27 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import { Redirect } from "react-router-dom";
 
 import * as userActionCreators from "store/actions/user";
 
 const Profile = props => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -50,13 +66,30 @@ const Profile = props => {
                   fullWidth
                   variant="outlined"
                   color="primary"
-                  onClick={props.handleSignOut}
+                  onClick={handleClickOpen}
                 >
                   Sign Out
                 </Button>
               </Grid>
             </Grid>
           </Box>
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Are you sure you want to sign out?</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                This action will delete all data about you stored on this
+                device.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={props.handleSignOut} color="primary" autoFocus>
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Container>
       )}
       <Toolbar />
