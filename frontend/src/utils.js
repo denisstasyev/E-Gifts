@@ -27,3 +27,9 @@ export const nullStringToEmpty = text => {
     return text;
   }
 };
+
+export const dateToString = date => {
+  if (date instanceof Date) {
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  } else return "";
+};

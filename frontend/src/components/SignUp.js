@@ -15,10 +15,7 @@ import Container from "@material-ui/core/Container";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -29,6 +26,8 @@ import { Redirect } from "react-router-dom";
 
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
+
+import { dateToString } from "utils";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,6 +45,9 @@ const useStyles = makeStyles(theme => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3)
   },
+  birthDate: {
+    width: "100%"
+  },
   alert: {
     color: "red",
     marginTop: theme.spacing(1)
@@ -61,6 +63,7 @@ const SignUp = props => {
     firstName: "",
     lastName: "",
     mail: "",
+    birthDate: null,
     username: "",
     password: "",
     rememberMe: true,
@@ -71,12 +74,12 @@ const SignUp = props => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
+  const handleBirthDateChange = date => {
+    setValues({ ...values, birthDate: date });
   };
 
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
   };
 
   const handleCheck = prop => event => {
@@ -99,6 +102,7 @@ const SignUp = props => {
         values.firstName,
         values.lastName,
         values.mail,
+        dateToString(values.birthDate),
         values.username,
         values.password,
         values.rememberMe
@@ -130,7 +134,6 @@ const SignUp = props => {
                     autoComplete="fname"
                     value={values.firstName}
                     onChange={handleChange("firstName")}
-                    // autoFocus
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -155,18 +158,17 @@ const SignUp = props => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
+                    <DatePicker
+                      className={classes.birthDate}
+                      clearable
                       inputVariant="outlined"
-                      //TODO: add Birth Date
-                      // margin="normal"
-                      // id="date-picker-dialog"
+                      disableFuture
+                      openTo="year"
+                      format="dd.MM.yyyy"
                       label="Birth Date"
-                      format="MM/dd/yyyy"
-                      // value={selectedDate}
-                      // onChange={handleDateChange}
-                      // KeyboardButtonProps={{
-                      //   "aria-label": "change date"
-                      // }}
+                      views={["year", "month", "date"]}
+                      value={values.birthDate}
+                      onChange={handleBirthDateChange}
                     />
                   </MuiPickersUtilsProvider>
                 </Grid>
@@ -198,7 +200,6 @@ const SignUp = props => {
                             edge="end"
                             aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
                           >
                             {values.showPassword ? (
                               <VisibilityOff />
@@ -269,12 +270,21 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleError: errorMessage =>
     dispatch(userActionCreators.authFail(errorMessage)),
-  handleSubmit: (firstName, lastName, mail, username, password, rememberMe) =>
+  handleSubmit: (
+    firstName,
+    lastName,
+    mail,
+    birthDate,
+    username,
+    password,
+    rememberMe
+  ) =>
     dispatch(
       userActionCreators.signUp(
         firstName,
         lastName,
         mail,
+        birthDate,
         username,
         password,
         rememberMe

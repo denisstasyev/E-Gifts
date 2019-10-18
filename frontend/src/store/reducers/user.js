@@ -5,6 +5,7 @@ const initialState = {
   firstName: null,
   lastName: null,
   mail: null,
+  birthDate: null,
   token: null,
   errorMessage: null
 };
@@ -16,6 +17,7 @@ const userReducer = (state = initialState, action) => {
       state.firstName = action.firstName;
       state.lastName = action.lastName;
       state.mail = action.mail;
+      state.birthDate = action.birthDate;
       state.token = action.token;
       state.errorMessage = null;
       return Object.assign({}, state);
@@ -30,6 +32,7 @@ const userReducer = (state = initialState, action) => {
       state.firstName = null;
       state.lastName = null;
       state.mail = null;
+      state.birthDate = null;
       state.token = null;
       state.errorMessage = null;
       return Object.assign({}, state);
