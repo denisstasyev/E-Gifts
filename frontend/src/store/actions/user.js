@@ -4,14 +4,17 @@ import * as config from "config";
 import * as actionTypes from "store/actionTypes";
 
 // import { preventXSSAttack } from "utils";
-import { nullStringToEmpty } from "utils";
+import { nullStringToEmpty, backendDateToString } from "utils";
 
 const setLocalStorage = data => {
   localStorage.setItem("username", data[config.USERNAME]);
   localStorage.setItem("firstName", nullStringToEmpty(data[config.FIRST_NAME]));
   localStorage.setItem("lastName", nullStringToEmpty(data[config.LAST_NAME]));
   localStorage.setItem("mail", nullStringToEmpty(data[config.MAIL]));
-  localStorage.setItem("birthDate", nullStringToEmpty(data[config.BIRTH_DATE]));
+  localStorage.setItem(
+    "birthDate",
+    backendDateToString(nullStringToEmpty(data[config.BIRTH_DATE]))
+  );
   localStorage.setItem("token", data[config.TOKEN]);
 };
 
@@ -31,7 +34,7 @@ export const authSuccess = data => {
     firstName: data[config.FIRST_NAME],
     lastName: data[config.LAST_NAME],
     mail: data[config.MAIL],
-    birthDate: data[config.BIRTH_DATE],
+    birthDate: backendDateToString(data[config.BIRTH_DATE]),
     token: data[config.TOKEN]
   };
 };
@@ -59,6 +62,7 @@ export const authCheck = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         mail: data.mail,
+        birthDate: backendDateToString(data.birthDate),
         token: data.token
       });
     }
@@ -81,7 +85,7 @@ export const signIn = (username, password, rememberMe) => {
           dispatch(authFail("Wrong username or password"));
         }
       })
-      .catch(() => {
+      .catch(error => {
         dispatch(authFail("Network problem, try again later"));
       });
   };

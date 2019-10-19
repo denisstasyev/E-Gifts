@@ -41,15 +41,26 @@ const Profile = props => {
           <Header topic={props.username} />
           <Box my={2}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="h5">{props.firstName}</Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="h5">{props.lastName}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h6">{props.mail}</Typography>
-              </Grid>
+              {props.firstName !== "" ? (
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h5">{props.firstName}</Typography>
+                </Grid>
+              ) : null}
+              {props.lastName !== "" ? (
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h5">{props.lastName}</Typography>
+                </Grid>
+              ) : null}
+              {props.mail !== "" ? (
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h6">{props.mail}</Typography>
+                </Grid>
+              ) : null}
+              {props.birthDate !== "" ? (
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h6">{props.birthDate}</Typography>
+                </Grid>
+              ) : null}
               <Grid item xs={12} sm={6}>
                 <Button
                   type="submit"
@@ -102,6 +113,7 @@ const mapStateToProps = state => ({
   firstName: state.userReducer.firstName,
   lastName: state.userReducer.lastName,
   mail: state.userReducer.mail,
+  birthDate: state.userReducer.birthDate,
   token: state.userReducer.token,
   isAuth: state.userReducer.username && state.userReducer.token
 });
