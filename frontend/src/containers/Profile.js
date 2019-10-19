@@ -53,14 +53,18 @@ const Profile = props => {
               ) : null}
               {props.mail !== "" ? (
                 <Grid item xs={12} sm={6}>
-                  <Typography variant="h6">{props.mail}</Typography>
+                  <Typography variant="h6">Email: {props.mail}</Typography>
                 </Grid>
               ) : null}
               {props.birthDate !== "" ? (
                 <Grid item xs={12} sm={6}>
-                  <Typography variant="h6">{props.birthDate}</Typography>
+                  <Typography variant="h6">
+                    Birth Date: {props.birthDate}
+                  </Typography>
                 </Grid>
               ) : null}
+            </Grid>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Button
                   type="submit"

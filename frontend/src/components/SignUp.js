@@ -15,7 +15,10 @@ import Container from "@material-ui/core/Container";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from "@material-ui/pickers";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -27,7 +30,7 @@ import { Redirect } from "react-router-dom";
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
 
-import { dateToString } from "utils";
+import { dateToString, validateMail } from "utils";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -44,9 +47,6 @@ const useStyles = makeStyles(theme => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3)
-  },
-  birthDate: {
-    width: "100%"
   },
   alert: {
     color: "red",
@@ -67,10 +67,18 @@ const SignUp = props => {
     username: "",
     password: "",
     rememberMe: true,
-    showPassword: false
+    showPassword: false,
+    mailError: ""
   });
 
   const handleChange = prop => event => {
+    if (prop === "mail") {
+      if (validateMail(event.target.value) || event.target.value === "") {
+        values.mailError = "";
+      } else {
+        values.mailError = "Invalid Email Format";
+      }
+    }
     setValues({ ...values, [prop]: event.target.value });
   };
 
@@ -89,15 +97,12 @@ const SignUp = props => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    if (values.username.length === 0) {
-      props.handleError("Username required");
-    } else if (values.password.length === 0) {
-      props.handleError("Password required");
-    } else if (values.username.length < 5) {
-      props.handleError("Username is too short");
-    } else if (values.password.length < 5) {
-      props.handleError("Password is too short");
-    } else {
+    if (
+      values.username.length >= 5 &&
+      values.password.length >= 5 &&
+      values.mailError === "" &&
+      values.birthDate <= new Date()
+    ) {
       props.handleSubmit(
         values.firstName,
         values.lastName,
@@ -107,6 +112,8 @@ const SignUp = props => {
         values.password,
         values.rememberMe
       );
+    } else {
+      props.handleError("Check Form Data");
     }
   };
 
@@ -154,12 +161,14 @@ const SignUp = props => {
                     autoComplete="email"
                     value={values.mail}
                     onChange={handleChange("mail")}
+                    error={values.mailError !== ""}
+                    helperText={values.mailError}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DatePicker
-                      className={classes.birthDate}
+                    <KeyboardDatePicker
+                      fullWidth
                       clearable
                       inputVariant="outlined"
                       disableFuture
@@ -175,30 +184,35 @@ const SignUp = props => {
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
-                    required
                     fullWidth
                     label="Username"
                     autoComplete="username"
                     value={values.username}
                     onChange={handleChange("username")}
+                    error={values.username.length < 5}
+                    helperText={
+                      values.username.length === 0
+                        ? "Data required"
+                        : values.username.length < 5
+                        ? "Username is too short"
+                        : ""
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
-                    required
                     fullWidth
                     label="Password"
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}
                     onChange={handleChange("password")}
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             edge="end"
-                            aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
                           >
                             {values.showPassword ? (
@@ -210,6 +224,14 @@ const SignUp = props => {
                         </InputAdornment>
                       )
                     }}
+                    error={values.password.length < 5}
+                    helperText={
+                      values.password.length === 0
+                        ? "Data required"
+                        : values.password.length < 5
+                        ? "Password is too short"
+                        : ""
+                    }
                   />
                 </Grid>
               </Grid>

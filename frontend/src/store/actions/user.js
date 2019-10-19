@@ -62,7 +62,7 @@ export const authCheck = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         mail: data.mail,
-        birthDate: backendDateToString(data.birthDate),
+        birthDate: data.birthDate,
         token: data.token
       });
     }
@@ -85,7 +85,7 @@ export const signIn = (username, password, rememberMe) => {
           dispatch(authFail("Wrong username or password"));
         }
       })
-      .catch(error => {
+      .catch(() => {
         dispatch(authFail("Network problem, try again later"));
       });
   };

@@ -101,7 +101,6 @@ const SignIn = props => {
               <TextField
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 label="Username"
                 value={values.username}
@@ -112,7 +111,6 @@ const SignIn = props => {
               <TextField
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 label="Password"
                 type={values.showPassword ? "text" : "password"}
