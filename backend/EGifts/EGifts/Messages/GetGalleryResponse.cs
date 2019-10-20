@@ -1,19 +1,18 @@
 using EGifts.DataBase.DatabaseClasses;
 using EGifts.Messages.MessageNames;
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace EGifts.Messages
 {
-    public class LoginResponseMessage : BaseMessage
+    public class GetGalleryResponse : BaseMessage
     {
         [JsonPropertyName(CommonNames.Result)]
         public bool Result { get; set; }
         [JsonPropertyName(CommonNames.ResultMessage)]
         public string ResultMessage { get; set; }
-        [JsonPropertyName(LoginNames.Token)]
-        public Guid Token { get; set; }
-        [JsonPropertyName(LoginNames.UserData)]
-        public User User { get; set; }
+        [JsonPropertyName(GiftNames.Gifts)]
+        public List<Gift> Gifts { get; set; }
     }
 }

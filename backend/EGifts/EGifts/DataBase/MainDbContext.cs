@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using EGifts.DataBase.DatabaseClasses;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,6 +41,12 @@ namespace EGifts.DataBase
             modelBuilder.Entity<Payment>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Payments);
+        }
+
+        public IEnumerable<Gift> GetGifts()
+        {
+            return Gifts.Include(g => g.StaticUrls)
+                .Include(g => g.GiftTags).ThenInclude(gt => gt.Tag);
         }
     }
 }

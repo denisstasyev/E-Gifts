@@ -38,24 +38,76 @@ namespace EGifts.Handlers
             try
             {
                 using var context = new MainDbContext();
-                if (context.Users.Any(u => u.Name.ToUpper() == UserName.ToUpper())) return;
-
-                var passwordHash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Password));
-                context.Users.Add(new User
+                if (context.Users.Any(u => u.Name.ToUpper() != UserName.ToUpper()))
                 {
-                    Name = UserName,
-                    PasswordHash = passwordHash,
-                    FirstName = "FirstNane",
-                    LastName = "LastName",
-                    Mail = "Test@mail.ru",
-                });
-                context.SaveChanges();
+                    var passwordHash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Password));
+                    context.Users.Add(new User
+                    {
+                        Name = UserName,
+                        PasswordHash = passwordHash,
+                        FirstName = "FirstNane",
+                        LastName = "LastName",
+                        Mail = "Test@mail.ru",
+                    });
+                    context.SaveChanges();
+                }
+
+                //TestCreateGiftsTags(dbContext);
             }
             catch (Exception e)
             {
                 WriteLine(e);
                 //throw;
             }
+        }
+
+        void TestCreateGiftsTags(MainDbContext dbContext)
+        {
+            var gift = new Gift
+            {
+                Name = "g1",
+                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g1url1"}, new StaticUrl {Name = "g1url2"}},
+                    
+            };
+                
+            var gift2 = new Gift
+            {
+                Name = "g2",
+                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g2url1"}, new StaticUrl {Name = "g2url2"}},
+                    
+            };
+                
+            var tag1 = new Tag
+            {
+                Name = "t2",
+                    
+            };
+                
+            var tag2 = new Tag
+            {
+                Name = "t2",
+            };
+            dbContext.Gifts.Add(gift);
+            dbContext.Gifts.Add(gift2);
+            dbContext.Tags.Add(tag1);
+            dbContext.Tags.Add(tag2);
+            dbContext.GiftTags.Add(new GiftTag
+            {
+                Gift = gift,
+                Tag = tag1
+            });
+            dbContext.GiftTags.Add(new GiftTag
+            {
+                Gift = gift,
+                Tag = tag2
+            });
+            dbContext.GiftTags.Add(new GiftTag
+            {
+                Gift = gift2,
+                Tag = tag1
+            });
+            dbContext.SaveChanges();
+            
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -98,12 +150,13 @@ namespace EGifts.Handlers
                     var handler = new RegistrationHandler();
                     await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/get_gallery", async context =>
+                {
+                    var handler = new GetGalleryHandler();
+                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                }).RequireCors(MyAllowSpecificOrigins);
             });
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync(DateTime.Parse("10.10.2019").ToString());
-
-            });
+            app.Run(async (context) => { await context.Response.WriteAsync("hello"); });
         }
     }
 }

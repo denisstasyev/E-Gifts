@@ -57,12 +57,13 @@ namespace EGifts.Handlers
             {
                 Result = true,
                 ResultMessage = "",
+                User = user,/*
                 Name = user.Name,
                 BirthDate = user.BirthDate,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Mail = user.Mail,*/
                 Token = token.Guid,
-                Mail = user.Mail,
             };
         }
     }
