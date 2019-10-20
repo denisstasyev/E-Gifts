@@ -34,6 +34,7 @@ const LabelBottomNavigation = props => {
       onChange={(event, newValue) => {
         setValue(newValue);
       }}
+      showLabels
       className={classes.root}
     >
       <BottomNavigationAction
@@ -51,11 +52,11 @@ const LabelBottomNavigation = props => {
         to="/gallery"
       />
       <BottomNavigationAction
-        label="Camera"
-        value="camera"
+        label="View"
+        value="view"
         icon={<CameraIcon />}
         component={Link}
-        to="/camera"
+        to="/view"
       />
       <BottomNavigationAction
         label="Profile"

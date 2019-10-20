@@ -14,6 +14,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from "@material-ui/pickers";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -24,6 +29,8 @@ import { Redirect } from "react-router-dom";
 
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
+
+import { preventXSSAttack, dateToString, validateMail } from "utils";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -56,22 +63,31 @@ const SignUp = props => {
     firstName: "",
     lastName: "",
     mail: "",
+    birthDate: null,
     username: "",
     password: "",
     rememberMe: true,
-    showPassword: false
+    showPassword: false,
+    mailError: ""
   });
 
   const handleChange = prop => event => {
+    if (prop === "mail") {
+      if (validateMail(event.target.value) || event.target.value === "") {
+        values.mailError = "";
+      } else {
+        values.mailError = "Invalid Email Format";
+      }
+    }
     setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleBirthDateChange = date => {
+    setValues({ ...values, birthDate: date });
   };
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
   };
 
   const handleCheck = prop => event => {
@@ -81,23 +97,24 @@ const SignUp = props => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    if (values.username.length === 0) {
-      props.handleError("Username required");
-    } else if (values.password.length === 0) {
-      props.handleError("Password required");
-    } else if (values.username.length < 5) {
-      props.handleError("Username is too short");
-    } else if (values.password.length < 5) {
-      props.handleError("Password is too short");
-    } else {
+    if (
+      values.username.length >= 5 &&
+      values.password.length >= 5 &&
+      values.mailError === "" &&
+      values.birthDate >= new Date("1.1.1900") &&
+      values.birthDate <= new Date()
+    ) {
       props.handleSubmit(
-        values.firstName,
-        values.lastName,
+        preventXSSAttack(values.firstName),
+        preventXSSAttack(values.lastName),
         values.mail,
-        values.username,
-        values.password,
+        dateToString(values.birthDate),
+        preventXSSAttack(values.username),
+        preventXSSAttack(values.password),
         values.rememberMe
       );
+    } else {
+      props.handleError("Check Form Data");
     }
   };
 
@@ -125,7 +142,6 @@ const SignUp = props => {
                     autoComplete="fname"
                     value={values.firstName}
                     onChange={handleChange("firstName")}
-                    // autoFocus
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -138,7 +154,7 @@ const SignUp = props => {
                     onChange={handleChange("lastName")}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
                     fullWidth
@@ -146,37 +162,59 @@ const SignUp = props => {
                     autoComplete="email"
                     value={values.mail}
                     onChange={handleChange("mail")}
+                    error={values.mailError !== ""}
+                    helperText={values.mailError}
                   />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      fullWidth
+                      clearable
+                      inputVariant="outlined"
+                      disableFuture
+                      openTo="year"
+                      format="dd.MM.yyyy"
+                      label="Birth Date"
+                      views={["year", "month", "date"]}
+                      value={values.birthDate}
+                      onChange={handleBirthDateChange}
+                    />
+                  </MuiPickersUtilsProvider>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
-                    required
                     fullWidth
                     label="Username"
                     autoComplete="username"
                     value={values.username}
                     onChange={handleChange("username")}
+                    error={values.username.length < 5}
+                    helperText={
+                      values.username.length === 0
+                        ? "Data required"
+                        : values.username.length < 5
+                        ? "Username is too short"
+                        : ""
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
-                    required
                     fullWidth
                     label="Password"
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}
                     onChange={handleChange("password")}
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             edge="end"
-                            aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
                           >
                             {values.showPassword ? (
                               <VisibilityOff />
@@ -187,6 +225,14 @@ const SignUp = props => {
                         </InputAdornment>
                       )
                     }}
+                    error={values.password.length < 5}
+                    helperText={
+                      values.password.length === 0
+                        ? "Data required"
+                        : values.password.length < 5
+                        ? "Password is too short"
+                        : ""
+                    }
                   />
                 </Grid>
               </Grid>
@@ -247,12 +293,21 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleError: errorMessage =>
     dispatch(userActionCreators.authFail(errorMessage)),
-  handleSubmit: (firstName, lastName, mail, username, password, rememberMe) =>
+  handleSubmit: (
+    firstName,
+    lastName,
+    mail,
+    birthDate,
+    username,
+    password,
+    rememberMe
+  ) =>
     dispatch(
       userActionCreators.signUp(
         firstName,
         lastName,
         mail,
+        birthDate,
         username,
         password,
         rememberMe
