@@ -6,8 +6,6 @@ import Box from "@material-ui/core/Box";
 
 import Header from "components/Header";
 
-// import { Scene } from "aframe-react";
-
 const View = () => {
   return (
     <React.Fragment>
