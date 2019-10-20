@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
 using EGifts.DataBase;
 using EGifts.Handlers;
@@ -17,6 +18,7 @@ namespace EGifts
     {
         public static void Main(string[] args)
         {
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             CreateHostBuilder(args).Build().Run();
         }
 
