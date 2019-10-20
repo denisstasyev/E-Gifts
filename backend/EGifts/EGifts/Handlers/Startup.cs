@@ -45,7 +45,7 @@ namespace EGifts.Handlers
                     {
                         Name = UserName,
                         PasswordHash = passwordHash,
-                        FirstName = "FirstNane",
+                        FirstName = "FirstName",
                         LastName = "LastName",
                         Mail = "Test@mail.ru",
                     });
@@ -63,6 +63,9 @@ namespace EGifts.Handlers
 
         void TestCreateGiftsTags(MainDbContext dbContext)
         {
+            dbContext.GiftTags.RemoveRange(dbContext.GiftTags);
+            dbContext.StaticUrls.RemoveRange(dbContext.StaticUrls);
+            dbContext.Gifts.RemoveRange(dbContext.Gifts);
             var gift = new Gift
             {
                 Name = "g1",
@@ -76,10 +79,14 @@ namespace EGifts.Handlers
                 StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g2url1"}, new StaticUrl {Name = "g2url2"}},
                     
             };
-                
+            
+            dbContext.Tags.RemoveRange(dbContext.Tags);
+            var tags = new[] {"Christmas", "New Year", "Birthday", "Anniversary", "Kids", "Women", "Men"};
+            dbContext.Tags.AddRange(tags.Select(t => new Tag {Name = t}));
+
             var tag1 = new Tag
             {
-                Name = "t2",
+                Name = "t1",
                     
             };
                 
