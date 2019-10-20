@@ -7,6 +7,7 @@ using EGifts.DataBase.DatabaseClasses;
 using EGifts.Messages;
 using EGifts.Messages.MessageNames;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace EGifts.Handlers
 {
@@ -24,7 +25,7 @@ namespace EGifts.Handlers
             }
             var guid = new Guid( context.Request.Query[GiftNames.Guid].ToString());
             using var dbContext = new MainDbContext();
-            var reference = dbContext.GiftReferences.FirstOrDefault(r => r.Guid == guid);
+            var reference = dbContext.GetGiftReference(guid);
             if (null == reference)
             {
                 return new ErrorMessage

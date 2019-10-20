@@ -55,6 +55,11 @@ namespace EGifts.DataBase
                 .Include(g => g.GiftTags).ThenInclude(gt => gt.Tag);
         }
 
+        public GiftReference GetGiftReference(Guid guid)
+        {
+            return GiftReferences.Include(r => r.Gift).FirstOrDefault(r => r.Guid == guid);
+        }
+        
         public void TestCreateGiftsTags()
         {
             GiftTags.RemoveRange(GiftTags);
