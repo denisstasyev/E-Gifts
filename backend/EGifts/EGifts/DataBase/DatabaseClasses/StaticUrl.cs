@@ -1,18 +1,17 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using EGifts.Messages.MessageNames;
 
 namespace EGifts.DataBase.DatabaseClasses
 {
-    public class Tag : DataBaseClass
+    public class StaticUrl : DataBaseClass
     {
         [JsonIgnore]
         public long Id { get; set; }
-        [JsonPropertyName(CommonNames.Name)]
+        [JsonPropertyName(GiftNames.ImageUrl)]
         public string Name { get; set; }
-        [JsonIgnore]
-        public long Count { get; set; }
-        [JsonIgnore]
-        public List<GiftTag> GiftTags { get; set; } = new List<GiftTag>();
     }
 }

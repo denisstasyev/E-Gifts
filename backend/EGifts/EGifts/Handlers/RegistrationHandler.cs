@@ -79,7 +79,7 @@ namespace EGifts.Handlers
                 ValidThru = DateTime.Now.AddDays(7),
             };
             dbContext.SaveChanges();
-            dbContext.Users.Add(new User
+            var user = new User
             {
                 Name = login,
                 Mail = mail,
@@ -88,17 +88,14 @@ namespace EGifts.Handlers
                 LastName = lastName,
                 PasswordHash = password,
                 Tokens = new List<Token> { token },
-            });
+            };
+            dbContext.Users.Add(user);
             dbContext.SaveChanges();
             return new LoginResponseMessage
             {
                 Result = true,
                 ResultMessage = "",
-                Name = login,
-                BirthDate = birthDate,
-                Mail = mail,
-                FirstName = firstName,
-                LastName = lastName,
+                User = user,
                 Token = token.Guid,
             };
         }
