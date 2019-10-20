@@ -13,5 +13,8 @@ namespace EGifts.Messages.MessageNames
         public const string GiftTags = "gift_tags";
         public const string StaticUrls = "static_urls";
         public const string ImageUrl = "image_url";
+        public const string Guid = "guid";
+        public const string ModelUrl = "model_url";
+        public const string Reference = "reference";
     }
 }

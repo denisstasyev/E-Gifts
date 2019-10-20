@@ -79,6 +79,15 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на There is no such gift.
+        /// </summary>
+        internal static string NoGift {
+            get {
+                return ResourceManager.GetString("NoGift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на No important parameters in request.
         /// </summary>
         internal static string NoParameters {
@@ -88,11 +97,29 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Reference is not valid.
+        /// </summary>
+        internal static string ReferenceNotValid {
+            get {
+                return ResourceManager.GetString("ReferenceNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Wrong date format.
         /// </summary>
         internal static string WrongDateFormar {
             get {
                 return ResourceManager.GetString("WrongDateFormar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Wrong gift id format: id mast be a number.
+        /// </summary>
+        internal static string WrongIdFormat {
+            get {
+                return ResourceManager.GetString("WrongIdFormat", resourceCulture);
             }
         }
         

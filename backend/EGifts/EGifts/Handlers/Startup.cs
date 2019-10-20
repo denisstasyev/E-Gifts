@@ -52,69 +52,13 @@ namespace EGifts.Handlers
                     context.SaveChanges();
                 }
 
-                //TestCreateGiftsTags(dbContext);
+                //context.TestCreateGiftsTags();
             }
             catch (Exception e)
             {
                 WriteLine(e);
                 //throw;
             }
-        }
-
-        void TestCreateGiftsTags(MainDbContext dbContext)
-        {
-            dbContext.GiftTags.RemoveRange(dbContext.GiftTags);
-            dbContext.StaticUrls.RemoveRange(dbContext.StaticUrls);
-            dbContext.Gifts.RemoveRange(dbContext.Gifts);
-            var gift = new Gift
-            {
-                Name = "g1",
-                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g1url1"}, new StaticUrl {Name = "g1url2"}},
-                    
-            };
-                
-            var gift2 = new Gift
-            {
-                Name = "g2",
-                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g2url1"}, new StaticUrl {Name = "g2url2"}},
-                    
-            };
-            
-            dbContext.Tags.RemoveRange(dbContext.Tags);
-            var tags = new[] {"Christmas", "New Year", "Birthday", "Anniversary", "Kids", "Women", "Men"};
-            dbContext.Tags.AddRange(tags.Select(t => new Tag {Name = t}));
-
-            var tag1 = new Tag
-            {
-                Name = "t1",
-                    
-            };
-                
-            var tag2 = new Tag
-            {
-                Name = "t2",
-            };
-            dbContext.Gifts.Add(gift);
-            dbContext.Gifts.Add(gift2);
-            dbContext.Tags.Add(tag1);
-            dbContext.Tags.Add(tag2);
-            dbContext.GiftTags.Add(new GiftTag
-            {
-                Gift = gift,
-                Tag = tag1
-            });
-            dbContext.GiftTags.Add(new GiftTag
-            {
-                Gift = gift,
-                Tag = tag2
-            });
-            dbContext.GiftTags.Add(new GiftTag
-            {
-                Gift = gift2,
-                Tag = tag1
-            });
-            dbContext.SaveChanges();
-            
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -132,6 +76,7 @@ namespace EGifts.Handlers
             });
         }
 
+        // TODO: устанавливать ошибки в ответе!
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -165,6 +110,16 @@ namespace EGifts.Handlers
                 endpoints.MapGet("/get_tags", async context =>
                 {
                     var handler = new GetTagsHandler();
+                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                }).RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/get_model_by_ref", async context =>
+                {
+                    var handler = new GetModelByRefHandler();
+                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                }).RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/buy_gift_ref", async context =>
+                {
+                    var handler = new BuyGiftRefHandler();
                     await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
             });
