@@ -1,0 +1,9 @@
+Небольшая памятка по быстрому разворачиванию pgsql.
+
+Готовый контейнер от разработчиков. Скачать -
+docker pull postgres
+
+Запустить, используя следующую команду:
+docker run --name %container-name% -p 5432:5432 -e POSTGRES_PASSWORD=%password% -e POSTGRES_USER=%username% -d postgres
+т.е. например:
+docker run --name db-postgresql -p 5432:5432 -e POSTGRES_PASSWORD=mypassword123 -e POSTGRES_USER=user -d postgres
