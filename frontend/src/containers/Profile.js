@@ -41,14 +41,11 @@ const Profile = props => {
           <Header topic={props.username} />
           <Box my={2}>
             <Grid container spacing={2}>
-              {props.firstName !== "" ? (
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="h5">{props.firstName}</Typography>
-                </Grid>
-              ) : null}
-              {props.lastName !== "" ? (
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="h5">{props.lastName}</Typography>
+              {props.firstName !== "" || props.lastName !== "" ? (
+                <Grid item xs={12}>
+                  <Typography variant="h5">
+                    {props.firstName} {props.lastName}
+                  </Typography>
                 </Grid>
               ) : null}
               {props.mail !== "" ? (

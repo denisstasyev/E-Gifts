@@ -3,7 +3,6 @@ import axios from "axios";
 import * as config from "config";
 import * as actionTypes from "store/actionTypes";
 
-// import { preventXSSAttack } from "utils";
 import { nullStringToEmpty, backendDateToString } from "utils";
 
 const setLocalStorage = data => {

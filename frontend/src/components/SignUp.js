@@ -30,7 +30,7 @@ import { Redirect } from "react-router-dom";
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
 
-import { dateToString, validateMail } from "utils";
+import { preventXSSAttack, dateToString, validateMail } from "utils";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -101,15 +101,16 @@ const SignUp = props => {
       values.username.length >= 5 &&
       values.password.length >= 5 &&
       values.mailError === "" &&
+      values.birthDate >= new Date("1.1.1900") &&
       values.birthDate <= new Date()
     ) {
       props.handleSubmit(
-        values.firstName,
-        values.lastName,
+        preventXSSAttack(values.firstName),
+        preventXSSAttack(values.lastName),
         values.mail,
         dateToString(values.birthDate),
-        values.username,
-        values.password,
+        preventXSSAttack(values.username),
+        preventXSSAttack(values.password),
         values.rememberMe
       );
     } else {
