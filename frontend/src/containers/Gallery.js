@@ -27,10 +27,6 @@ const useStyles = makeStyles(theme => ({
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper
   },
-  gridList: {
-    width: 500,
-    height: 450
-  },
   chip: {
     marginRight: theme.spacing(1)
   },
@@ -61,7 +57,12 @@ const Gallery = () => {
                 </ListSubheader>
               </GridListTile>
               {tileData.map(tile => (
-                <GridListTile key={tile.img} cols={tile.cols || 1}>
+                <GridListTile
+                  key={tile.img}
+                  cols={tile.cols || 1}
+                  component={Link}
+                  to="/gallery/product"
+                >
                   <img src={tile.img} alt={tile.title} />
                   <GridListTileBar
                     title={tile.title}

@@ -6,6 +6,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Home from "containers/Home";
 import Gallery from "containers/Gallery";
 import Filters from "containers/Filters";
+import Product from "containers/Product";
 import View from "containers/View";
 import Profile from "containers/Profile";
 import NotFound from "containers/NotFound";
@@ -45,6 +46,7 @@ const App = props => {
           <Route path="/home" component={Home} />
           <Route exact path="/gallery" component={Gallery} />
           <Route path="/gallery/filters" component={Filters} />
+          <Route path="/gallery/product" component={Product} />
           <Route path="/view" component={View} />
           <Route exact path="/profile" component={Profile} />
           <Route path="/profile/signup" component={SignUp} />
