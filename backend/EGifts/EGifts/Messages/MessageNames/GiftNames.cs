@@ -4,6 +4,7 @@ namespace EGifts.Messages.MessageNames
     {
         public const string GetGallery = "get_gallery";
         public const string Gifts = "gifts";
+        public const string Tags = "tags";
         public const string Tag = "tag";
         public const string Description = "description";
         public const string Cost = "cost";

@@ -6,9 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace EGifts.Messages
 {
-    public class GetGalleryResponse : BaseMessage
+    public class GetTagsResponse : BaseMessage
     {
-        [JsonPropertyName(GiftNames.Gifts)]
-        public List<Gift> Gifts { get; set; }
+        [JsonPropertyName(GiftNames.Tags)]
+        public List<Tag> Tags { get; set; }
     }
 }

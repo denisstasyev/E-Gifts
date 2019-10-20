@@ -155,6 +155,11 @@ namespace EGifts.Handlers
                     var handler = new GetGalleryHandler();
                     await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/get_tags", async context =>
+                {
+                    var handler = new GetTagsHandler();
+                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                }).RequireCors(MyAllowSpecificOrigins);
             });
             app.Run(async (context) => { await context.Response.WriteAsync("hello"); });
         }
