@@ -67,7 +67,7 @@ const Filters = props => {
           <div className={classes.chips}>
             {props.availableTags.length === 0 ? (
               <Typography className={classes.alert} align="center">
-                Network problem, try again later
+                Sorry, there are no available tags now
               </Typography>
             ) : (
               <React.Fragment>

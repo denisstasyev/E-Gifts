@@ -10,9 +10,9 @@ export const getAvailableTags = () => {
       .then(response => {
         if (response.data[config.RESULT]) {
           let availableTags = [];
-          response.data.tags.forEach(element => {
-            if (availableTags.indexOf(element.name) === -1) {
-              availableTags.push(element.name);
+          response.data[config.AVAILABLE_TAGS].forEach(element => {
+            if (availableTags.indexOf(element[config.TAG_NAME]) === -1) {
+              availableTags.push(element[config.TAG_NAME]);
             }
           });
           dispatch({

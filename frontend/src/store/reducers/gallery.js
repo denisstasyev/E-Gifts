@@ -10,6 +10,9 @@ const userReducer = (state = initialState, action) => {
     case actionTypes.GALLERY_VISIT:
       state.wasVisited = true;
       return Object.assign({}, state);
+    case actionTypes.GALLERY_SET_AVAILABLE_GIFTS:
+      state.availableGifts = action.availableGifts;
+      return Object.assign({}, state);
     default:
       return state;
   }

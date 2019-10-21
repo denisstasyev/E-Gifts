@@ -21,6 +21,7 @@ import tileData from "./tileData";
 import Fab from "@material-ui/core/Fab";
 import SearchIcon from "@material-ui/icons/Search";
 
+import * as galleryActionCreators from "store/actions/gallery";
 import * as filtersActionCreators from "store/actions/filters";
 
 import { GALLERY_VISIT } from "store/actionTypes";
@@ -49,8 +50,14 @@ const useStyles = makeStyles(theme => ({
 const Gallery = props => {
   const classes = useStyles();
 
-  props.getAvailableTags();
-  props.setVisited();
+  React.useEffect(() => {
+    props.getAvailableGifts(props.selectedTags);
+    props.getAvailableTags();
+    if (!props.galleryWasVisited) {
+      props.setVisited();
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <React.Fragment>
@@ -114,12 +121,19 @@ const Gallery = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  selectedTags: state.filtersReducer.selectedTags,
+  galleryWasVisited: state.galleryReducer.wasVisited
+});
+
 const mapDispatchToProps = dispatch => ({
-  setVisited: () => dispatch({ type: GALLERY_VISIT }),
-  getAvailableTags: () => dispatch(filtersActionCreators.getAvailableTags())
+  getAvailableGifts: selectedTags =>
+    dispatch(galleryActionCreators.getAvailableGifts(selectedTags)),
+  getAvailableTags: () => dispatch(filtersActionCreators.getAvailableTags()),
+  setVisited: () => dispatch({ type: GALLERY_VISIT })
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Gallery);
