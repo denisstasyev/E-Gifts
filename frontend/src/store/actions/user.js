@@ -6,13 +6,24 @@ import * as actionTypes from "store/actionTypes";
 import { nullStringToEmpty, backendDateToString } from "utils";
 
 const setLocalStorage = data => {
-  localStorage.setItem("username", data[config.USERNAME]);
-  localStorage.setItem("firstName", nullStringToEmpty(data[config.FIRST_NAME]));
-  localStorage.setItem("lastName", nullStringToEmpty(data[config.LAST_NAME]));
-  localStorage.setItem("mail", nullStringToEmpty(data[config.MAIL]));
+  localStorage.setItem("username", data[config.DATA_USER][config.USERNAME]);
+  localStorage.setItem(
+    "firstName",
+    nullStringToEmpty(data[config.DATA_USER][config.FIRST_NAME])
+  );
+  localStorage.setItem(
+    "lastName",
+    nullStringToEmpty(data[config.DATA_USER][config.LAST_NAME])
+  );
+  localStorage.setItem(
+    "mail",
+    nullStringToEmpty(data[config.DATA_USER][config.MAIL])
+  );
   localStorage.setItem(
     "birthDate",
-    backendDateToString(nullStringToEmpty(data[config.BIRTH_DATE]))
+    backendDateToString(
+      nullStringToEmpty(data[config.DATA_USER][config.BIRTH_DATE])
+    )
   );
   localStorage.setItem("token", data[config.TOKEN]);
 };
@@ -29,11 +40,11 @@ const clearLocalStorage = () => {
 export const authSuccess = data => {
   return {
     type: actionTypes.USER_AUTH_SUCCESS,
-    username: data[config.USERNAME],
-    firstName: data[config.FIRST_NAME],
-    lastName: data[config.LAST_NAME],
-    mail: data[config.MAIL],
-    birthDate: backendDateToString(data[config.BIRTH_DATE]),
+    username: data[config.DATA_USER][config.USERNAME],
+    firstName: data[config.DATA_USER][config.FIRST_NAME],
+    lastName: data[config.DATA_USER][config.LAST_NAME],
+    mail: data[config.DATA_USER][config.MAIL],
+    birthDate: backendDateToString(data[config.DATA_USER][config.BIRTH_DATE]),
     token: data[config.TOKEN]
   };
 };
