@@ -1,26 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import Fab from "@material-ui/core/Fab";
+// import Fab from "@material-ui/core/Fab";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 import Header from "components/Header";
 
 import image from "static/gifts/template.jpg";
 
 const useStyles = makeStyles(theme => ({
-  back: {
-    position: "fixed",
-    bottom: theme.spacing(9),
-    left: theme.spacing(2)
-  },
   backIcon: {
     marginRight: theme.spacing(1)
   },
@@ -32,13 +29,17 @@ const useStyles = makeStyles(theme => ({
 const Gift = props => {
   const classes = useStyles();
 
+  if (props.match.params.id !== props.id) {
+    //TODO: update gift
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
-        <Header topic="Gift" />
+        <Header topic={`Gift #${props.id}`} />
         <Box my={2} className={classes.box} width="100%">
-          <img
+          <img //TODO: fix in the future
             src={image}
             alt="Template gift"
             style={{
@@ -49,17 +50,22 @@ const Gift = props => {
               align: "center"
             }}
           />
-          <Chip
-            className={classes.chip}
-            // key=1
-            size="medium"
-            label="Birthday"
-            color="default" //"primary"
-            //{   ?  : onDelete={handleDelete}}
-          />
-          <Typography align="center">
-            Very very very good gift for anyone!
-          </Typography>
+          <Grid>
+            <Typography align="center">{props.name}</Typography>
+            {props.tags.forEach((tag, index) => (
+              <Chip
+                className={classes.chip}
+                key={index}
+                size="medium"
+                label={tag}
+                color="default"
+              />
+            ))}
+            <Typography align="center">{props.description}</Typography>
+            <Typography align="center">
+              {props.price === 0 ? `FREE` : `${props.price} $`}
+            </Typography>
+          </Grid>
           <Button
             type="submit"
             fullWidth
@@ -72,20 +78,21 @@ const Gift = props => {
           </Button>
         </Box>
       </Container>
-      {/* <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        aria-label="add"
-        className={classes.back}
-        component={Link}
-        to="/gallery"
-      >
-        Back
-      </Fab> */}
       <Toolbar />
     </React.Fragment>
   );
 };
 
-export default Gift;
+const mapStateToProps = state => ({
+  id: state.giftReducer.id,
+  name: state.giftReducer.name,
+  description: state.giftReducer.description,
+  price: state.giftReducer.price,
+  tags: state.giftReducer.tags,
+  urls: state.giftReducer.urls
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Gift);

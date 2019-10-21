@@ -24,7 +24,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import * as galleryActionCreators from "store/actions/gallery";
 import * as filtersActionCreators from "store/actions/filters";
 
-import { GALLERY_VISIT } from "store/actionTypes";
+import { GALLERY_VISIT, GIFT_SET } from "store/actionTypes";
 
 const templateGiftImage = require("static/gifts/template.jpg");
 
@@ -96,6 +96,9 @@ const Gallery = props => {
                     cols={index % 10 === 0 || index % 10 === 6 ? 2 : 1}
                     component={Link}
                     to={`/gallery/gift/${gift.id}`}
+                    onClick={() => {
+                      props.handleSetGift(gift);
+                    }}
                   >
                     <img src={templateGiftImage} alt="Template gift" />
                     {/* <img src={gift.urls[0]} alt={gift.name} /> //TODO */}
@@ -154,7 +157,8 @@ const mapDispatchToProps = dispatch => ({
   getAvailableGifts: selectedTags =>
     dispatch(galleryActionCreators.getAvailableGifts(selectedTags)),
   getAvailableTags: () => dispatch(filtersActionCreators.getAvailableTags()),
-  setVisited: () => dispatch({ type: GALLERY_VISIT })
+  setVisited: () => dispatch({ type: GALLERY_VISIT }),
+  handleSetGift: gift => dispatch({ type: GIFT_SET, gift })
 });
 
 export default connect(

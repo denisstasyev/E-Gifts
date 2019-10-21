@@ -5,7 +5,7 @@ const initialState = {
   selectedTags: []
 };
 
-const userReducer = (state = initialState, action) => {
+const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FILTERS_SET_AVAILABLE_TAGS:
       state.availableTags = action.availableTags;
@@ -27,4 +27,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default filtersReducer;

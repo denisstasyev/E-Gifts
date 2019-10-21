@@ -5,7 +5,7 @@ const initialState = {
   availableGifts: []
 };
 
-const userReducer = (state = initialState, action) => {
+const galleryReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GALLERY_VISIT:
       state.wasVisited = true;
@@ -18,4 +18,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default galleryReducer;
