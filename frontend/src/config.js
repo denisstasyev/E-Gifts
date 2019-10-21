@@ -2,6 +2,7 @@ export const BACKEND_SERVER = "http://localhost:5000";
 
 export const RESULT = "result";
 export const RESULT_MESSAGE = "result_message";
+export const DATA_USER = "user_data";
 export const USERNAME = "login";
 export const MAIL = "mail";
 export const FIRST_NAME = "first_name";
