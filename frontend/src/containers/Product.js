@@ -57,7 +57,7 @@ const Product = props => {
             color="default" //"primary"
             //{   ?  : onDelete={handleDelete}}
           />
-          <Typography className={classes.alert} align="center">
+          <Typography align="center">
             Very very very good gift for anyone!
           </Typography>
           <Button
@@ -72,7 +72,7 @@ const Product = props => {
           </Button>
         </Box>
       </Container>
-      <Fab
+      {/* <Fab
         variant="extended"
         size="medium"
         color="primary"
@@ -82,7 +82,7 @@ const Product = props => {
         to="/gallery"
       >
         Back
-      </Fab>
+      </Fab> */}
       <Toolbar />
     </React.Fragment>
   );
