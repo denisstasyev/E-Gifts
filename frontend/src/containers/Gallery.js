@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
@@ -18,6 +20,10 @@ import tileData from "./tileData";
 
 import Fab from "@material-ui/core/Fab";
 import SearchIcon from "@material-ui/icons/Search";
+
+import * as filtersActionCreators from "store/actions/filters";
+
+import { GALLERY_VISIT } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,8 +46,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Gallery = () => {
+const Gallery = props => {
   const classes = useStyles();
+
+  props.getAvailableTags();
+  props.setVisited();
 
   return (
     <React.Fragment>
@@ -105,4 +114,12 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+const mapDispatchToProps = dispatch => ({
+  setVisited: () => dispatch({ type: GALLERY_VISIT }),
+  getAvailableTags: () => dispatch(filtersActionCreators.getAvailableTags())
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Gallery);

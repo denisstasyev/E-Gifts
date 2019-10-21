@@ -12,6 +12,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Fab from "@material-ui/core/Fab";
 import Chip from "@material-ui/core/Chip";
 
+import { Redirect } from "react-router-dom";
+
 import { FILTERS_SET_SELECTED_TAGS } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
@@ -42,8 +44,6 @@ const useStyles = makeStyles(theme => ({
   chips: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
-    // display: "flex"
-    // justifyContent: "center"
   },
   chip: {
     margin: theme.spacing(1)
@@ -53,9 +53,10 @@ const useStyles = makeStyles(theme => ({
 const Filters = props => {
   const classes = useStyles();
 
-  return (
+  return !props.galleryWasVisited ? (
+    <Redirect to="/gallery" />
+  ) : (
     <React.Fragment>
-      {/* TODO: redirect to gallery*/}
       <Container maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -112,7 +113,8 @@ const Filters = props => {
 
 const mapStateToProps = state => ({
   availableTags: state.filtersReducer.availableTags,
-  selectedTags: state.filtersReducer.selectedTags
+  selectedTags: state.filtersReducer.selectedTags,
+  galleryWasVisited: state.galleryReducer.wasVisited
 });
 
 const mapDispatchToProps = dispatch => ({
