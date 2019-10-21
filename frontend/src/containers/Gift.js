@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 
 import Header from "components/Header";
 
-import image from "static/products/template.jpg";
+import image from "static/gifts/template.jpg";
 
 const useStyles = makeStyles(theme => ({
   back: {
@@ -29,18 +29,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Product = props => {
+const Gift = props => {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
-        <Header topic="Product" />
+        <Header topic="Gift" />
         <Box my={2} className={classes.box} width="100%">
           <img
             src={image}
-            alt="Product"
+            alt="Template gift"
             style={{
               width: "inherit",
               height: "inherit",
@@ -88,4 +88,4 @@ const Product = props => {
   );
 };
 
-export default Product;
+export default Gift;

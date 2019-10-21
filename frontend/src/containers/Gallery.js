@@ -26,7 +26,7 @@ import * as filtersActionCreators from "store/actions/filters";
 
 import { GALLERY_VISIT } from "store/actionTypes";
 
-const templateGiftImage = require("static/products/template.jpg");
+const templateGiftImage = require("static/gifts/template.jpg");
 
 const useStyles = makeStyles(theme => ({
   error: {
@@ -95,7 +95,7 @@ const Gallery = props => {
                     key={index}
                     cols={index % 10 === 0 || index % 10 === 6 ? 2 : 1}
                     component={Link}
-                    to={`/gallery/product/${gift.id}`}
+                    to={`/gallery/gift/${gift.id}`}
                   >
                     <img src={templateGiftImage} alt="Template gift" />
                     {/* <img src={gift.urls[0]} alt={gift.name} /> //TODO */}
