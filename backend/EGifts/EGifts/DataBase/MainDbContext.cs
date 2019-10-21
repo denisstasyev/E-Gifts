@@ -52,7 +52,31 @@ namespace EGifts.DataBase
         public IEnumerable<Gift> GetGifts()
         {
             return Gifts.Include(g => g.StaticUrls)
-                .Include(g => g.GiftTags).ThenInclude(gt => gt.Tag);
+                .Include(g => g.GiftTags)
+                    .ThenInclude(gt => gt.Tag);
+        }
+
+        public Gift GetGift(long id)
+        {
+            return Gifts.Where(g => g.Id == id)
+                .Include(g => g.StaticUrls)
+                .Include(g => g.GiftTags)
+                    .ThenInclude(gt => gt.Tag)
+                .FirstOrDefault();
+        }
+
+        public IEnumerable<Tag> GetTags()
+        {
+            return Tags.Include(g => g.GiftTags)
+                            .ThenInclude(gt => gt.Gift);
+        }
+
+        public Tag GetTag(string name)
+        {
+            return Tags.Where(t=> t.Name.ToUpper() == name.ToUpper())
+                        .Include(g => g.GiftTags)
+                            .ThenInclude(gt => gt.Gift)
+                        .FirstOrDefault();
         }
 
         public GiftReference GetGiftReference(Guid guid)
@@ -60,26 +84,41 @@ namespace EGifts.DataBase
             return GiftReferences.Include(r => r.Gift).FirstOrDefault(r => r.Guid == guid);
         }
         
-        public void TestCreateGiftsTags()
+        void Clear()
         {
+            /*
+            Database.EnsureDeleted();
+            Database.Migrate();
+            */
+
             GiftTags.RemoveRange(GiftTags);
             StaticUrls.RemoveRange(StaticUrls);
             Gifts.RemoveRange(Gifts);
+            GiftReferences.RemoveRange(GiftReferences);
+            Tags.RemoveRange(Tags);
+            
+        }
+
+        public void TestCreateGiftsTags()
+        {
+            Clear();
+
             var gift = new Gift
             {
-                Name = "g1",
-                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g1url1"}, new StaticUrl {Name = "g1url2"}},
-                ModelUrl = "testModelUrl1",
+                Name = "gift1",
+                CatalogStatic = "g1/",
+                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g1/Screenshot_45.png" }, new StaticUrl {Name = "g1/Screenshot_55.png" } },
+                ModelUrl = "g1/"+"testModelUrl1",
             };
                 
             var gift2 = new Gift
             {
-                Name = "g2",
-                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g2url1"}, new StaticUrl {Name = "g2url2"}},
-                ModelUrl = "testModelUrl2",
+                Name = "gift2",
+                CatalogStatic = "g2/",
+                StaticUrls = new List<StaticUrl> {new StaticUrl { Name = "g2/1547367999_1.jpg" }, new StaticUrl { Name = "g2/volki-zhivotnye-43887.jpg" } },
+                ModelUrl = "g2/" + "testModelUrl1",
             };
             
-            Tags.RemoveRange(Tags);
             var tags = new[] {"Christmas", "New Year", "Birthday", "Anniversary", "Kids", "Women", "Men"};
             Tags.AddRange(tags.Select(t => new Tag {Name = t}));
 

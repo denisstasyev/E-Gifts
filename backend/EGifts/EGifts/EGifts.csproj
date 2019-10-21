@@ -27,4 +27,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\g1\" />
+    <Folder Include="wwwroot\g2\" />
+  </ItemGroup>
+
 </Project>

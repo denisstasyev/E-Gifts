@@ -86,8 +86,9 @@ namespace EGifts.Handlers
             }
 
             app.UseCors(MyAllowSpecificOrigins);
+            
+            app.UseStaticFiles();
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 var dbContext = new MainDbContext();
@@ -120,6 +121,11 @@ namespace EGifts.Handlers
                 endpoints.MapGet("/buy_gift_ref", async context =>
                 {
                     var handler = new BuyGiftRefHandler();
+                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                }).RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/get_gift", async context =>
+                {
+                    var handler = new GetGiftHandler();
                     await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
             });
