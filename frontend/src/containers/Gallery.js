@@ -16,7 +16,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Chip from "@material-ui/core/Chip";
-import tileData from "./tileData";
+import Typography from "@material-ui/core/Typography";
 
 import Fab from "@material-ui/core/Fab";
 import SearchIcon from "@material-ui/icons/Search";
@@ -26,7 +26,12 @@ import * as filtersActionCreators from "store/actions/filters";
 
 import { GALLERY_VISIT } from "store/actionTypes";
 
+const templateGiftImage = require("static/products/template.jpg");
+
 const useStyles = makeStyles(theme => ({
+  error: {
+    margin: theme.spacing(2, 0, 2)
+  },
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -45,6 +50,10 @@ const useStyles = makeStyles(theme => ({
   filtersIcon: {
     marginRight: theme.spacing(1)
   }
+  // gift: {
+  //   background:
+  //     "linear-gradient(to top, rgba(0,0,0,0.6) 0%,  rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.35) 75%, rgba(0,0,0,0) 100%)"
+  // }
 }));
 
 const Gallery = props => {
@@ -65,42 +74,56 @@ const Gallery = props => {
       <Container>
         <Header topic="Gallery" />
         <Box my={2}>
-          <div className={classes.root}>
-            <GridList cellHeight={200} cols={3}>
-              <GridListTile key="Subheader" cols={3} style={{ height: "auto" }}>
-                <ListSubheader component="div">
-                  Filtered gifts list
-                </ListSubheader>
-              </GridListTile>
-              {tileData.map(tile => (
+          {props.availableGifts.length === 0 ? (
+            <Typography className={classes.error} align="center">
+              No gifts found, try to change Filters
+            </Typography>
+          ) : (
+            <div className={classes.root}>
+              <GridList cellHeight={200} cols={3}>
                 <GridListTile
-                  key={tile.img}
-                  cols={tile.cols || 1}
-                  component={Link}
-                  to="/gallery/product"
+                  key="Subheader"
+                  cols={3}
+                  style={{ height: "auto" }}
                 >
-                  <img src={tile.img} alt={tile.title} />
-                  <GridListTileBar
-                    title={tile.title}
-                    subtitle={
-                      <React.Fragment>
-                        <Chip
-                          className={classes.chip}
-                          size="small"
-                          label="Birthday"
-                        />
-                        <Chip
-                          className={classes.chip}
-                          size="small"
-                          label="Christmas"
-                        />
-                      </React.Fragment>
-                    } //TODO
-                  />
+                  <ListSubheader component="div">
+                    Filtered gifts list
+                  </ListSubheader>
                 </GridListTile>
-              ))}
-            </GridList>
-          </div>
+                {props.availableGifts.map((gift, index) => (
+                  <GridListTile
+                    key={index}
+                    cols={index % 10 === 0 || index % 10 === 6 ? 2 : 1}
+                    component={Link}
+                    to={`/gallery/product/${gift.id}`}
+                  >
+                    <img src={templateGiftImage} alt="Template gift" />
+                    {/* <img src={gift.urls[0]} alt={gift.name} /> //TODO */}
+                    <GridListTileBar
+                      // className={classes.gift}
+                      title={
+                        gift.price === 0
+                          ? `${gift.name} - FREE`
+                          : `${gift.name} - ${gift.price} $`
+                      }
+                      subtitle={
+                        <React.Fragment>
+                          {gift.tags.map((tag, index) => (
+                            <Chip
+                              key={index}
+                              className={classes.chip}
+                              size="small"
+                              label={tag}
+                            />
+                          ))}
+                        </React.Fragment>
+                      }
+                    />
+                  </GridListTile>
+                ))}
+              </GridList>
+            </div>
+          )}
         </Box>
       </Container>
       <ScrollTop />
@@ -123,7 +146,8 @@ const Gallery = props => {
 
 const mapStateToProps = state => ({
   selectedTags: state.filtersReducer.selectedTags,
-  galleryWasVisited: state.galleryReducer.wasVisited
+  galleryWasVisited: state.galleryReducer.wasVisited,
+  availableGifts: state.galleryReducer.availableGifts
 });
 
 const mapDispatchToProps = dispatch => ({

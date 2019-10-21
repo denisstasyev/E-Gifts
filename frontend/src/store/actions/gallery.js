@@ -67,9 +67,8 @@ export const getAvailableGifts = selectedTags => {
             console.log("Cannot load all available gifts :(");
           }
         })
-        .catch(e => {
+        .catch(() => {
           console.log("Cannot load all available gifts: network problem");
-          console.log(e);
         });
     } else {
       //TODO: create request with tags
