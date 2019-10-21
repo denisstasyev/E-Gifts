@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,6 +11,8 @@ import Container from "@material-ui/core/Container";
 import Toolbar from "@material-ui/core/Toolbar";
 import Fab from "@material-ui/core/Fab";
 import Chip from "@material-ui/core/Chip";
+
+import { FILTERS_SET_SELECTED_TAGS } from "store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -22,6 +25,14 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
+  },
+  alert: {
+    color: "red",
+    marginTop: theme.spacing(1)
+  },
+  info: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   filter: {
     position: "fixed",
@@ -39,32 +50,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Filters = () => {
+const Filters = props => {
   const classes = useStyles();
-
-  const allowedState = [
-    { id: 1, label: "Christmas" },
-    { id: 2, label: "New Year" },
-    { id: 3, label: "Birthday" },
-    { id: 4, label: "Anniversary" },
-    { id: 5, label: "Kids" },
-    { id: 6, label: "Women" },
-    { id: 7, label: "Men" }
-  ];
-
-  // const [values, setValues] = React.useState({
-  //   username: "",
-  //   password: "",
-  //   rememberMe: true,
-  //   showPassword: false
-  // });
-
-  const handleDelete = () => {
-    alert("You clicked the delete icon.");
-  };
 
   return (
     <React.Fragment>
+      {/* TODO: redirect to gallery*/}
       <Container maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -73,16 +64,33 @@ const Filters = () => {
           </Avatar>
           <Typography variant="h5">Filters</Typography>
           <div className={classes.chips}>
-            {allowedState.map((element, index) => (
-              <Chip
-                className={classes.chip}
-                key={index}
-                size="medium"
-                label={element.label}
-                color="default" //"primary"
-                //{   ?  : onDelete={handleDelete}}
-              />
-            ))}
+            {props.availableTags.length === 0 ? (
+              <Typography className={classes.alert} align="center">
+                Network problem, try again later
+              </Typography>
+            ) : (
+              <React.Fragment>
+                <Typography className={classes.info} align="center">
+                  Select appropriate tags
+                </Typography>
+                {props.availableTags.map((tag, index) => (
+                  <Chip
+                    className={classes.chip}
+                    key={index}
+                    size="medium"
+                    label={tag}
+                    color={
+                      props.selectedTags.indexOf(tag) === -1 //TODO: fix double check
+                        ? "default"
+                        : "primary"
+                    }
+                    onClick={() => {
+                      props.handleSelectTag(tag);
+                    }}
+                  />
+                ))}
+              </React.Fragment>
+            )}
           </div>
         </div>
       </Container>
@@ -102,4 +110,20 @@ const Filters = () => {
   );
 };
 
-export default Filters;
+const mapStateToProps = state => ({
+  availableTags: state.filtersReducer.availableTags,
+  selectedTags: state.filtersReducer.selectedTags
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleSelectTag: tag =>
+    dispatch({
+      type: FILTERS_SET_SELECTED_TAGS,
+      tag
+    })
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Filters);
