@@ -26,7 +26,7 @@ import * as filtersActionCreators from "store/actions/filters";
 
 import { GALLERY_VISIT, GIFT_SET } from "store/actionTypes";
 
-const templateGiftImage = require("static/gifts/template.jpg");
+import * as config from "config";
 
 const useStyles = makeStyles(theme => ({
   error: {
@@ -100,8 +100,10 @@ const Gallery = props => {
                       props.handleSetGift(gift);
                     }}
                   >
-                    <img src={templateGiftImage} alt="Template gift" />
-                    {/* <img src={gift.urls[0]} alt={gift.name} /> //TODO */}
+                    <img
+                      src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
+                      alt={gift.name}
+                    />
                     <GridListTileBar
                       // className={classes.gift}
                       title={
@@ -142,6 +144,7 @@ const Gallery = props => {
         <SearchIcon className={classes.filtersIcon} />
         Filters
       </Fab>
+      <Toolbar />
       <Toolbar />
     </React.Fragment>
   );

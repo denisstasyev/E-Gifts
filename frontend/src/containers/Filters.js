@@ -45,6 +45,11 @@ const useStyles = makeStyles(theme => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
+  tags: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
   chip: {
     margin: theme.spacing(1)
   }
@@ -74,22 +79,24 @@ const Filters = props => {
                 <Typography className={classes.info} align="center">
                   Select appropriate tags
                 </Typography>
-                {props.availableTags.map((tag, index) => (
-                  <Chip
-                    className={classes.chip}
-                    key={index}
-                    size="medium"
-                    label={tag}
-                    color={
-                      props.selectedTags.indexOf(tag) === -1 //TODO: fix double check
-                        ? "default"
-                        : "primary"
-                    }
-                    onClick={() => {
-                      props.handleSelectTag(tag);
-                    }}
-                  />
-                ))}
+                <div className={classes.tags}>
+                  {props.availableTags.map((tag, index) => (
+                    <Chip
+                      className={classes.chip}
+                      key={index}
+                      size="medium"
+                      label={tag}
+                      color={
+                        props.selectedTags.indexOf(tag) === -1
+                          ? "default"
+                          : "primary"
+                      }
+                      onClick={() => {
+                        props.handleSelectTag(tag);
+                      }}
+                    />
+                  ))}
+                </div>
               </React.Fragment>
             )}
           </div>

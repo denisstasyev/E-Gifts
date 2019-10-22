@@ -25,6 +25,7 @@ export const getAvailableTags = () => {
       })
       .catch(() => {
         console.log("Cannot load available tags: network problem");
+        //TODO: dispatch(loadFail("Network problem, try again later"));
       });
   };
 };
