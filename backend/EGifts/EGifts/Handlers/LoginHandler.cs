@@ -19,7 +19,7 @@ namespace EGifts.Handlers
             if (!context.Request.Query.ContainsKey(LoginNames.Login) ||
                 !context.Request.Query.ContainsKey(LoginNames.Password))
             {
-                return new LoginResponseMessage
+                return new ErrorMessage
                 {
                     Result = false,
                     ResultMessage = ResourcesErrorMessages.NoParameters,
@@ -37,7 +37,7 @@ namespace EGifts.Handlers
             //TODO: вход по почте. Тогда при создании валидация логина - не должен содержать собаку.
             if (null == user)
             {
-                return new LoginResponseMessage
+                return new ErrorMessage
                 {
                     Result = false,
                     ResultMessage = ResourcesErrorMessages.WrongLoginPassword,
