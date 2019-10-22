@@ -19,7 +19,7 @@ namespace EGifts.Handlers
             if (!context.Request.Query.ContainsKey(LoginNames.Login) ||
                 !context.Request.Query.ContainsKey(LoginNames.Password))
             {
-                return new LoginResponseMessage
+                return new ErrorMessage
                 {
                     Result = false,
                     ResultMessage = ResourcesErrorMessages.NoParameters,
@@ -48,7 +48,7 @@ namespace EGifts.Handlers
 
             if (null == birthDate && dateString != null)
             {
-                return new LoginResponseMessage
+                return new ErrorMessage
                 {
                     Result = false,
                     ResultMessage = ResourcesErrorMessages.WrongDateFormar,
@@ -56,7 +56,7 @@ namespace EGifts.Handlers
             }
             if (dbContext.Users.Any(u => u.Name.ToUpper() == login.ToUpper()))
             {
-                return new LoginResponseMessage
+                return new ErrorMessage
                 {
                     Result = false,
                     ResultMessage = ResourcesErrorMessages.LoginExists,
@@ -65,7 +65,7 @@ namespace EGifts.Handlers
             if (!string.IsNullOrEmpty(mail) &&
                 dbContext.Users.Any(u => u.Mail.ToUpper() == mail.ToUpper()))
             {
-                return new LoginResponseMessage
+                return new ErrorMessage
                 {
                     Result = false,
                     ResultMessage = ResourcesErrorMessages.MailExists,

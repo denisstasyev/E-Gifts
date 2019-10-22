@@ -123,11 +123,20 @@
   <data name="MailExists" xml:space="preserve">
     <value>Mail already exists</value>
   </data>
+  <data name="NoGift" xml:space="preserve">
+    <value>There is no such gift</value>
+  </data>
   <data name="NoParameters" xml:space="preserve">
     <value>No important parameters in request</value>
   </data>
+  <data name="ReferenceNotValid" xml:space="preserve">
+    <value>Reference is not valid</value>
+  </data>
   <data name="WrongDateFormar" xml:space="preserve">
     <value>Wrong date format</value>
+  </data>
+  <data name="WrongIdFormat" xml:space="preserve">
+    <value>Wrong gift id format: id mast be a number</value>
   </data>
   <data name="WrongLoginPassword" xml:space="preserve">
     <value>Wrong login or password</value>
