@@ -26,8 +26,6 @@ import { Redirect } from "react-router-dom";
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
 
-import { preventXSSAttack } from "utils";
-
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -84,11 +82,7 @@ const SignIn = props => {
     if (values.username.length < 5 || values.password.length < 5) {
       props.handleError("Wrong username or password");
     } else {
-      props.handleSubmit(
-        preventXSSAttack(values.username),
-        preventXSSAttack(values.password),
-        values.rememberMe
-      );
+      props.handleSubmit(values.username, values.password, values.rememberMe);
     }
   };
 
