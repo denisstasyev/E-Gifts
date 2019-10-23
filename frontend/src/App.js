@@ -48,6 +48,7 @@ const App = props => {
           <Route path="/gallery/filters" component={Filters} />
           <Route path="/gallery/gift/:id" component={Gift} />
           <Route path="/view" component={View} />
+          <Route path="/view/:id" component={View} />
           <Route exact path="/profile" component={Profile} />
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />

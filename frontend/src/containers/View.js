@@ -1,12 +1,34 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 import Header from "components/Header";
 
-const View = () => {
+const useStyles = makeStyles(theme => ({
+  ascene: {
+    width: "100%",
+    height: "30%"
+  }
+}));
+
+const View = props => {
+  const classes = useStyles();
+
+  const [link, setLink] = React.useState(
+    props.location.pathname !== "/view" && props.location.pathname !== "/view/"
+      ? props.location.pathname.substring(
+          props.location.pathname.lastIndexOf("/") + 1,
+          props.location.pathname.length
+        )
+      : ""
+  );
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -24,14 +46,53 @@ const View = () => {
         </Scene> */}
 
         <Box my={2}>
-          {[...new Array(120)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join("\n")}
+          {link === "" ? (
+            <React.Fragment>
+              <Typography>To see a gift you need to buy it</Typography>
+              <Typography component={Link} to="/gallery">
+                You can buy them in Gallery
+              </Typography>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <div
+                class="intrinsic-box"
+                onClick={() => {
+                  setLink("");
+                }}
+              >
+                <a-scene className={classes.ascene} embedded>
+                  <a-sphere
+                    position="0 1.25 -5"
+                    radius="1.25"
+                    color="#EF2D5E"
+                  ></a-sphere>
+                  <a-box
+                    position="-1 0.5 -3"
+                    rotation="0 45 0"
+                    width="1"
+                    height="1"
+                    depth="1"
+                    color="#4CC3D9"
+                  ></a-box>
+                  <a-cylinder
+                    position="1 0.75 -3"
+                    radius="0.5"
+                    height="1.5"
+                    color="#FFC65D"
+                  ></a-cylinder>
+                  <a-plane
+                    position="0 0 -4"
+                    rotation="-90 0 0"
+                    width="4"
+                    height="4"
+                    color="#7BC8A4"
+                  ></a-plane>
+                  <a-sky color="#ECECEC"></a-sky>
+                </a-scene>
+              </div>
+            </React.Fragment>
+          )}
         </Box>
       </Container>
       <Toolbar />
