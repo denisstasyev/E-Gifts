@@ -28,3 +28,6 @@ export const GIFT_IMAGE_URL = "image_url";
 
 // Gift
 export const GIFT = "gift";
+
+// Gift and View
+export const GIFT_VIEW_LINK = "reference";
