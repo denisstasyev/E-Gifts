@@ -76,6 +76,7 @@ namespace EGifts.DataBase
             return Tags.Where(t=> t.Name.ToUpper() == name.ToUpper())
                         .Include(g => g.GiftTags)
                             .ThenInclude(gt => gt.Gift)
+                                .ThenInclude(g => g.StaticUrls)
                         .FirstOrDefault();
         }
 

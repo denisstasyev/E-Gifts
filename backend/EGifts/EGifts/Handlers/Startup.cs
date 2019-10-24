@@ -86,7 +86,7 @@ namespace EGifts.Handlers
             }
 
             app.UseCors(MyAllowSpecificOrigins);
-            
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
@@ -106,6 +106,11 @@ namespace EGifts.Handlers
                 endpoints.MapGet("/get_gallery", async context =>
                 {
                     var handler = new GetGalleryHandler();
+                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                }).RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/get_gallery_by_tags", async context =>
+                {
+                    var handler = new GetGalleryByTagsHandler();
                     await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/get_tags", async context =>

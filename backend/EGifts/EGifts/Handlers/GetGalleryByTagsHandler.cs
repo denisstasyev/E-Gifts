@@ -5,6 +5,7 @@ using System.Text.Json;
 using EGifts.DataBase;
 using EGifts.DataBase.DatabaseClasses;
 using EGifts.Messages;
+using EGifts.Messages.MessageNames;
 using Microsoft.AspNetCore.Http;
 
 namespace EGifts.Handlers
@@ -13,13 +14,27 @@ namespace EGifts.Handlers
     {
         public BaseMessage Handle(HttpContext context)
         {
-            var data = CommonMethods.ReadStreamAsync(context.Request.Body).Result;
-            // Режем json.
-            //var tags = JsonSerializer.Deserialize < List<string>>(data); 
-            var tags = data.Trim('[', ']').Split(',');
+            
+            if (!context.Request.Query.ContainsKey(GiftNames.Tags))
+            {
+                return new ErrorMessage
+                {
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.NoParameters,
+                };
+            }
+
+            var tagString = context.Request.Query[GiftNames.Tags].ToString();
+            if (string.IsNullOrEmpty(tagString))
+            {
+                var handler = new GetGalleryHandler();
+                return handler.Handle(context);
+            }
+            
+            var tags = context.Request.Query[GiftNames.Tags].ToString().Split(',');
             using var dbContext = new MainDbContext();
             var result = new HashSet<Gift>(new GiftComparer());
-            foreach (var tag in tags.Select(t => t.Trim(' ', '\'', '\"')))
+            foreach (var tag in tags.Select(t => t.Trim(' ')))
             {
                 var tagGifts = dbContext.GetTag(tag).GiftTags.Select(gt => gt.Gift);
                 result.UnionWith(tagGifts);
