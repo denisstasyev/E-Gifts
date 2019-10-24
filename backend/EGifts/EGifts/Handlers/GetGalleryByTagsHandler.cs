@@ -7,6 +7,7 @@ using EGifts.DataBase.DatabaseClasses;
 using EGifts.Messages;
 using EGifts.Messages.MessageNames;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EGifts.Handlers
 {
@@ -34,7 +35,9 @@ namespace EGifts.Handlers
             var tags = context.Request.Query[GiftNames.Tags].ToString().Split(',');
             using var dbContext = new MainDbContext();
             var result = new HashSet<Gift>(new GiftComparer());
-            foreach (var tag in tags.Select(t => t.Trim(' ')))
+
+            var firstStep = true;
+            foreach (var tag in tags.Select(t => t.Trim(' ')).Where(t => !string.IsNullOrEmpty(t)))
             {
                 var dbTag = dbContext.GetTag(tag);
                 if (null == dbTag)
@@ -45,8 +48,17 @@ namespace EGifts.Handlers
                         ResultMessage = ResourcesErrorMessages.WrongDateFormat,
                     };
                 }
+                
                 var tagGifts = dbTag.GiftTags.Select(gt => gt.Gift);
-                result.IntersectWith(tagGifts);
+                if (firstStep)
+                {
+                    result.UnionWith(tagGifts);
+                    firstStep = false;   
+                }
+                else
+                {
+                    result.IntersectWith(tagGifts);
+                }
             }
             
             return new GetGalleryResponse
