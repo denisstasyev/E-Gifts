@@ -36,8 +36,17 @@ namespace EGifts.Handlers
             var result = new HashSet<Gift>(new GiftComparer());
             foreach (var tag in tags.Select(t => t.Trim(' ')))
             {
-                var tagGifts = dbContext.GetTag(tag).GiftTags.Select(gt => gt.Gift);
-                result.UnionWith(tagGifts);
+                var dbTag = dbContext.GetTag(tag);
+                if (null == dbTag)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.WrongDateFormat,
+                    };
+                }
+                var tagGifts = dbTag.GiftTags.Select(gt => gt.Gift);
+                result.IntersectWith(tagGifts);
             }
             
             return new GetGalleryResponse

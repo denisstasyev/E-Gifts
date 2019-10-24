@@ -77,6 +77,10 @@ namespace EGifts.DataBase
                         .Include(g => g.GiftTags)
                             .ThenInclude(gt => gt.Gift)
                                 .ThenInclude(g => g.StaticUrls)
+                        .Include(g => g.GiftTags)
+                            .ThenInclude(gt => gt.Gift)
+                                .ThenInclude(g => g.GiftTags)
+                                    .ThenInclude(gt => gt.Tag)
                         .FirstOrDefault();
         }
 
