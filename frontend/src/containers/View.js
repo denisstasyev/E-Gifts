@@ -10,10 +10,28 @@ import Typography from "@material-ui/core/Typography";
 
 import Header from "components/Header";
 
+import Fab from "@material-ui/core/Fab";
+
+import ARViewer from "components/ARViewer";
+import image from "static/gifts/template.jpg";
+
 const useStyles = makeStyles(theme => ({
-  ascene: {
-    width: "100%",
-    height: "30%"
+  // ascene: {
+  //   width: "100%",
+  //   height: "30%"
+  // },
+  filter: {
+    position: "fixed",
+    bottom: theme.spacing(9),
+    left: theme.spacing(2)
+  },
+  arviewer: {
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    overflow: "hidden" ////////////////////////TODO
   }
 }));
 
@@ -29,33 +47,40 @@ const View = props => {
       : ""
   );
 
-  return (
+  console.log("DSAF");
+  return link === "" ? (
     <React.Fragment>
       <CssBaseline />
       <Container>
         <Header topic="View" />
-
-        {/* <Scene artoolkit={{ sourceType: "webcam", trackingMethod: "best" }}>
-          <a-anchor hit-testing-enabled="true">
-            <a-box
-              position="0 0 0.5"
-              material="opacity: 0.7; color: yellow;"
-            ></a-box>
-          </a-anchor>
-          <a-camera-static preset="hiro" />
-        </Scene> */}
-
         <Box my={2}>
-          {link === "" ? (
-            <React.Fragment>
-              <Typography>To see a gift you need to buy it</Typography>
-              <Typography component={Link} to="/gallery">
-                You can buy them in Gallery
-              </Typography>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <div
+          <Typography>To see a gift you need to buy it</Typography>
+          <Typography component={Link} to="/gallery">
+            You can buy them in Gallery
+          </Typography>
+        </Box>
+      </Container>
+      <Toolbar />
+    </React.Fragment>
+  ) : (
+    <React.Fragment>
+      <ARViewer className={classes.arviewer} image={image} />
+      <Fab
+        variant="extended"
+        size="medium"
+        color="primary"
+        aria-label="add"
+        className={classes.filter}
+        component={Link}
+        to="/view"
+        onClick={() => {
+          window.location.reload();
+          setLink("");
+        }}
+      >
+        Close
+      </Fab>
+      {/* <div
                 class="intrinsic-box"
                 onClick={() => {
                   setLink("");
@@ -90,12 +115,7 @@ const View = props => {
                   ></a-plane>
                   <a-sky color="#ECECEC"></a-sky>
                 </a-scene>
-              </div>
-            </React.Fragment>
-          )}
-        </Box>
-      </Container>
-      <Toolbar />
+              </div> */}
     </React.Fragment>
   );
 };
