@@ -18,6 +18,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
 
 namespace EGifts.Handlers
 {
@@ -87,7 +89,12 @@ namespace EGifts.Handlers
 
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "image/png",
+            });
+
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
