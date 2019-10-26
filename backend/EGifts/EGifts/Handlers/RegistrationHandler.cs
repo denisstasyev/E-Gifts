@@ -51,7 +51,7 @@ namespace EGifts.Handlers
                 return new ErrorMessage
                 {
                     Result = false,
-                    ResultMessage = ResourcesErrorMessages.WrongDateFormar,
+                    ResultMessage = ResourcesErrorMessages.WrongDateFormat,
                 };
             }
             if (dbContext.Users.Any(u => u.Name.ToUpper() == login.ToUpper()))

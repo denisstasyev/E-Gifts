@@ -132,7 +132,7 @@
   <data name="ReferenceNotValid" xml:space="preserve">
     <value>Reference is not valid</value>
   </data>
-  <data name="WrongDateFormar" xml:space="preserve">
+  <data name="WrongDateFormat" xml:space="preserve">
     <value>Wrong date format</value>
   </data>
   <data name="WrongIdFormat" xml:space="preserve">

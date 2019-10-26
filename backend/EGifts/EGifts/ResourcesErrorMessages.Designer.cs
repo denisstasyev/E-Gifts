@@ -108,7 +108,7 @@ namespace EGifts {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Wrong date format.
         /// </summary>
-        internal static string WrongDateFormar {
+        internal static string WrongDateFormat {
             get {
                 return ResourceManager.GetString("WrongDateFormar", resourceCulture);
             }
