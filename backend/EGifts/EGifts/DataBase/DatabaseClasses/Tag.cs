@@ -6,6 +6,13 @@ namespace EGifts.DataBase.DatabaseClasses
 {
     public class Tag : DataBaseClass
     {
+        public Tag(){}
+
+        public Tag(string name)
+        {
+            Name = name;
+        }
+        
         [JsonIgnore]
         public long Id { get; set; }
         [JsonPropertyName(CommonNames.Name)]
