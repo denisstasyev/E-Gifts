@@ -8,10 +8,16 @@ import "./index.css";
 
 import App from "./App";
 import userReducer from "store/reducers/user";
+import filtersReducer from "store/reducers/filters";
+import galleryReducer from "store/reducers/gallery";
+import giftReducer from "store/reducers/gift";
 // import * as serviceWorker from "./unused/serviceWorker";
 
 const rootReducer = combineReducers({
-  userReducer
+  userReducer,
+  filtersReducer,
+  galleryReducer,
+  giftReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

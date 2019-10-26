@@ -39,7 +39,7 @@ export default function ScrollTop() {
         role="presentation"
         className={classes.scrollTop}
       >
-        <Fab color="secondary" size="medium" aria-label="scroll back to top">
+        <Fab color="primary" size="medium" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
         </Fab>
       </div>

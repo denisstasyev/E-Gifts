@@ -19,6 +19,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
+import Toolbar from "@material-ui/core/Toolbar";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -30,7 +31,7 @@ import { Redirect } from "react-router-dom";
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
 
-import { preventXSSAttack, dateToString, validateMail } from "utils";
+import { dateToString, validateMail } from "utils";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -105,12 +106,12 @@ const SignUp = props => {
       values.birthDate <= new Date()
     ) {
       props.handleSubmit(
-        preventXSSAttack(values.firstName),
-        preventXSSAttack(values.lastName),
+        values.firstName,
+        values.lastName,
         values.mail,
         dateToString(values.birthDate),
-        preventXSSAttack(values.username),
-        preventXSSAttack(values.password),
+        values.username,
+        values.password,
         values.rememberMe
       );
     } else {
@@ -123,163 +124,166 @@ const SignUp = props => {
       {props.isAuth ? (
         <Redirect to="/profile" />
       ) : (
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign Up
-            </Typography>
-            <form className={classes.form} noValidate>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="First Name"
-                    autoComplete="fname"
-                    value={values.firstName}
-                    onChange={handleChange("firstName")}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Last Name"
-                    autoComplete="lname"
-                    value={values.lastName}
-                    onChange={handleChange("lastName")}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Email Address"
-                    autoComplete="email"
-                    value={values.mail}
-                    onChange={handleChange("mail")}
-                    error={values.mailError !== ""}
-                    helperText={values.mailError}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      fullWidth
-                      clearable
-                      inputVariant="outlined"
-                      disableFuture
-                      openTo="year"
-                      format="dd.MM.yyyy"
-                      label="Birth Date"
-                      views={["year", "month", "date"]}
-                      value={values.birthDate}
-                      onChange={handleBirthDateChange}
-                    />
-                  </MuiPickersUtilsProvider>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Username"
-                    autoComplete="username"
-                    value={values.username}
-                    onChange={handleChange("username")}
-                    error={values.username.length < 5}
-                    helperText={
-                      values.username.length === 0
-                        ? "Data required"
-                        : values.username.length < 5
-                        ? "Username is too short"
-                        : ""
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Password"
-                    type={values.showPassword ? "text" : "password"}
-                    value={values.password}
-                    onChange={handleChange("password")}
-                    autoComplete="new-password"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            edge="end"
-                            onClick={handleClickShowPassword}
-                          >
-                            {values.showPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                    error={values.password.length < 5}
-                    helperText={
-                      values.password.length === 0
-                        ? "Data required"
-                        : values.password.length < 5
-                        ? "Password is too short"
-                        : ""
-                    }
-                  />
-                </Grid>
-              </Grid>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={values.rememberMe}
-                    onChange={handleCheck("rememberMe")}
-                    value="remember me"
-                    color="primary"
-                  />
-                }
-                label="Remember me"
-              />
-              {props.errorMessage !== "" ? (
-                <Typography className={classes.alert} align="center">
-                  {props.errorMessage}
-                </Typography>
-              ) : null}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSubmit}
-              >
+        <React.Fragment>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
                 Sign Up
-              </Button>
-              <Grid container justify="flex-end">
-                <Grid item>
-                  <LinkButton
-                    variant="body2"
-                    component={Link}
-                    to="/profile/signin"
-                    onClick={() => {
-                      if (props.errorMessage !== null)
-                        return props.handleRedirect();
-                    }}
-                  >
-                    Already have an account? Sign In
-                  </LinkButton>
+              </Typography>
+              <form className={classes.form} noValidate>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      label="First Name"
+                      autoComplete="fname"
+                      value={values.firstName}
+                      onChange={handleChange("firstName")}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      label="Last Name"
+                      autoComplete="lname"
+                      value={values.lastName}
+                      onChange={handleChange("lastName")}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      label="Email Address"
+                      autoComplete="email"
+                      value={values.mail}
+                      onChange={handleChange("mail")}
+                      error={values.mailError !== ""}
+                      helperText={values.mailError}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        fullWidth
+                        clearable
+                        inputVariant="outlined"
+                        disableFuture
+                        openTo="year"
+                        format="dd.MM.yyyy"
+                        label="Birth Date"
+                        views={["year", "month", "date"]}
+                        value={values.birthDate}
+                        onChange={handleBirthDateChange}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      label="Username"
+                      autoComplete="username"
+                      value={values.username}
+                      onChange={handleChange("username")}
+                      error={values.username.length < 5}
+                      helperText={
+                        values.username.length === 0
+                          ? "Data required"
+                          : values.username.length < 5
+                          ? "Username is too short"
+                          : ""
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      label="Password"
+                      type={values.showPassword ? "text" : "password"}
+                      value={values.password}
+                      onChange={handleChange("password")}
+                      autoComplete="new-password"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              edge="end"
+                              onClick={handleClickShowPassword}
+                            >
+                              {values.showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                      error={values.password.length < 5}
+                      helperText={
+                        values.password.length === 0
+                          ? "Data required"
+                          : values.password.length < 5
+                          ? "Password is too short"
+                          : ""
+                      }
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </form>
-          </div>
-        </Container>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={values.rememberMe}
+                      onChange={handleCheck("rememberMe")}
+                      value="remember me"
+                      color="primary"
+                    />
+                  }
+                  label="Remember me"
+                />
+                {props.errorMessage !== "" ? (
+                  <Typography className={classes.alert} align="center">
+                    {props.errorMessage}
+                  </Typography>
+                ) : null}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleSubmit}
+                >
+                  Sign Up
+                </Button>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <LinkButton
+                      variant="body2"
+                      component={Link}
+                      to="/profile/signin"
+                      onClick={() => {
+                        if (props.errorMessage !== null)
+                          return props.handleRedirect();
+                      }}
+                    >
+                      Already have an account? Sign In
+                    </LinkButton>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+          </Container>
+          <Toolbar />
+        </React.Fragment>
       )}
     </React.Fragment>
   );
