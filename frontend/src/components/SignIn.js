@@ -108,7 +108,7 @@ const SignIn = props => {
                   value={values.username}
                   onChange={handleChange("username")}
                   autoComplete="username"
-                  autoFocus
+                  // autoFocus
                 />
                 <TextField
                   variant="outlined"

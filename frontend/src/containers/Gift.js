@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import Chip from "@material-ui/core/Chip";
+// import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
@@ -49,6 +49,8 @@ const Gift = props => {
 
   const [link, setLink] = React.useState("");
 
+  //TODO
+  // eslint-disable-next-line
   const [id, setId] = React.useState(
     props.location.pathname !== "/gallery/gift" &&
       props.location.pathname !== "/gallery/gift/"

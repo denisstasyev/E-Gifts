@@ -1,14 +1,21 @@
-/* globals Hammer, THREE */
+/* globals THREE */
 import React from "react";
 
-// import degToRad from "utils/degToRad";
 import initializeRenderer from "utils/initializeRenderer";
 import { initializeArToolkit, getMarker } from "utils/arToolkit";
 
-import model from "static/dog.obj";
+const {
+  Camera,
+  Group,
+  Scene,
+  // MTLLoader,
+  OBJLoader
+  // FBXLoader,
+  // GLTFLoader
+} = THREE;
 
-const { Camera, Group, Scene, OBJLoader } = THREE;
-
+//TODO
+// eslint-disable-next-line
 const ARViewer = props => {
   const [markerFound, setMarkerFound] = React.useState(false);
 
@@ -36,66 +43,109 @@ const ARViewer = props => {
       setMarkerFound(true);
     });
 
-    // const geometry = new PlaneGeometry(1, 1, 1);
-    // const loader = new TextureLoader();
-    // loader.crossOrigin = "";
+    // // load a resource
+    // let loader = new OBJLoader();
+    // loader.setPath("http://localhost:5000/").load(
+    //   // resource URL
+    //   "dog.obj",
+    //   // called when resource is loaded
+    //   object => {
+    //     // scene.add(object);
+    //     object.scale.set(0.1, 0.1, 0.1);
+    //     object.rotation.y = Math.PI / 2; // -90°
+    //     markerRoot.add(object);
+    //   },
+    //   // called when loading is in progresses
+    //   xhr => {
+    //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    //   },
+    //   // called when loading has errors
+    //   () => {
+    //     console.log("An error with AR happened");
+    //   }
+    // );
 
-    // let img = loader.load(props.image);
-    // let material = new MeshPhongMaterial({
-    //   color: 0xffffff,
-    //   map: img,
-    //   side: DoubleSide
-    // });
-
-    // let mesh = new Mesh(geometry, material);
-    // mesh.position.x = geometry.parameters.width * 2;
-    // mesh.position.z = geometry.parameters.height;
-    // mesh.rotation.x = -Math.PI / 2; // -90°
-    // mesh.scale.x = 2;
-    // mesh.scale.y = 2;
-
-    // let mesh = null;
-    //TODO: ADD CUSTOM HERE
-
-    var loader = new OBJLoader();
-    // loader.setPath("static/");
-
-    // load a resource
-    loader.load(
+    // // load a resource
+    // let mtlLoader = new MTLLoader();
+    // mtlLoader.setPath("http://localhost:5000/");
+    // mtlLoader.load(
+    //   "dog.mtl",
+    //   materials => {
+    //   materials.preload();
+    let objLoader = new OBJLoader();
+    // // objLoader.setMaterials(materials);
+    objLoader.setPath("http://localhost:5000/");
+    objLoader.load(
       // resource URL
-      "http://localhost:5000/dog.obj",
+      "dog.obj",
       // called when resource is loaded
       object => {
-        // scene.add(object);
-        scene.add(object);
+        object.scale.set(0.1, 0.1, 0.1);
+        object.rotation.x = -Math.PI / 2; // -90°
+        object.rotation.z = Math.PI;
+        markerRoot.add(object);
       },
       // called when loading is in progresses
       xhr => {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        console.log((xhr.loaded / xhr.total) * 100 + "% OBJ loaded");
       },
       // called when loading has errors
       () => {
-        console.log("An error happened");
+        console.log("An error with AR OBJ happened");
       }
     );
+    //   },
+    //   // called when loading is in progresses
+    //   xhr => {
+    //     console.log((xhr.loaded / xhr.total) * 100 + "% MTL loaded");
+    //   },
+    //   // called when loading has errors
+    //   () => {
+    //     console.log("An error with AR MTL happened");
+    //   }
+    // );
 
-    // new THREE.MTLLoader()
-    // .setPath( 'models/' )
-    // .load( 'fish-2.mtl', function ( materials ) {
-    // 	materials.preload();
-    // 	new THREE.OBJLoader()
-    // 		.setMaterials( materials )
-    // 		.setPath( 'models/' )
-    // 		.load( 'fish-2.obj', function ( group ) {
-    // 			mesh0 = group.children[0];
-    // 			mesh0.material.side = THREE.DoubleSide;
-    // 			mesh0.position.y = 0.25;
-    // 			mesh0.scale.set(0.25,0.25,0.25);
-    // 			markerRoot1.add(mesh0);
-    // 		}, onProgress, onError );
+    // var loader = new GLTFLoader().setPath("http://localhost:5000/");
+    // loader.load("scene.gltf", function(gltf) {
+    //   // gltf.scene.traverse(function(child) {
+    //   //   if (child.isMesh) {
+    //   //     child.material.envMap = envMap;
+    //   //   }
+    //   // });
+    //   gltf.scene.scale.x = 0.1; //set(0.1, 0.1, 0.1);
+    //   gltf.scene.scale.y = 0.1;
+    //   gltf.scene.scale.z = 0.1;
+    //   markerRoot.add(gltf.scene);
+    //   // scene.add(gltf.scene);
     // });
 
-    // markerRoot.add(mesh);
+    // // model
+    // let loader = new FBXLoader();
+    // loader.load("http://localhost:5000/BMW.fbx", object => {
+    //   let mixer = new THREE.AnimationMixer(object);
+    //   let action = mixer.clipAction(object.animations[0]);
+    //   action.play();
+    //   object.traverse(child => {
+    //     if (child.isMesh) {
+    //       child.castShadow = true;
+    //       child.receiveShadow = true;
+    //     }
+    //   });
+    //   markerRoot.add(object);
+    // });
+
+    // var loader = new GLTFLoader();
+    // loader.load("http://localhost:5000/bus_body_green.glb", function(gltf) {
+    //   // var scale = 5.6;
+    //   let model = gltf.scene.children[0];
+    //   // bus.body.name = "body";
+    //   // bus.body.rotation.set(0, -1.5708, 0);
+    //   // bus.body.scale.set(scale, scale, scale);
+    //   // bus.body.position.set(0, 3.6, 0);
+    //   // bus.body.castShadow = true;
+    //   // bus.frame.add(bus.body);
+    //   markerRoot.add(model);
+    // });
 
     // render the scene
     onRenderFcts.push(function() {
@@ -164,6 +214,8 @@ const ARViewer = props => {
     // hammer.on("rotatemove", function(ev) {
     //   mesh.rotation.z = rotateStart - degToRad(ev.rotation);
     // });
+
+    // eslint-disable-next-line
   }, []);
 
   const storeRef = node => {
