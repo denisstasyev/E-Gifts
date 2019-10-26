@@ -47,7 +47,8 @@ const View = props => {
       : ""
   );
 
-  console.log("DSAF");
+  const [mode, setMode] = React.useState("");
+
   return link === "" ? (
     <React.Fragment>
       <CssBaseline />
@@ -64,18 +65,38 @@ const View = props => {
     </React.Fragment>
   ) : (
     <React.Fragment>
-      <ARViewer className={classes.arviewer} image={image} />
+      {mode === "AR" ? (
+        <ARViewer className={classes.arviewer} image={image} />
+      ) : mode === "marker" ? (
+        <div>Marker</div>
+      ) : (
+        <div>
+          Main{" "}
+          <Fab
+            variant="extended"
+            size="medium"
+            color="primary"
+            onClick={() => {
+              setMode("AR");
+            }}
+          >
+            View AR
+          </Fab>
+        </div>
+      )}
       <Fab
         variant="extended"
         size="medium"
         color="primary"
         aria-label="add"
         className={classes.filter}
-        component={Link}
-        to="/view"
+        // component={Link}
+        // to="/view"
         onClick={() => {
+          // setLink("");
+          setMode("");
           window.location.reload();
-          setLink("");
+          // console.log(window.location);
         }}
       >
         Close

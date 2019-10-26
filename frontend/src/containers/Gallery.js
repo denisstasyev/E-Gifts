@@ -38,6 +38,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-around",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper
+    // overflowY: "auto"
+    // height: "80wh"
   },
   chip: {
     marginRight: theme.spacing(1)
