@@ -9,6 +9,12 @@ namespace EGifts.DataBase.DatabaseClasses
 {
     public class StaticUrl : DataBaseClass
     {
+        public StaticUrl(){}
+
+        public StaticUrl(string url)
+        {
+            Name = url;
+        }
         [JsonIgnore]
         public long Id { get; set; }
         [JsonPropertyName(GiftNames.ImageUrl)]

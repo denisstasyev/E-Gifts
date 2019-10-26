@@ -19,20 +19,20 @@ namespace EGifts.DataBase
         public DbSet<Role> Roles { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<StaticUrl> StaticUrls { get; set; }
-        public DbSet<Tag> Tags { get; set;  }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<Token> Tokens { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserGift> UserGifts { get; set; }
-        
 
-        #endregion  
-        
+        #endregion
+
         public MainDbContext()
         {
             if (string.IsNullOrEmpty(ConnectionString))
             {
                 throw new Exception("No Connection string in MainDbContext!");
             }
+
             //Database.EnsureCreated();
             //Database.Migrate();            
         }
@@ -53,7 +53,7 @@ namespace EGifts.DataBase
         {
             return Gifts.Include(g => g.StaticUrls)
                 .Include(g => g.GiftTags)
-                    .ThenInclude(gt => gt.Tag);
+                .ThenInclude(gt => gt.Tag);
         }
 
         public Gift GetGift(long id)
@@ -61,34 +61,39 @@ namespace EGifts.DataBase
             return Gifts.Where(g => g.Id == id)
                 .Include(g => g.StaticUrls)
                 .Include(g => g.GiftTags)
-                    .ThenInclude(gt => gt.Tag)
+                .ThenInclude(gt => gt.Tag)
                 .FirstOrDefault();
         }
 
         public IEnumerable<Tag> GetTags()
         {
             return Tags.Include(g => g.GiftTags)
-                            .ThenInclude(gt => gt.Gift);
+                .ThenInclude(gt => gt.Gift);
+        }
+
+        public Tag GetTagFull(string name)
+        {
+            return Tags.Where(t => t.Name.ToUpper() == name.ToUpper())
+                .Include(g => g.GiftTags)
+                .ThenInclude(gt => gt.Gift)
+                .ThenInclude(g => g.StaticUrls)
+                .Include(g => g.GiftTags)
+                .ThenInclude(gt => gt.Gift)
+                .ThenInclude(g => g.GiftTags)
+                .ThenInclude(gt => gt.Tag)
+                .FirstOrDefault();
         }
 
         public Tag GetTag(string name)
         {
-            return Tags.Where(t=> t.Name.ToUpper() == name.ToUpper())
-                        .Include(g => g.GiftTags)
-                            .ThenInclude(gt => gt.Gift)
-                                .ThenInclude(g => g.StaticUrls)
-                        .Include(g => g.GiftTags)
-                            .ThenInclude(gt => gt.Gift)
-                                .ThenInclude(g => g.GiftTags)
-                                    .ThenInclude(gt => gt.Tag)
-                        .FirstOrDefault();
+            return Tags.FirstOrDefault(t => t.Name.ToUpper() == name.ToUpper());
         }
 
         public GiftReference GetGiftReference(Guid guid)
         {
             return GiftReferences.Include(r => r.Gift).FirstOrDefault(r => r.Guid == guid);
         }
-        
+
         void Clear()
         {
             /*
@@ -101,61 +106,68 @@ namespace EGifts.DataBase
             Gifts.RemoveRange(Gifts);
             GiftReferences.RemoveRange(GiftReferences);
             Tags.RemoveRange(Tags);
-            
+            SaveChanges();
         }
 
         public void TestCreateGiftsTags()
         {
             Clear();
 
-            var gift = new Gift
+
+            var gifts = Enumerable.Range(0, 10).Select(i => $"gift_{i}").Select(n => new Gift
             {
-                Name = "gift1",
-                CatalogStatic = "g1/",
-                StaticUrls = new List<StaticUrl> {new StaticUrl {Name = "g1/Screenshot_45.png" }, new StaticUrl {Name = "g1/Screenshot_55.png" } },
-                ModelUrl = "g1/"+"testModelUrl1",
-            };
-                
-            var gift2 = new Gift
-            {
-                Name = "gift2",
-                CatalogStatic = "g2/",
-                StaticUrls = new List<StaticUrl> {new StaticUrl { Name = "g2/1547367999_1.jpg" }, new StaticUrl { Name = "g2/volki-zhivotnye-43887.jpg" } },
-                ModelUrl = "g2/" + "testModelUrl1",
-            };
+                Name = n,
+                CatalogStatic = $"{n}/",
+                StaticUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{n}/1.png"),
+                    new StaticUrl($"{n}/2.png"),
+                },
+                ModelUrl = $"{n}/model.obj",
+                Description = $"Awesome n",
+            });
+            Gifts.AddRange(gifts);
+            SaveChanges();
             
             var tags = new[] {"Christmas", "New Year", "Birthday", "Anniversary", "Kids", "Women", "Men"};
-            Tags.AddRange(tags.Select(t => new Tag {Name = t}));
-
-            var tag1 = new Tag
+            Tags.AddRange(tags.Select(t => new Tag(t)));
+            SaveChanges();
+            
+            var i = 0;
+            var list = new List<Tag>(Tags);
+            foreach (var gift in Gifts)
             {
-                Name = "t1",
+                IEnumerable<GiftTag> giftTags = new List<GiftTag>();
+                if (i <= 4)
+                {
+                    giftTags = list.GetRange(i, 3).Select(t => new GiftTag
+                    {
+                        Gift = gift,
+                        Tag = t,
+                    });
+                }
+                else if (i == 5)
+                {
                     
-            };
-                
-            var tag2 = new Tag
-            {
-                Name = "t2",
-            };
-            Gifts.Add(gift);
-            Gifts.Add(gift2);
-            Tags.Add(tag1);
-            Tags.Add(tag2);
-            GiftTags.Add(new GiftTag
-            {
-                Gift = gift,
-                Tag = tag1,
-            });
-            GiftTags.Add(new GiftTag
-            {
-                Gift = gift,
-                Tag = tag2
-            });
-            GiftTags.Add(new GiftTag
-            {
-                Gift = gift2,
-                Tag = tag1
-            });
+                    giftTags = list.GetRange(5, 2).Select(t => new GiftTag
+                    {
+                        Gift = gift,
+                        Tag = t,
+                    });
+                }
+                else if (i == 6)
+                {
+                    
+                    giftTags = list.GetRange(6, 1).Select(t => new GiftTag
+                    {
+                        Gift = gift,
+                        Tag = t,
+                    });
+                }
+
+                GiftTags.AddRange(giftTags);
+                i = ++i % 7;
+            }
             SaveChanges();
         }
     }
