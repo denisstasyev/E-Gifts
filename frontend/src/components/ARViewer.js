@@ -1,12 +1,47 @@
 /* globals THREE */
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 
 import initializeRenderer from "utils/initializeRenderer";
 import { initializeArToolkit, getMarker } from "utils/arToolkit";
 
+import marker from "static/hiro.png";
+
 const { Camera, Group, Scene, AmbientLight, GLTFLoader } = THREE;
 
+const useStyles = makeStyles(theme => ({
+  markerSearchContainer: {
+    position: "absolute",
+    bottom: 160,
+    left: 0,
+    right: 0,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center"
+  },
+  markerSearchContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    color: "red",
+    borderColor: "red",
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderRadius: 20,
+    maxWidth: 200,
+    padding: 10
+  },
+  markerSearchImage: {
+    marginTop: 10,
+    height: 100,
+    width: 100
+  }
+}));
+
 const ARViewer = props => {
+  const classes = useStyles();
+
   const [markerFound, setMarkerFound] = React.useState(false);
 
   let canvas = null;
@@ -38,7 +73,7 @@ const ARViewer = props => {
 
     const loader = new GLTFLoader();
     loader.load(
-      "http://localhost:5000/pony_cartoon/scene.gltf",
+      props.modelURL,
       gltf => {
         // called when the resource is loaded
         console.log(gltf.scene);
@@ -47,7 +82,7 @@ const ARViewer = props => {
       },
       xhr => {
         // called while loading is progressing
-        console.log(`${(xhr.loaded / xhr.total) * 100}% model loaded`);
+        console.log(`${(xhr.loaded / xhr.total) * 100}% of the model loaded`);
       },
       error => {
         // called when loading has errors
@@ -133,7 +168,18 @@ const ARViewer = props => {
   return (
     <div>
       <canvas ref={storeRef} />
-      {!markerFound && <div>Looking for marker</div>}
+      {!markerFound && (
+        <div className={classes.markerSearchContainer}>
+          <div className={classes.markerSearchContent}>
+            <Typography variant="h6">Looking for Marker</Typography>
+            <img
+              className={classes.markerSearchImage}
+              alt="Marker Example"
+              src={marker}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
