@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 // import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Fab from "@material-ui/core/Fab";
 
 import Header from "components/Header";
 
@@ -41,6 +42,11 @@ const useStyles = makeStyles(theme => ({
   },
   buy: {
     margin: theme.spacing(2, 0, 2)
+  },
+  close: {
+    position: "fixed",
+    bottom: theme.spacing(9),
+    left: theme.spacing(2)
   }
 }));
 
@@ -165,6 +171,16 @@ const Gift = props => {
           </div>
         </Box>
       </Container>
+      <Fab
+        variant="extended"
+        size="medium"
+        color="primary"
+        className={classes.close}
+        component={Link}
+        to="/gallery"
+      >
+        Close
+      </Fab>
       <Toolbar />
     </React.Fragment>
   );
