@@ -29,6 +29,10 @@ Installs all necessary dependencies via Docker and Docker Compose and runs the a
 
 Stops the application and deletes Docker container with all dependencies (Docker images are still available).
 
+## Contributors Links
+
+If you find a bug, use the [Bug Report Form](https://github.com/denisstasyev/E-Gifts/issues/new?template=bug_report.md).
+
 ## Available Scripts
 
 ### `make up`
