@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## List of technologies used
 
-Make, Docker, Docker-Compose, Nginx, React, Prettier, ESLint.
+Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, Material-UI React, Prettier, ESLint.
 
 ## Available Scripts
 

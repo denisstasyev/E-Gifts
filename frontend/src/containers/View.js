@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
 const View = props => {
   const classes = useStyles();
 
+  // eslint-disable-next-line
   const [link, setLink] = React.useState(
     props.location.pathname !== "/view" && props.location.pathname !== "/view/"
       ? props.location.pathname.substring(
