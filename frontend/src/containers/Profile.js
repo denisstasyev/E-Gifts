@@ -35,7 +35,7 @@ const Profile = props => {
     <React.Fragment>
       <CssBaseline />
       {!props.isAuth ? (
-        <Redirect to="/profile/signin" />
+        <Redirect to="/profile/signup" />
       ) : (
         <Container>
           <Header topic={props.username} />
