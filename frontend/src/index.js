@@ -4,9 +4,10 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 
-import "./index.css";
+import "index.css";
 
-import App from "./App";
+import SentryErrorLogger from "SentryErrorLogger";
+
 import userReducer from "store/reducers/user";
 import filtersReducer from "store/reducers/filters";
 import galleryReducer from "store/reducers/gallery";
@@ -29,7 +30,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <SentryErrorLogger />
   </Provider>,
   document.getElementById("root")
 );

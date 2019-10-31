@@ -9,7 +9,8 @@ You have found the E-Gifts GitHub repository, which is our graduation project of
 
 1. [Quick Overview](#quick-overview)
 2. [Quick Start](#quick-start)
-3. [Available Scripts](#available-scripts)
+3. [Contributors Links](#contributors-links)
+4. [Available Scripts](#available-scripts)
 
 ## Quick Overview
 
@@ -18,6 +19,8 @@ E-Gift is a web resource on which everyone can send a greeting gift in AR/VR to 
 ## Quick Start
 
 > To run this project, you must have [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
+
+> Before starting this project, look at the "Initial Setup" part of frontend/README.md
 
 In the project directory, you can run:
 
