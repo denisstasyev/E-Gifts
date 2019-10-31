@@ -62,8 +62,8 @@ const ARViewer = props => {
       camera,
       onRenderFcts
     );
-    const marker = getMarker(arToolkitContext, markerRoot);
 
+    const marker = getMarker(arToolkitContext, markerRoot);
     marker.addEventListener("markerFound", () => {
       setMarkerFound(true);
     });
@@ -76,7 +76,6 @@ const ARViewer = props => {
       props.modelURL,
       gltf => {
         // called when the resource is loaded
-        console.log(gltf.scene);
         gltf.scene.scale.set(0.005, 0.005, 0.005);
         markerRoot.add(gltf.scene);
       },
@@ -91,7 +90,7 @@ const ARViewer = props => {
     );
 
     // render the scene
-    onRenderFcts.push(function() {
+    onRenderFcts.push(() => {
       renderer.render(scene, camera);
     });
 
