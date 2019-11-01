@@ -13,6 +13,7 @@ import Header from "components/Header";
 import Fab from "@material-ui/core/Fab";
 
 import ARViewer from "components/ARViewer";
+import VRViewer from "components/VRViewer";
 
 const useStyles = makeStyles(theme => ({
   filter: {
@@ -72,7 +73,8 @@ const View = props => {
     <div>Marker</div>
   ) : (
     <div>
-      Main{" "}
+      Main
+      <VRViewer modelURL="http://localhost:5000/pony_cartoon/scene.gltf" />
       <Fab
         variant="extended"
         size="medium"

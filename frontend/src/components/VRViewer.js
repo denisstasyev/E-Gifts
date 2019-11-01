@@ -1,21 +1,41 @@
 /* globals THREE */
 import React from "react";
 
-const { Camera, Group, Scene, AmbientLight, GLTFLoader } = THREE;
+import TweenMax from "gsap/TweenMax";
+
+const {
+  WebGLRenderer,
+  Color,
+  // Camera,
+  PerspectiveCamera,
+  // Group,
+  Scene,
+  AmbientLight,
+  GLTFLoader,
+  OrbitControls
+} = THREE;
 
 const VRViewer = props => {
   let canvas = null;
 
   React.useEffect(() => {
-    const renderer = new WebGLRenderer({ alpha: true, canvas });
-    renderer.setClearColor(new Color("lightgrey"), 0);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const renderer = new WebGLRenderer({ canvas });
+    renderer.setClearColor(new Color("lightgrey"));
+    // renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(400, 400);
 
     const scene = new Scene();
-    const camera = new Camera();
+    // const camera = new Camera();
+    const camera = new PerspectiveCamera(
+      65,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 4;
+    camera.position.y = 3;
+    camera.position.x = 3;
     scene.add(camera);
-
-    const onRenderFcts = [];
 
     var light = new AmbientLight(0x404040, 50); // white light
     scene.add(light);
@@ -26,6 +46,14 @@ const VRViewer = props => {
       gltf => {
         // called when the resource is loaded
         gltf.scene.scale.set(0.005, 0.005, 0.005);
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
+        TweenMax.from(gltf.scene.position, 3, {
+          y: -10,
+          yoyo: false,
+          repeat: 0,
+          ease: "Power2.easeInOut"
+        });
+
         scene.add(gltf.scene);
       },
       xhr => {
@@ -38,8 +66,10 @@ const VRViewer = props => {
       }
     );
 
+    const onRenderFcts = [];
+
     // render the scene
-    onRenderFcts.push(function() {
+    onRenderFcts.push(() => {
       renderer.render(scene, camera);
     });
 
@@ -60,51 +90,19 @@ const VRViewer = props => {
     };
     requestAnimationFrame(animate);
 
-    // const root = document.getElementById("root");
-    // const hammer = new Hammer(root);
+    var controls = new OrbitControls(camera, renderer.domElement);
+    controls.rotateSpeed = 0.3;
+    controls.zoomSpeed = 0.9;
+    controls.minDistance = 3;
+    controls.maxDistance = 20;
+    controls.minPolarAngle = 0; // radians
+    controls.maxPolarAngle = Math.PI / 2; // radians
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
 
-    // hammer.get("pinch").set({ enable: true });
-    // hammer.get("rotate").set({ enable: true });
-    // hammer.get("pan").set({ direction: Hammer.DIRECTION_ALL });
-
-    // let panStartX, panStartY;
-
-    // hammer.on("panstart", function(ev) {
-    //   panStartX = mesh.position.x;
-    //   panStartY = mesh.position.z;
-
-    //   mesh.position.x += ev.deltaX / 200;
-    //   mesh.position.z += ev.deltaY / 200;
-    // });
-
-    // hammer.on("panmove", function(ev) {
-    //   mesh.position.x = panStartX + ev.deltaX / 200;
-    //   mesh.position.z = panStartY + ev.deltaY / 200;
-    // });
-
-    // let pinchStartX, pinchStartY;
-
-    // hammer.on("pinchstart", function(ev) {
-    //   pinchStartX = mesh.scale.x;
-    //   pinchStartY = mesh.scale.y;
-    //   mesh.scale.x = ev.scale;
-    //   mesh.scale.y = ev.scale;
-    // });
-
-    // hammer.on("pinch", function(ev) {
-    //   mesh.scale.x = pinchStartX * ev.scale;
-    //   mesh.scale.y = pinchStartY * ev.scale;
-    // });
-
-    // let rotateStart;
-
-    // hammer.on("rotatestart", function(ev) {
-    //   rotateStart = mesh.rotation.z + degToRad(ev.rotation); // the first rotation is the angle between the two finger ignoring it.
-    // });
-
-    // hammer.on("rotatemove", function(ev) {
-    //   mesh.rotation.z = rotateStart - degToRad(ev.rotation);
-    // });
+    onRenderFcts.push(() => {
+      controls.update();
+    });
 
     // eslint-disable-next-line
   }, []);

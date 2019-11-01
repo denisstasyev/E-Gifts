@@ -120,52 +120,6 @@ const ARViewer = props => {
     };
     requestAnimationFrame(animate);
 
-    // const root = document.getElementById("root");
-    // const hammer = new Hammer(root);
-
-    // hammer.get("pinch").set({ enable: true });
-    // hammer.get("rotate").set({ enable: true });
-    // hammer.get("pan").set({ direction: Hammer.DIRECTION_ALL });
-
-    // let panStartX, panStartY;
-
-    // hammer.on("panstart", function(ev) {
-    //   panStartX = mesh.position.x;
-    //   panStartY = mesh.position.z;
-
-    //   mesh.position.x += ev.deltaX / 200;
-    //   mesh.position.z += ev.deltaY / 200;
-    // });
-
-    // hammer.on("panmove", function(ev) {
-    //   mesh.position.x = panStartX + ev.deltaX / 200;
-    //   mesh.position.z = panStartY + ev.deltaY / 200;
-    // });
-
-    // let pinchStartX, pinchStartY;
-
-    // hammer.on("pinchstart", function(ev) {
-    //   pinchStartX = mesh.scale.x;
-    //   pinchStartY = mesh.scale.y;
-    //   mesh.scale.x = ev.scale;
-    //   mesh.scale.y = ev.scale;
-    // });
-
-    // hammer.on("pinch", function(ev) {
-    //   mesh.scale.x = pinchStartX * ev.scale;
-    //   mesh.scale.y = pinchStartY * ev.scale;
-    // });
-
-    // let rotateStart;
-
-    // hammer.on("rotatestart", function(ev) {
-    //   rotateStart = mesh.rotation.z + degToRad(ev.rotation); // the first rotation is the angle between the two finger ignoring it.
-    // });
-
-    // hammer.on("rotatemove", function(ev) {
-    //   mesh.rotation.z = rotateStart - degToRad(ev.rotation);
-    // });
-
     // eslint-disable-next-line
   }, []);
 
