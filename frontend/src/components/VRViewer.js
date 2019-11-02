@@ -13,6 +13,7 @@ const {
   AmbientLight,
   GLTFLoader,
   OrbitControls
+  // AnimationMixer
 } = THREE;
 
 const VRViewer = props => {
@@ -22,7 +23,7 @@ const VRViewer = props => {
     const renderer = new WebGLRenderer({ canvas });
     renderer.setClearColor(new Color("lightgrey"));
     // renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setSize(400, 400);
+    renderer.setSize(200, 200);
 
     const scene = new Scene();
     // const camera = new Camera();
@@ -35,6 +36,7 @@ const VRViewer = props => {
     camera.position.z = 4;
     camera.position.y = 3;
     camera.position.x = 3;
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
 
     var light = new AmbientLight(0x404040, 50); // white light
@@ -46,7 +48,7 @@ const VRViewer = props => {
       gltf => {
         // called when the resource is loaded
         gltf.scene.scale.set(0.005, 0.005, 0.005);
-        camera.lookAt(new THREE.Vector3(0, 0, 0));
+
         TweenMax.from(gltf.scene.position, 3, {
           y: -10,
           yoyo: false,

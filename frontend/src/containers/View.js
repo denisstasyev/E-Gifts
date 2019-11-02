@@ -7,11 +7,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-
-import Header from "components/Header";
-
 import Fab from "@material-ui/core/Fab";
 
+import DetectRTC from "detectrtc";
+
+import Header from "components/Header";
 import ARViewer from "components/ARViewer";
 import VRViewer from "components/VRViewer";
 
@@ -74,17 +74,19 @@ const View = props => {
   ) : (
     <div>
       Main
-      <VRViewer modelURL="http://localhost:5000/pony_cartoon/scene.gltf" />
-      <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        onClick={() => {
-          setMode("AR");
-        }}
-      >
-        View AR
-      </Fab>
+      <VRViewer modelURL="http://localhost:5000/ok/pony_cartoon/scene.gltf" />
+      {DetectRTC.isWebRTCSupported === true ? (
+        <Fab
+          variant="extended"
+          size="medium"
+          color="primary"
+          onClick={() => {
+            setMode("AR");
+          }}
+        >
+          View AR
+        </Fab>
+      ) : null}
     </div>
   );
 };

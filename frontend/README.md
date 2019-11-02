@@ -14,7 +14,7 @@ Your ".env" file should look like this:
 
 ## List of technologies used
 
-Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, GSAP (GreenSock), Material-UI React, Prettier, ESLint, Sentry.
+Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, GSAP (GreenSock), Material-UI React, Prettier, ESLint, Sentry, DetectRTC.
 
 ## Available Scripts
 
