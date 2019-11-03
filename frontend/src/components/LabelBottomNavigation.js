@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     width: "100%",
     position: "fixed",
     bottom: "0"
+    // height: "56px"
   }
 });
 

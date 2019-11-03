@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
-import Home from "containers/Home";
+import { Home } from "containers/Home";
 import Gallery from "containers/Gallery";
 import Filters from "containers/Filters";
 import Gift from "containers/Gift";
@@ -20,6 +21,10 @@ import * as userActionCreators from "store/actions/user";
 
 const theme = createMuiTheme({
   palette: {
+    background: {
+      default: "#fff",
+      paper: "#f3f3f3"
+    },
     primary: {
       light: "#7980ff",
       main: "#2d53fe",
