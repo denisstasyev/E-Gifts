@@ -11,7 +11,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 // import StepContent from "@material-ui/core/StepContent";
 import Fab from "@material-ui/core/Fab";
-import Toolbar from "@material-ui/core/Toolbar";
+// import Toolbar from "@material-ui/core/Toolbar";
 
 import Header from "components/Header";
 // import ScrollTop from "components/ScrollTop";
@@ -37,7 +37,7 @@ const getSteps = () => {
   ];
 };
 
-const Home = props => {
+const Home = () => {
   const classes = useStyles();
   const steps = getSteps();
 
@@ -51,119 +51,124 @@ const Home = props => {
   }
 
   return (
-    <>
+    <div className={classes.main}>
       <CssBaseline />
-      <Container className={classes.container}>
-        <Header topic="E-Gifts" />
-        <Box id="content" my={2}>
-          <Box className={classes.box} p={2}>
-            <Typography className={classes.title} variant="h5">
-              What is it?
-            </Typography>
-            <Typography>
-              E-Gifts are electronic gifts that you can give to a friend
-            </Typography>
-          </Box>
-          <div className={classes.boxEG}>
-            <div className={classes.boxE}>
-              <Box className={classes.boxLogo} p={2} mt={2}>
-                <Typography className={classes.flexTitle} variant="h5">
-                  Ecology
-                </Typography>
-                <div
-                  className={[classes.boxImage, classes.boxImageNoE].join(" ")}
-                >
-                  <img
-                    id="e-image"
-                    className={classes.boxImageE}
-                    src={require("static/home/e.svg")}
-                    alt="E-Gifts logo"
-                    onMouseOver={resolveToImageE}
-                    onMouseLeave={resolveOutImageE}
-                  />
-                </div>
-                <div className={classes.boxText}>
-                  <Avatar
-                    id="e-letter"
-                    className={classes.boxTextLetter}
-                    onMouseOver={resolveToLetterE}
-                    onMouseLeave={resolveOutLetterE}
-                  >
-                    E
-                  </Avatar>
-                  <Typography>
-                    means Ecology. Refusing traditional gifts will help reduce
-                    the pollution of our planet
+      <div className={classes.container}>
+        <Container>
+          <Header topic="E-Gifts" />
+          <Box id="content" my={2}>
+            <Box className={classes.box} p={2}>
+              <Typography className={classes.title} variant="h5">
+                What is it?
+              </Typography>
+              <Typography>
+                E-Gifts are electronic gifts that you can give to a friend
+              </Typography>
+            </Box>
+            <div className={classes.boxEG}>
+              <div className={classes.boxE}>
+                <Box className={classes.boxLogo} p={2} mt={2}>
+                  <Typography className={classes.flexTitle} variant="h5">
+                    Ecology
                   </Typography>
-                </div>
-              </Box>
-            </div>
-            <div className={classes.boxG}>
-              <Box className={classes.boxLogo} p={2} mt={2}>
-                <Typography className={classes.flexTitle} variant="h5">
-                  Gifts
-                </Typography>
-                <div
-                  className={[classes.boxImage, classes.boxImageNoG].join(" ")}
-                >
-                  <img
-                    id="g-image"
-                    className={classes.boxImageG}
-                    src={require("static/home/g.svg")}
-                    alt="E-Gifts logo"
-                    onMouseOver={resolveToImageG}
-                    onMouseLeave={resolveOutImageG}
-                  />
-                </div>
-                <div className={classes.boxText}>
-                  <Avatar
-                    id="g-letter"
-                    className={classes.boxTextLetter}
-                    onMouseOver={resolveToLetterG}
-                    onMouseLeave={resolveOutLetterG}
+                  <div
+                    className={[classes.boxImage, classes.boxImageNoE].join(
+                      " "
+                    )}
                   >
-                    G
-                  </Avatar>
-                  <Typography>
-                    means Gifts. E-Gifts offers you to give gifts in the virtual
-                    world of AR & VR
+                    <img
+                      id="e-image"
+                      className={classes.boxImageE}
+                      src={require("static/home/e.svg")}
+                      alt="E-Gifts logo"
+                      onMouseOver={resolveToImageE}
+                      onMouseLeave={resolveOutImageE}
+                    />
+                  </div>
+                  <div className={classes.boxText}>
+                    <Avatar
+                      id="e-letter"
+                      className={classes.boxTextLetter}
+                      onMouseOver={resolveToLetterE}
+                      onMouseLeave={resolveOutLetterE}
+                    >
+                      E
+                    </Avatar>
+                    <Typography>
+                      means Ecology. Refusing traditional gifts will help reduce
+                      the pollution of our planet
+                    </Typography>
+                  </div>
+                </Box>
+              </div>
+              <div className={classes.boxG}>
+                <Box className={classes.boxLogo} p={2} mt={2}>
+                  <Typography className={classes.flexTitle} variant="h5">
+                    Gifts
                   </Typography>
-                </div>
-              </Box>
+                  <div
+                    className={[classes.boxImage, classes.boxImageNoG].join(
+                      " "
+                    )}
+                  >
+                    <img
+                      id="g-image"
+                      className={classes.boxImageG}
+                      src={require("static/home/g.svg")}
+                      alt="E-Gifts logo"
+                      onMouseOver={resolveToImageG}
+                      onMouseLeave={resolveOutImageG}
+                    />
+                  </div>
+                  <div className={classes.boxText}>
+                    <Avatar
+                      id="g-letter"
+                      className={classes.boxTextLetter}
+                      onMouseOver={resolveToLetterG}
+                      onMouseLeave={resolveOutLetterG}
+                    >
+                      G
+                    </Avatar>
+                    <Typography>
+                      means Gifts. E-Gifts offers you to give gifts in the
+                      virtual world of AR & VR
+                    </Typography>
+                  </div>
+                </Box>
+              </div>
             </div>
-          </div>
-          <Box className={classes.box} p={2} mt={2}>
-            <Typography className={classes.title} variant="h5">
-              How to start?
-            </Typography>
-            <Stepper orientation="vertical">
-              {steps.map((label, index) => (
-                <Step className={classes.step} key={index}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <Typography>
-              It is also possible to print Marker for E-Gift and attach it on
-              any place
-            </Typography>
-            <div className={classes.fab}>
-              <Fab
-                variant="extended"
-                size="small"
-                color="primary"
-                component={Link}
-                to="/gallery"
-              >
-                Get started
-              </Fab>
-            </div>
+            <Box className={classes.box} p={2} my={2}>
+              <Typography className={classes.title} variant="h5">
+                How to start?
+              </Typography>
+              <Stepper orientation="vertical">
+                {steps.map((label, index) => (
+                  <Step className={classes.step} key={index}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              <Typography>
+                It is also possible to print Marker for E-Gift and attach it on
+                any place
+              </Typography>
+              <div className={classes.fab}>
+                <Fab
+                  variant="extended"
+                  size="small"
+                  color="primary"
+                  component={Link}
+                  to="/gallery"
+                >
+                  Get started
+                </Fab>
+              </div>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-      <Toolbar />
-      {/* <ScrollTop /> */}
-    </>
+        </Container>
+      </div>
+      <div className={classes.bottom} />
+    </div>
   );
 };
 

@@ -6,10 +6,33 @@ import NoEImage from "static/home/no_e.svg";
 import NoGImage from "static/home/no_g.svg";
 
 export const useStyles = makeStyles(theme => ({
+  main: {
+    // position: "fixed",
+    // top: 0,
+    // left: 0,
+    // overflow: "auto",
+    // // height: "calc(100vh - 56px)"
+    // height: "90vh"
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100vh",
+    height: "calc(var(--vh, 1vh) * 100)"
+    // alignContent: "stretch"
+  },
   container: {
+    // flexGrow: 1,
+    // flexShrink: 1,
     overflowY: "auto",
-    height: "calc(100vh - 60px)"
+    height: "100%"
+    // height: "calc(100vh - 60px)"
     // paddingBottom: "60px"
+  },
+  bottom: {
+    // position: "fixed",
+    // bottom: 0,
+    // left: 0,
+    height: "56px"
   },
   box: {
     backgroundColor: theme.palette.background.paper,
@@ -84,3 +107,4 @@ export const useStyles = makeStyles(theme => ({
     flexDirection: "row-reverse"
   }
 }));
+props;
