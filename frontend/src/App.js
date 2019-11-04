@@ -26,14 +26,10 @@ const theme = createMuiTheme({
       paper: "#f3f3f3"
     },
     primary: {
-      light: "#7980ff",
-      main: "#2d53fe",
-      dark: "#002aca"
+      main: "#2d53fe"
     },
     secondary: {
-      light: "#66ff4e",
-      main: "#00ff39",
-      dark: "#00d700"
+      main: "#00ff39"
     }
   }
 });

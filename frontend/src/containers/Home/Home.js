@@ -4,82 +4,42 @@ import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+// import StepContent from "@material-ui/core/StepContent";
+import Fab from "@material-ui/core/Fab";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import { makeStyles } from "@material-ui/core/styles";
-
 import Header from "components/Header";
-import ScrollTop from "components/ScrollTop";
+// import ScrollTop from "components/ScrollTop";
 
-import Fab from "@material-ui/core/Fab";
-import Typography from "@material-ui/core/Typography";
+import { useStyles } from "./styles";
+import {
+  resolve,
+  resolveToImageE,
+  resolveOutImageE,
+  resolveToImageG,
+  resolveOutImageG,
+  resolveToLetterE,
+  resolveOutLetterE,
+  resolveToLetterG,
+  resolveOutLetterG
+} from "./animations";
 
-import TweenMax from "gsap/TweenMax"; //TODO
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    overflowY: "auto",
-    height: "100vh"
-    // marginBottom: "60px"
-  },
-  box: {
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: 20
-  },
-  boxe: {
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: 20,
-    width: "50%"
-    // minWidth: 400
-    // height: 400
-    // display: "flex"
-  },
-  boximg: {
-    // position: "relative",
-    margin: 40
-  },
-  img: {
-    // position: "absolute",
-    // left: 0,
-    // top: 0,
-    // position: "fixed",
-    // position: "static",
-    width: "50%"
-    // padding: "10vw"
-  },
-  imgr: {
-    marginLeft: "-50%"
-  }
-}));
+const getSteps = () => {
+  return [
+    "Choose E-Gift in the Gallery",
+    "Customize Greetings and buy E-Gift",
+    "Send a unique link with E-Gift to a friend"
+  ];
+};
 
 const Home = props => {
   const classes = useStyles();
-
-  const resolve = () => {
-    TweenMax.from("#content", 1, {
-      opacity: 0,
-      y: 40
-    });
-    TweenMax.from("#e", 1, {
-      opacity: 0,
-      x: -40,
-      y: 20
-    });
-  };
-
-  const resolveToE = () => {
-    TweenMax.to("#e", 2, {
-      x: -50,
-      y: 25
-    });
-  };
-
-  const resolveOutE = () => {
-    TweenMax.to("#e", 2, {
-      x: 0,
-      y: 0
-    });
-  };
+  const steps = getSteps();
 
   if (
     document.readyState === "interactive" ||
@@ -97,63 +57,114 @@ const Home = props => {
         <Header topic="E-Gifts" />
         <Box id="content" my={2}>
           <Box className={classes.box} p={2}>
+            <Typography className={classes.title} variant="h5">
+              What is it?
+            </Typography>
             <Typography>
               E-Gifts are electronic gifts that you can give to a friend
             </Typography>
           </Box>
-          <div></div>
-          <Box className={classes.boxe} p={2} mt={2}>
-            <div className={classes.boximg}>
-              <img
-                id="e"
-                className={classes.img}
-                src={require("static/home/E/E.svg")}
-                alt="E-Gifts logo"
-                onMouseOver={resolveToE}
-                onMouseLeave={resolveOutE}
-              />
-              <img
-                className={[classes.img, classes.imgr].join(" ")}
-                src={require("static/home/E/noE.svg")}
-                alt="E-Gifts logo"
-                // onMouseOver={resolveToE}
-                // onMouseLeave={resolveOutE}
-              />
+          <div className={classes.boxEG}>
+            <div className={classes.boxE}>
+              <Box className={classes.boxLogo} p={2} mt={2}>
+                <Typography className={classes.flexTitle} variant="h5">
+                  Ecology
+                </Typography>
+                <div
+                  className={[classes.boxImage, classes.boxImageNoE].join(" ")}
+                >
+                  <img
+                    id="e-image"
+                    className={classes.boxImageE}
+                    src={require("static/home/e.svg")}
+                    alt="E-Gifts logo"
+                    onMouseOver={resolveToImageE}
+                    onMouseLeave={resolveOutImageE}
+                  />
+                </div>
+                <div className={classes.boxText}>
+                  <Avatar
+                    id="e-letter"
+                    className={classes.boxTextLetter}
+                    onMouseOver={resolveToLetterE}
+                    onMouseLeave={resolveOutLetterE}
+                  >
+                    E
+                  </Avatar>
+                  <Typography>
+                    means Ecology. Refusing traditional gifts will help reduce
+                    the pollution of our planet
+                  </Typography>
+                </div>
+              </Box>
             </div>
-            <div>
-              <Typography>
-                E- also means ecology. Refusing traditional gifts you stop
-                polluting our planet.
-              </Typography>
+            <div className={classes.boxG}>
+              <Box className={classes.boxLogo} p={2} mt={2}>
+                <Typography className={classes.flexTitle} variant="h5">
+                  Gifts
+                </Typography>
+                <div
+                  className={[classes.boxImage, classes.boxImageNoG].join(" ")}
+                >
+                  <img
+                    id="g-image"
+                    className={classes.boxImageG}
+                    src={require("static/home/g.svg")}
+                    alt="E-Gifts logo"
+                    onMouseOver={resolveToImageG}
+                    onMouseLeave={resolveOutImageG}
+                  />
+                </div>
+                <div className={classes.boxText}>
+                  <Avatar
+                    id="g-letter"
+                    className={classes.boxTextLetter}
+                    onMouseOver={resolveToLetterG}
+                    onMouseLeave={resolveOutLetterG}
+                  >
+                    G
+                  </Avatar>
+                  <Typography>
+                    means Gifts. E-Gifts offers you to give gifts in the virtual
+                    world of AR & VR
+                  </Typography>
+                </div>
+              </Box>
+            </div>
+          </div>
+          <Box className={classes.box} p={2} mt={2}>
+            <Typography className={classes.title} variant="h5">
+              How to start?
+            </Typography>
+            <Stepper orientation="vertical">
+              {steps.map((label, index) => (
+                <Step className={classes.step} key={index}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <Typography>
+              It is also possible to print Marker for E-Gift and attach it on
+              any place
+            </Typography>
+            <div className={classes.fab}>
+              <Fab
+                variant="extended"
+                size="small"
+                color="primary"
+                component={Link}
+                to="/gallery"
+              >
+                Get started
+              </Fab>
             </div>
           </Box>
         </Box>
-        {/* <Toolbar /> */}
       </Container>
-      <ScrollTop />
+      <Toolbar />
+      {/* <ScrollTop /> */}
     </>
   );
 };
 
 export default Home;
-
-// You
-//               can choose a gift in the{" "}
-//               <Typography component={Link} to={"/gallery"}>
-//                 Gallery
-//               </Typography>
-//               . Having bought a gift, you will receive a unique link by opening
-//               which your friend will be able to receive a gift.
-
-{
-  /* <Fab
-              variant="extended"
-              size="small"
-              color="primary"
-              aria-label="add"
-              component={Link}
-              to="/gallery"
-            >
-              Get started
-            </Fab> */
-}
