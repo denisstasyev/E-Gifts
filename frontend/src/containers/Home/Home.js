@@ -11,8 +11,12 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Fab from "@material-ui/core/Fab";
 
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+
 import Header from "components/Header";
 // import ScrollTop from "components/ScrollTop";
+
+import { MOBILE_WIDTH } from "configCSS";
 
 import { useStyles } from "./styles";
 import {
@@ -26,8 +30,8 @@ import {
 const getSteps = () => {
   return [
     "Choose E-Gift in the Gallery",
-    "Customize Greetings and buy E-Gift",
-    "Send a unique link with E-Gift to a friend"
+    "Customize Congratulations and buy E-Gift",
+    "Send a unique Link with E-Gift to a friend"
   ];
 };
 
@@ -135,7 +139,11 @@ const Home = () => {
               <Typography className={classes.title} variant="h5">
                 How to start?
               </Typography>
-              <Stepper orientation="vertical">
+              <Stepper
+                orientation={
+                  window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
+                }
+              >
                 {steps.map((label, index) => (
                   <Step className={classes.step} key={index}>
                     <StepLabel>{label}</StepLabel>
@@ -143,17 +151,18 @@ const Home = () => {
                 ))}
               </Stepper>
               <Typography>
-                It is also possible to print Marker for E-Gift and attach it on
-                any place
+                It is also possible to print Marker with unique Link for E-Gift
+                and attach it on any place
               </Typography>
               <div className={classes.fab}>
                 <Fab
                   variant="extended"
-                  size="small"
+                  size="medium"
                   color="primary"
                   component={Link}
                   to="/gallery"
                 >
+                  <PlayArrowIcon className={classes.startIcon} />
                   Get started
                 </Fab>
               </div>

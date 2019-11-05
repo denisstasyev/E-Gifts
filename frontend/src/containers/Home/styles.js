@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 import { hexToRgb } from "utils";
+import { MOBILE_WIDTH } from "configCSS";
 
 import NoEImage from "static/home/no_e.svg";
 import NoGImage from "static/home/no_g.svg";
@@ -10,7 +11,6 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    // height: "100%",
     height: "calc(100% - 56px)",
     // eslint-disable-next-line
     height: "calc(var(--vh, 1vh) * 100 - 56px)"
@@ -31,13 +31,16 @@ export const useStyles = makeStyles(theme => ({
     width: "50%",
     paddingRight: theme.spacing(1),
     // eslint-disable-next-line
-    ["@media (max-width: 800px)"]: { paddingRight: 0, width: "100%" }
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
+      paddingRight: 0,
+      width: "100%"
+    }
   },
   boxG: {
     width: "50%",
     paddingLeft: theme.spacing(1),
     // eslint-disable-next-line
-    ["@media (max-width: 800px)"]: { paddingLeft: 0, width: "100%" }
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }
   },
   boxLogo: {
     backgroundColor: theme.palette.background.paper,
@@ -85,6 +88,9 @@ export const useStyles = makeStyles(theme => ({
   },
   step: {
     marginBottom: theme.spacing(1)
+  },
+  startIcon: {
+    marginRight: theme.spacing(1)
   },
   fab: {
     marginTop: theme.spacing(1),
