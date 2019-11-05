@@ -9,9 +9,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
-// import StepContent from "@material-ui/core/StepContent";
 import Fab from "@material-ui/core/Fab";
-// import Toolbar from "@material-ui/core/Toolbar";
 
 import Header from "components/Header";
 // import ScrollTop from "components/ScrollTop";
@@ -19,14 +17,10 @@ import Header from "components/Header";
 import { useStyles } from "./styles";
 import {
   resolve,
-  resolveToImageE,
-  resolveOutImageE,
-  resolveToImageG,
-  resolveOutImageG,
-  resolveToLetterE,
-  resolveOutLetterE,
-  resolveToLetterG,
-  resolveOutLetterG
+  resolveToE,
+  resolveOutE,
+  resolveToG,
+  resolveOutG
 } from "./animations";
 
 const getSteps = () => {
@@ -51,7 +45,7 @@ const Home = () => {
   }
 
   return (
-    <div className={classes.main}>
+    <div className={classes.root}>
       <CssBaseline />
       <div className={classes.container}>
         <Container>
@@ -81,16 +75,16 @@ const Home = () => {
                       className={classes.boxImageE}
                       src={require("static/home/e.svg")}
                       alt="E-Gifts logo"
-                      onMouseOver={resolveToImageE}
-                      onMouseLeave={resolveOutImageE}
+                      onMouseOver={resolveToE}
+                      onMouseLeave={resolveOutE}
                     />
                   </div>
                   <div className={classes.boxText}>
                     <Avatar
                       id="e-letter"
                       className={classes.boxTextLetter}
-                      onMouseOver={resolveToLetterE}
-                      onMouseLeave={resolveOutLetterE}
+                      onMouseOver={resolveToE}
+                      onMouseLeave={resolveOutE}
                     >
                       E
                     </Avatar>
@@ -116,16 +110,16 @@ const Home = () => {
                       className={classes.boxImageG}
                       src={require("static/home/g.svg")}
                       alt="E-Gifts logo"
-                      onMouseOver={resolveToImageG}
-                      onMouseLeave={resolveOutImageG}
+                      onMouseOver={resolveToG}
+                      onMouseLeave={resolveOutG}
                     />
                   </div>
                   <div className={classes.boxText}>
                     <Avatar
                       id="g-letter"
                       className={classes.boxTextLetter}
-                      onMouseOver={resolveToLetterG}
-                      onMouseLeave={resolveOutLetterG}
+                      onMouseOver={resolveToG}
+                      onMouseLeave={resolveOutG}
                     >
                       G
                     </Avatar>
@@ -137,7 +131,7 @@ const Home = () => {
                 </Box>
               </div>
             </div>
-            <Box className={classes.box} p={2} my={2}>
+            <Box className={classes.box} p={2} mt={2}>
               <Typography className={classes.title} variant="h5">
                 How to start?
               </Typography>
@@ -167,7 +161,6 @@ const Home = () => {
           </Box>
         </Container>
       </div>
-      <div className={classes.bottom} />
     </div>
   );
 };

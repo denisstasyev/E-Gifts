@@ -15,7 +15,7 @@ import NotFound from "containers/NotFound";
 import SignIn from "components/SignIn";
 import SignUp from "components/SignUp";
 
-import LabelBottomNavigation from "components/LabelBottomNavigation";
+import { LabelBottomNavigation } from "components/LabelBottomNavigation";
 
 import * as userActionCreators from "store/actions/user";
 
@@ -37,11 +37,19 @@ const theme = createMuiTheme({
 const App = props => {
   props.handleAuthCheck();
 
-  let vh = window.innerHeight * 0.01;
+  let vh =
+    ((document &&
+      document.documentElement &&
+      document.documentElement.clientHeight) ||
+      window.innerHeight) * 0.01;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 
   window.addEventListener("resize", () => {
-    let vh = window.innerHeight * 0.01;
+    vh =
+      ((document &&
+        document.documentElement &&
+        document.documentElement.clientHeight) ||
+        window.innerHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   });
 

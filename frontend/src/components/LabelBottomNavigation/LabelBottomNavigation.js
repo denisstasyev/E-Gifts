@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 
+import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
@@ -10,14 +10,15 @@ import GalleryIcon from "@material-ui/icons/Redeem";
 import CameraIcon from "@material-ui/icons/CameraAlt";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    position: "fixed",
+    position: "absolute",
     bottom: "0",
-    height: "56px"
+    backgroundColor: theme.palette.background.default
+    // height: "56px"
   }
-});
+}));
 
 const LabelBottomNavigation = props => {
   const classes = useStyles();
@@ -31,12 +32,12 @@ const LabelBottomNavigation = props => {
 
   return (
     <BottomNavigation
+      className={classes.root}
       value={value}
       onChange={(event, newValue) => {
         setValue(newValue);
       }}
       showLabels
-      className={classes.root}
     >
       <BottomNavigationAction
         label="Home"
