@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 import { hexToRgb } from "utils";
-import { MOBILE_WIDTH } from "configCSS";
+import { MOBILE_WIDTH, BORDER_RADIUS } from "configCSS";
 
 import NoEImage from "static/home/no_e.svg";
 import NoGImage from "static/home/no_g.svg";
@@ -16,12 +16,12 @@ export const useStyles = makeStyles(theme => ({
     height: "calc(var(--vh, 1vh) * 100 - 56px)"
   },
   container: {
-    overflowY: "scroll",
+    overflowY: "auto",
     height: "100%"
   },
   box: {
     backgroundColor: theme.palette.background.paper,
-    borderRadius: 20
+    borderRadius: BORDER_RADIUS
   },
   boxEG: {
     display: "flex",
@@ -44,7 +44,7 @@ export const useStyles = makeStyles(theme => ({
   },
   boxLogo: {
     backgroundColor: theme.palette.background.paper,
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS,
     display: "flex",
     flexDirection: "column",
     alignItems: "center"

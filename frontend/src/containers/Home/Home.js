@@ -16,6 +16,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Header from "components/Header";
 // import ScrollTop from "components/ScrollTop";
 
+import { addOnLoadAnimation } from "utils/animations";
 import { MOBILE_WIDTH } from "configCSS";
 
 import { useStyles } from "./styles";
@@ -39,14 +40,7 @@ const Home = () => {
   const classes = useStyles();
   const steps = getSteps();
 
-  if (
-    document.readyState === "interactive" ||
-    document.readyState === "complete"
-  ) {
-    resolve();
-  } else {
-    window.addEventListener("DOMContentLoaded", resolve);
-  }
+  addOnLoadAnimation(resolve);
 
   return (
     <div className={classes.root}>

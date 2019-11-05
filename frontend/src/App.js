@@ -8,9 +8,9 @@ import { Home } from "containers/Home";
 import Gallery from "containers/Gallery";
 import Filters from "containers/Filters";
 import Gift from "containers/Gift";
-import View from "containers/View";
+import { View } from "containers/View";
 import Profile from "containers/Profile";
-import NotFound from "containers/NotFound";
+import { NotFound } from "containers/NotFound";
 
 import SignIn from "components/SignIn";
 import SignUp from "components/SignUp";
