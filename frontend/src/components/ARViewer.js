@@ -8,7 +8,7 @@ import TweenMax from "gsap/TweenMax";
 import initializeRenderer from "utils/initializeRenderer";
 import { initializeArToolkit, getMarker } from "utils/arToolkit";
 
-import marker from "static/hiro.png";
+import MarkerImage from "static/marker.png";
 
 const { Camera, Group, Scene, AmbientLight, GLTFLoader } = THREE;
 
@@ -137,7 +137,7 @@ const ARViewer = props => {
             <img
               className={classes.markerSearchImage}
               alt="Marker Example"
-              src={marker}
+              src={MarkerImage}
             />
           </div>
         </div>

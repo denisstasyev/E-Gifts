@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Box from "@material-ui/core/Box";
 import Stepper from "@material-ui/core/Stepper";
@@ -10,17 +11,21 @@ import Fab from "@material-ui/core/Fab";
 
 import GalleryIcon from "@material-ui/icons/Redeem";
 import CropFreeIcon from "@material-ui/icons/CropFree";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 import DetectRTC from "detectrtc";
 
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
+import { Marker } from "components/Marker";
 
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
 import { MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
+
+import { LABELBOTTOMNAVIGATION_TOGGLE } from "store/actionTypes";
 
 const getSteps = () => {
   return [
@@ -29,15 +34,15 @@ const getSteps = () => {
   ];
 };
 
-const View = () => {
+const View = props => {
   const classes = useStyles();
   const steps = getSteps();
 
   addOnLoadAnimation(resolveContent);
 
-  const [mode, setMode] = React.useState("");
+  const [showMarker, setShowMarker] = React.useState(false);
 
-  return mode === "" ? (
+  return !showMarker ? (
     <>
       <MyContainer>
         <Header topic="View" />
@@ -85,40 +90,44 @@ const View = () => {
         variant="extended"
         size="medium"
         color="primary"
-        className={classes.marker}
+        className={classes.fixedButton}
         onClick={() => {
-          setMode("marker");
+          props.toggleLabelBottomNavigation();
+          setShowMarker(true);
         }}
       >
         <CropFreeIcon className={classes.icon} />
         Marker
       </Fab>
     </>
-  ) : null;
-  //
-  //       <Typography>To see a gift you need to buy it</Typography>
-  //       <Typography component={Link} to="/gallery">
-  //         You can buy them in Gallery
-  //       </Typography>
-
-  // ) : (
-  //   <div>
-  //     Main
-  //     <VRViewer modelURL="http://localhost:5000/ok/pony_cartoon/scene.gltf" />
-  //     {DetectRTC.isWebRTCSupported === true ? (
-  //       <Fab
-  //         variant="extended"
-  //         size="medium"
-  //         color="primary"
-  //         onClick={() => {
-  //           setMode("AR");
-  //         }}
-  //       >
-  //         View AR
-  //       </Fab>
-  //     ) : null}
-  //   </div>
-  // );
+  ) : (
+    <>
+      <Marker />
+      <Fab
+        variant="extended"
+        size="medium"
+        color="primary"
+        className={classes.fixedButton}
+        onClick={() => {
+          props.toggleLabelBottomNavigation();
+          setShowMarker(false);
+        }}
+      >
+        <CancelIcon className={classes.icon} />
+        Close
+      </Fab>
+    </>
+  );
 };
 
-export default View;
+const mapDispatchToProps = dispatch => ({
+  toggleLabelBottomNavigation: () =>
+    dispatch({
+      type: LABELBOTTOMNAVIGATION_TOGGLE
+    })
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(View);

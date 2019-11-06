@@ -8,12 +8,14 @@ import "index.css";
 
 import SentryErrorLogger from "SentryErrorLogger";
 
+import labelBottomNavigationReducer from "store/reducers/labelBottomNavigation";
 import userReducer from "store/reducers/user";
 import filtersReducer from "store/reducers/filters";
 import galleryReducer from "store/reducers/gallery";
 import giftReducer from "store/reducers/gift";
 
 const rootReducer = combineReducers({
+  labelBottomNavigationReducer,
   userReducer,
   filtersReducer,
   galleryReducer,

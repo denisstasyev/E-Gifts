@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -30,7 +31,7 @@ const LabelBottomNavigation = props => {
     setValue(props.location.pathname.split("/")[1]);
   }, [props.location.pathname]);
 
-  return (
+  return props.show ? (
     <BottomNavigation
       className={classes.root}
       value={value}
@@ -68,7 +69,14 @@ const LabelBottomNavigation = props => {
         to="/profile"
       />
     </BottomNavigation>
-  );
+  ) : null;
 };
 
-export default withRouter(LabelBottomNavigation);
+const mapStateToProps = state => ({
+  show: state.labelBottomNavigationReducer.show
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(withRouter(LabelBottomNavigation));

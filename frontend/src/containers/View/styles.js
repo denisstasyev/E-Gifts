@@ -4,7 +4,7 @@ export const useStyles = makeStyles(theme => ({
   step: {
     marginBottom: theme.spacing(1)
   },
-  marker: {
+  fixedButton: {
     position: "fixed",
     bottom: theme.spacing(9),
     left: theme.spacing(2)
