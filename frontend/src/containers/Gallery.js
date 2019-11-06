@@ -26,7 +26,7 @@ import * as filtersActionCreators from "store/actions/filters";
 
 import { GALLERY_VISIT, GIFT_SET } from "store/actionTypes";
 
-import * as config from "config";
+import * as config from "configs/backendAPI";
 
 const useStyles = makeStyles(theme => ({
   error: {

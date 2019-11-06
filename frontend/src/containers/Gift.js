@@ -16,7 +16,7 @@ import { Header } from "components/Header";
 
 import * as giftActionCreators from "store/actions/gift";
 
-import * as config from "config";
+import * as config from "configs/backendAPI";
 
 import { Carousel, CarouselSlide } from "material-ui-carousel";
 import { Card, CardMedia } from "@material-ui/core";

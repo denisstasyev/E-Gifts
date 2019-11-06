@@ -17,7 +17,7 @@ import { MyBox } from "components/MyBox";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
 
 import { addOnLoadAnimation } from "utils/animations";
-import { MOBILE_WIDTH } from "configCSS";
+import { MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
 import {

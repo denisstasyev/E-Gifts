@@ -24,7 +24,7 @@ const NotFound = () => {
   return (
     <MyContainer>
       <Header topic="Not Found" />
-      <Box id="content">
+      <Box id="content" mb={2}>
         <MyTwoBoxes
           leftBoxTitle="What happened?"
           leftBox={

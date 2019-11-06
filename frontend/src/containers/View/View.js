@@ -1,9 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
-import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
@@ -37,11 +34,8 @@ const View = props => {
   return link === "" ? (
     <MyContainer>
       <Header topic="View" />
-      <Box id="content">
-        <MyBox>
-          <Typography className={classes.title} variant="h5">
-            What is it?
-          </Typography>
+      <Box id="content" mb={2}>
+        <MyBox title="What is it?">
           <Typography>
             E-Gifts are electronic gifts that you can give to a friend
           </Typography>

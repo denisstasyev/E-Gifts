@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-import { MOBILE_WIDTH, BORDER_RADIUS } from "configCSS";
+import { MOBILE_WIDTH, BORDER_RADIUS } from "configs/CSSvariables";
 
 export const useStyles = makeStyles(theme => ({
   boxes: {

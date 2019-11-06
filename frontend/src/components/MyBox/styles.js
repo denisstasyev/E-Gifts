@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-import { BORDER_RADIUS } from "configCSS";
+import { BORDER_RADIUS } from "configs/CSSvariables";
 
 export const useStyles = makeStyles(theme => ({
   box: {
