@@ -28,6 +28,9 @@ namespace EGifts.DataBase.DatabaseClasses
         [JsonPropertyName(GiftNames.Cost)] 
         public double Cost { get; set; }
         
+        [JsonPropertyName(GiftNames.PurchasesNumber)] 
+        public long PurchasesNumber { get; set; }
+        
         [JsonPropertyName(GiftNames.DonationPercent)]
         public int DonationPercent { get; set; }
         

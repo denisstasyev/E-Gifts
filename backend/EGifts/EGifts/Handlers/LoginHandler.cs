@@ -31,8 +31,7 @@ namespace EGifts.Handlers
             var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
             var login = context.Request.Query[LoginNames.Login].ToString();
             using var dbContext = new MainDbContext();
-            var user = dbContext.Users.FirstOrDefault(u => u.Name.ToLower() == login.ToLower() &&
-                                                           u.PasswordHash.SequenceEqual(password));
+            var user = dbContext.GetUser(login, password);
 
             GiftReference giftReference = null;
             if (requestData.ContainsKey(GiftNames.GiftGuid))

@@ -16,5 +16,7 @@ namespace EGifts.Messages.MessageNames
         public const string RegistrationDate = "registration_date";
         public const string Password = "password";
         public const string UserData = "user_data";
+        public const string SentGifts = "sent_gifts";
+        public const string ReceivedGifts = "received_gifts";
     }
 }

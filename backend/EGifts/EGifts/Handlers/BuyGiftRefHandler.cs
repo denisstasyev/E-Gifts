@@ -55,6 +55,7 @@ namespace EGifts.Handlers
                 Text = text,
                 Reference = $"{BaseUrl}{guid}",
             };
+            gift.PurchasesNumber++;
             dbContext.GiftReferences.Add(reference);
             dbContext.SaveChanges();
             return new BuyGiftRefResponse()

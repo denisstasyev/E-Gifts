@@ -49,7 +49,7 @@ namespace EGifts.DataBase
                 .WithMany(u => u.Payments);
             modelBuilder.Entity<GiftReference>()
                 .HasOne(gr => gr.Owner)
-                .WithMany(u => u.RecievedGifts);
+                .WithMany(u => u.ReceivedGifts);
             modelBuilder.Entity<GiftReference>()
                 .HasOne(gr => gr.Sender)
                 .WithMany(u => u.SentGifts);
@@ -63,6 +63,17 @@ namespace EGifts.DataBase
                                 .Include(gr => gr.Sender)
                                 .Include(gr => gr.Gift)
                                 .FirstOrDefault();
+        }
+        
+        public User GetUser(string name, byte[] password)
+        {
+            return Users.Where(u => u.Name.ToLower() == name.ToLower() &&
+                                    u.PasswordHash.SequenceEqual(password))
+                        .Include(u => u.SentGifts)
+                            .ThenInclude(gr => gr.Gift)
+                        .Include(u => u.ReceivedGifts)
+                            .ThenInclude(gr => gr.Gift)
+                        .FirstOrDefault();
         }
         
         public IEnumerable<Gift> GetGifts()
