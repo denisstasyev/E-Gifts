@@ -26,12 +26,10 @@ const NotFound = () => {
       <Header topic="Not Found" />
       <Box id="content">
         <MyTwoBoxes
+          leftBoxTitle="What happened?"
           leftBox={
-            <Box className={classes.boxLogo} p={2} mt={2}>
-              <Typography className={classes.flexTitle} variant="h5">
-                What happened?
-              </Typography>
-              <Typography className={classes.flexText}>
+            <>
+              <Typography className={classes.text}>
                 Sorry, 404 Error occurred: this page does not exist yet. Visit
                 Gallery to see available E-Gifts
               </Typography>
@@ -47,14 +45,12 @@ const NotFound = () => {
                   Gallery
                 </Fab>
               </div>
-            </Box>
+            </>
           }
+          rightBoxTitle="First time here?"
           rightBox={
-            <Box className={classes.boxLogo} p={2} mt={2}>
-              <Typography className={classes.flexTitle} variant="h5">
-                First time here?
-              </Typography>
-              <Typography className={classes.flexText}>
+            <>
+              <Typography className={classes.text}>
                 Learn more about the E-Gifts project on the Home page
               </Typography>
               <div className={classes.fab}>
@@ -69,9 +65,9 @@ const NotFound = () => {
                   Home
                 </Fab>
               </div>
-            </Box>
+            </>
           }
-        ></MyTwoBoxes>
+        />
       </Box>
     </MyContainer>
   );

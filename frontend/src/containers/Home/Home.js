@@ -46,20 +46,15 @@ const Home = () => {
     <MyContainer>
       <Header topic="E-Gifts" />
       <Box id="content" mb={2}>
-        <MyBox>
-          <Typography className={classes.title} variant="h5">
-            What is it?
-          </Typography>
+        <MyBox title="What is it?">
           <Typography>
             E-Gifts are electronic gifts that you can give to a friend
           </Typography>
         </MyBox>
         <MyTwoBoxes
+          leftBoxTitle="Ecology"
           leftBox={
-            <Box className={classes.boxLogo} p={2} mt={2}>
-              <Typography className={classes.flexTitle} variant="h5">
-                Ecology
-              </Typography>
+            <>
               <div
                 className={[classes.boxImage, classes.boxImageNoE].join(" ")}
               >
@@ -86,13 +81,11 @@ const Home = () => {
                   pollution of our planet
                 </Typography>
               </div>
-            </Box>
+            </>
           }
+          rightBoxTitle="Gifts"
           rightBox={
-            <Box className={classes.boxLogo} p={2} mt={2}>
-              <Typography className={classes.flexTitle} variant="h5">
-                Gifts
-              </Typography>
+            <>
               <div
                 className={[classes.boxImage, classes.boxImageNoG].join(" ")}
               >
@@ -119,13 +112,10 @@ const Home = () => {
                   world of AR & VR
                 </Typography>
               </div>
-            </Box>
+            </>
           }
-        ></MyTwoBoxes>
-        <MyBox>
-          <Typography className={classes.title} variant="h5">
-            How to start?
-          </Typography>
+        />
+        <MyBox title="How to start?">
           <Stepper
             orientation={
               window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
