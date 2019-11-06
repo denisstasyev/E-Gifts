@@ -16,8 +16,9 @@ namespace EGifts.Handlers
     {
         public BaseMessage Handle(HttpContext context)
         {
-            if (!context.Request.Query.ContainsKey(LoginNames.Login) ||
-                !context.Request.Query.ContainsKey(LoginNames.Password))
+            var requestData = context.Request.Query;
+            if (!requestData.ContainsKey(LoginNames.Login) ||
+                !requestData.ContainsKey(LoginNames.Password))
             {
                 return new ErrorMessage
                 {
@@ -28,7 +29,6 @@ namespace EGifts.Handlers
 
             using var dbContext = new MainDbContext();
             // TODO: реобразование пароля в отдельную функу.
-            var requestData = context.Request.Query;
             string queryPassword = requestData[LoginNames.Password];
             var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
             var login = requestData[LoginNames.Login].ToString();

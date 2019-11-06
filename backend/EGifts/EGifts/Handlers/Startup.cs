@@ -40,7 +40,7 @@ namespace EGifts.Handlers
             try
             {
                 using var context = new MainDbContext();
-                if (context.Users.Any(u => u.Name.ToUpper() != UserName.ToUpper()))
+                if (!context.Users.Any(u => u.Name.ToUpper() == UserName.ToUpper()))
                 {
                     var passwordHash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Password));
                     context.Users.Add(new User

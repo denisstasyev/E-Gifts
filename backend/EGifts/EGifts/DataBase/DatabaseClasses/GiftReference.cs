@@ -6,6 +6,7 @@ namespace EGifts.DataBase.DatabaseClasses
     {
         public long Id { get; set; }
         public string Reference { get; set; }
+        public string Text { get; set; }
         public Guid Guid { get; set; }
         public Gift Gift { get; set; }
         public User Owner { get; set; }

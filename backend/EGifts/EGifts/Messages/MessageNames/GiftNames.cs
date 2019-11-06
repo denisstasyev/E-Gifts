@@ -6,6 +6,7 @@ namespace EGifts.Messages.MessageNames
         public const string Gift = "gift";
         public const string Tags = "tags";
         public const string Tag = "tag";
+        public const string Text = "text";
         public const string Description = "description";
         public const string Cost = "cost";
         public const string DonationPercent = "donation_percent";
@@ -17,5 +18,8 @@ namespace EGifts.Messages.MessageNames
         public const string ModelUrl = "model_url";
         public const string Reference = "reference";
         public const string GiftGuid = "gift_guid";
+        public const string ScaleX = "scale_x";
+        public const string ScaleY = "scale_y";
+        public const string ScaleZ = "scale_z";
     }
 }
