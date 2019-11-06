@@ -8,8 +8,13 @@ import { useStyles } from "./styles";
 const MyBox = props => {
   const classes = useStyles();
 
+  let boxClassName = classes.defaultBox;
+  if (props.type === "warning") {
+    boxClassName = classes.warningBox;
+  }
+
   return (
-    <Box className={classes.box} mt={2} p={2}>
+    <Box className={boxClassName} mt={2} p={2}>
       {props.title !== undefined ? (
         <Typography className={classes.title} variant="h5">
           {props.title}

@@ -109,7 +109,7 @@ const Home = () => {
                 </Avatar>
                 <Typography>
                   means Gifts. E-Gifts offers you to give gifts in the virtual
-                  world of AR & VR
+                  world of AR & VR (Augmented and Virtual Reality)
                 </Typography>
               </div>
             </>

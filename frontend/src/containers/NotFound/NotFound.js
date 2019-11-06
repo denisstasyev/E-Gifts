@@ -36,7 +36,7 @@ const NotFound = () => {
               <div className={classes.fab}>
                 <Fab
                   variant="extended"
-                  size="medium"
+                  size="small"
                   color="primary"
                   component={Link}
                   to="/home"
@@ -56,7 +56,7 @@ const NotFound = () => {
               <div className={classes.fab}>
                 <Fab
                   variant="extended"
-                  size="medium"
+                  size="small"
                   color="primary"
                   component={Link}
                   to="/gallery"

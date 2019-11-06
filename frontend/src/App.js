@@ -9,6 +9,7 @@ import Gallery from "containers/Gallery";
 import Filters from "containers/Filters";
 import Gift from "containers/Gift";
 import { View } from "containers/View";
+import { ViewGift } from "containers/ViewGift";
 import Profile from "containers/Profile";
 import { NotFound } from "containers/NotFound";
 
@@ -19,17 +20,26 @@ import { LabelBottomNavigation } from "components/LabelBottomNavigation";
 
 import * as userActionCreators from "store/actions/user";
 
+import {
+  COLOR_BACKGROUND_DEFAULT_LIGHT,
+  COLOR_BACKGROUND_PAPER_LIGHT,
+  COLOR_BACKGROUND_WARNING_LIGHT,
+  COROL_PRIMARY_MAIN,
+  COROL_SECONDARY_MAIN
+} from "configs/CSSvariables";
+
 const theme = createMuiTheme({
   palette: {
     background: {
-      default: "#fff",
-      paper: "#f3f3f3"
+      default: COLOR_BACKGROUND_DEFAULT_LIGHT,
+      paper: COLOR_BACKGROUND_PAPER_LIGHT,
+      warning: COLOR_BACKGROUND_WARNING_LIGHT
     },
     primary: {
-      main: "#2d53fe"
+      main: COROL_PRIMARY_MAIN
     },
     secondary: {
-      main: "#00ff39"
+      main: COROL_SECONDARY_MAIN
     }
   }
 });
@@ -64,8 +74,8 @@ const App = props => {
           <Route exact path="/gallery" component={Gallery} />
           <Route path="/gallery/filters" component={Filters} />
           <Route path="/gallery/gift/:id" component={Gift} />
-          <Route path="/view" component={View} />
-          <Route path="/view/:id" component={View} />
+          <Route exact path="/view" component={View} />
+          <Route path="/view/:id" component={ViewGift} />
           <Route exact path="/profile" component={Profile} />
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />

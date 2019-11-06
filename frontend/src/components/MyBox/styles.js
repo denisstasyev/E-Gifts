@@ -3,8 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { BORDER_RADIUS } from "configs/CSSvariables";
 
 export const useStyles = makeStyles(theme => ({
-  box: {
+  defaultBox: {
     backgroundColor: theme.palette.background.paper,
+    borderRadius: BORDER_RADIUS
+  },
+  warningBox: {
+    backgroundColor: theme.palette.background.warning,
     borderRadius: BORDER_RADIUS
   },
   title: {
