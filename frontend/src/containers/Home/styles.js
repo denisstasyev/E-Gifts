@@ -1,35 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 import { hexToRgb } from "utils";
-import { MOBILE_WIDTH, BORDER_RADIUS } from "configCSS";
+import { BORDER_RADIUS } from "configCSS";
 
 import NoEImage from "static/home/no_e.svg";
 import NoGImage from "static/home/no_g.svg";
 
 export const useStyles = makeStyles(theme => ({
-  box: {
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: BORDER_RADIUS
-  },
-  boxEG: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  boxE: {
-    width: "50%",
-    paddingRight: theme.spacing(1),
-    // eslint-disable-next-line
-    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
-      paddingRight: 0,
-      width: "100%"
-    }
-  },
-  boxG: {
-    width: "50%",
-    paddingLeft: theme.spacing(1),
-    // eslint-disable-next-line
-    [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }
-  },
   boxLogo: {
     backgroundColor: theme.palette.background.paper,
     borderRadius: BORDER_RADIUS,

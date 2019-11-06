@@ -7,7 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 
-import Header from "components/Header";
+import { Header } from "components/Header";
 import ScrollTop from "components/ScrollTop";
 
 import { makeStyles } from "@material-ui/core/styles";

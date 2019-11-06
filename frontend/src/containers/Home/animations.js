@@ -1,12 +1,11 @@
 import { TweenMax, Elastic } from "gsap/TweenMax";
 
+import { resolveContent } from "utils/animations";
+
 const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 export const resolve = () => {
-  TweenMax.from("#content", 1, {
-    opacity: 0,
-    y: 40
-  });
+  resolveContent();
   TweenMax.from("#e-image", 1, {
     opacity: 0,
     x: -40,

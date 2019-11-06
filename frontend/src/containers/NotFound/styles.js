@@ -1,27 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-import { MOBILE_WIDTH, BORDER_RADIUS } from "configCSS";
+import { BORDER_RADIUS } from "configCSS";
 
 export const useStyles = makeStyles(theme => ({
-  boxes: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  box1: {
-    width: "50%",
-    paddingRight: theme.spacing(1),
-    // eslint-disable-next-line
-    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
-      paddingRight: 0,
-      width: "100%"
-    }
-  },
-  box2: {
-    width: "50%",
-    paddingLeft: theme.spacing(1),
-    // eslint-disable-next-line
-    [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }
-  },
   boxLogo: {
     backgroundColor: theme.palette.background.paper,
     borderRadius: BORDER_RADIUS,

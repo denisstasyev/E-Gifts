@@ -11,7 +11,7 @@ import Fab from "@material-ui/core/Fab";
 
 import DetectRTC from "detectrtc";
 
-import Header from "components/Header";
+import { Header } from "components/Header";
 import ARViewer from "components/ARViewer";
 import VRViewer from "components/VRViewer";
 

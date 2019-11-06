@@ -8,25 +8,25 @@ import Fab from "@material-ui/core/Fab";
 import GalleryIcon from "@material-ui/icons/Redeem";
 import HomeIcon from "@material-ui/icons/Home";
 
-import { Container } from "components/Container";
-import Header from "components/Header";
+import { MyContainer } from "components/MyContainer";
+import { Header } from "components/Header";
+import { MyTwoBoxes } from "components/MyTwoBoxes";
 
-import { addOnLoadAnimation } from "utils/animations";
+import { addOnLoadAnimation, resolveContent } from "utils/animations";
 
 import { useStyles } from "./styles";
-import { resolve } from "./animations";
 
 const NotFound = () => {
   const classes = useStyles();
 
-  addOnLoadAnimation(resolve);
+  addOnLoadAnimation(resolveContent);
 
   return (
-    <Container>
+    <MyContainer>
       <Header topic="Not Found" />
       <Box id="content">
-        <div className={classes.boxes}>
-          <div className={classes.box1}>
+        <MyTwoBoxes
+          leftBox={
             <Box className={classes.boxLogo} p={2} mt={2}>
               <Typography className={classes.flexTitle} variant="h5">
                 What happened?
@@ -48,8 +48,8 @@ const NotFound = () => {
                 </Fab>
               </div>
             </Box>
-          </div>
-          <div className={classes.box2}>
+          }
+          rightBox={
             <Box className={classes.boxLogo} p={2} mt={2}>
               <Typography className={classes.flexTitle} variant="h5">
                 First time here?
@@ -70,10 +70,10 @@ const NotFound = () => {
                 </Fab>
               </div>
             </Box>
-          </div>
-        </div>
+          }
+        ></MyTwoBoxes>
       </Box>
-    </Container>
+    </MyContainer>
   );
 };
 

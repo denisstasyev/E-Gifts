@@ -11,9 +11,10 @@ import Fab from "@material-ui/core/Fab";
 
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
-import { Container } from "components/Container";
-import Header from "components/Header";
-// import ScrollTop from "components/ScrollTop";
+import { MyContainer } from "components/MyContainer";
+import { Header } from "components/Header";
+import { MyBox } from "components/MyBox";
+import { MyTwoBoxes } from "components/MyTwoBoxes";
 
 import { addOnLoadAnimation } from "utils/animations";
 import { MOBILE_WIDTH } from "configCSS";
@@ -42,19 +43,19 @@ const Home = () => {
   addOnLoadAnimation(resolve);
 
   return (
-    <Container>
+    <MyContainer>
       <Header topic="E-Gifts" />
-      <Box id="content" my={2}>
-        <Box className={classes.box} p={2}>
+      <Box id="content" mb={2}>
+        <MyBox>
           <Typography className={classes.title} variant="h5">
             What is it?
           </Typography>
           <Typography>
             E-Gifts are electronic gifts that you can give to a friend
           </Typography>
-        </Box>
-        <div className={classes.boxEG}>
-          <div className={classes.boxE}>
+        </MyBox>
+        <MyTwoBoxes
+          leftBox={
             <Box className={classes.boxLogo} p={2} mt={2}>
               <Typography className={classes.flexTitle} variant="h5">
                 Ecology
@@ -86,8 +87,8 @@ const Home = () => {
                 </Typography>
               </div>
             </Box>
-          </div>
-          <div className={classes.boxG}>
+          }
+          rightBox={
             <Box className={classes.boxLogo} p={2} mt={2}>
               <Typography className={classes.flexTitle} variant="h5">
                 Gifts
@@ -119,9 +120,9 @@ const Home = () => {
                 </Typography>
               </div>
             </Box>
-          </div>
-        </div>
-        <Box className={classes.box} p={2} mt={2}>
+          }
+        ></MyTwoBoxes>
+        <MyBox>
           <Typography className={classes.title} variant="h5">
             How to start?
           </Typography>
@@ -152,9 +153,9 @@ const Home = () => {
               Get started
             </Fab>
           </div>
-        </Box>
+        </MyBox>
       </Box>
-    </Container>
+    </MyContainer>
   );
 };
 
