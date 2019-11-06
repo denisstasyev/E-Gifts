@@ -7,18 +7,6 @@ import NoEImage from "static/home/no_e.svg";
 import NoGImage from "static/home/no_g.svg";
 
 export const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    height: "calc(100% - 56px)",
-    // eslint-disable-next-line
-    height: "calc(var(--vh, 1vh) * 100 - 56px)"
-  },
-  container: {
-    overflowY: "auto",
-    height: "100%"
-  },
   box: {
     backgroundColor: theme.palette.background.paper,
     borderRadius: BORDER_RADIUS
