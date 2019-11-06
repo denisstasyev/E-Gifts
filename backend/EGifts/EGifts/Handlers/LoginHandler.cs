@@ -25,7 +25,7 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.NoParameters,
                 };
             }
-
+            var requestData = context.Request.Query;
             // TODO: реобразование пароля в отдельную функу.
             string queryPassword = context.Request.Query[LoginNames.Password];
             var password = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(queryPassword));
@@ -34,6 +34,29 @@ namespace EGifts.Handlers
             var user = dbContext.Users.FirstOrDefault(u => u.Name.ToLower() == login.ToLower() &&
                                                            u.PasswordHash.SequenceEqual(password));
 
+            GiftReference giftReference = null;
+            if (requestData.ContainsKey(GiftNames.GiftGuid))
+            {
+                giftReference = dbContext.GetGiftReference(new Guid(requestData[GiftNames.GiftGuid].ToString()));
+                if (null == giftReference)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.NoGiftReference,
+                    };
+                }
+
+                if (null != giftReference.Sender)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.GiftReferenceOwned,
+                    };
+                }
+            }
+            
             //TODO: вход по почте. Тогда при создании валидация логина - не должен содержать собаку.
             if (null == user)
             {
@@ -51,6 +74,7 @@ namespace EGifts.Handlers
                 ValidThru = DateTime.Now.AddDays(7),
             };
             user.Tokens.Add(token);
+            user.SentGifts.Add(giftReference);
             dbContext.SaveChanges();
             // TODO: б из юзера одной функой получать этот ответ? Или пересечёт транспорт и бд? (
             return new LoginResponseMessage

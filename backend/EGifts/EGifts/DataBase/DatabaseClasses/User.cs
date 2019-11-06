@@ -14,6 +14,10 @@ namespace EGifts.DataBase.DatabaseClasses
         [JsonIgnore]
         public List<UserGift> UserGifts { get; set; } = new List<UserGift>();
         [JsonIgnore]
+        public List<GiftReference> SentGifts { get; set; } = new List<GiftReference>();
+        [JsonIgnore]
+        public List<GiftReference> RecievedGifts { get; set; } = new List<GiftReference>();
+        [JsonIgnore]
         public List<Payment> Payments { get; set; } = new List<Payment>();
         [JsonIgnore]
         public List<Session> Sessions { get; set; } = new List<Session>();

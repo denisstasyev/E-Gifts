@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GiftReferenceOwned" xml:space="preserve">
+    <value>The gift olready owned</value>
+  </data>
   <data name="LoginExists" xml:space="preserve">
     <value>Login already exists</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="NoGift" xml:space="preserve">
     <value>There is no such gift</value>
+  </data>
+  <data name="NoGiftReference" xml:space="preserve">
+    <value>There is no such gift geference </value>
   </data>
   <data name="NoParameters" xml:space="preserve">
     <value>No important parameters in request</value>

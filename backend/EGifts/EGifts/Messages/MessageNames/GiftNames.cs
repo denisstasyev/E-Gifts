@@ -2,7 +2,6 @@ namespace EGifts.Messages.MessageNames
 {
     public static class GiftNames
     {
-        public const string GetGallery = "get_gallery";
         public const string Gifts = "gifts";
         public const string Gift = "gift";
         public const string Tags = "tags";
@@ -17,5 +16,6 @@ namespace EGifts.Messages.MessageNames
         public const string Guid = "guid";
         public const string ModelUrl = "model_url";
         public const string Reference = "reference";
+        public const string GiftGuid = "gift_guid";
     }
 }

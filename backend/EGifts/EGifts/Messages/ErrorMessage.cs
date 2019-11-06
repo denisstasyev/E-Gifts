@@ -7,5 +7,7 @@ namespace EGifts.Messages
 {
     public class ErrorMessage : BaseMessage
     {
+        [JsonIgnore]
+        public int ErrorCode { get; set; }
     }
 }

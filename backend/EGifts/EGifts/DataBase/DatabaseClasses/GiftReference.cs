@@ -9,5 +9,6 @@ namespace EGifts.DataBase.DatabaseClasses
         public Guid Guid { get; set; }
         public Gift Gift { get; set; }
         public User Owner { get; set; }
+        public User Sender { get; set; }
     }
 }

@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
 using EGifts.DataBase;
-using EGifts.DataBase.DatabaseClasses;
 using EGifts.Messages;
 using EGifts.Messages.MessageNames;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace EGifts.Handlers
 {

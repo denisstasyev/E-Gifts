@@ -61,6 +61,15 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на The gift olready owned.
+        /// </summary>
+        internal static string GiftReferenceOwned {
+            get {
+                return ResourceManager.GetString("GiftReferenceOwned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Login already exists.
         /// </summary>
         internal static string LoginExists {
@@ -88,6 +97,15 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на There is no such gift geference .
+        /// </summary>
+        internal static string NoGiftReference {
+            get {
+                return ResourceManager.GetString("NoGiftReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на No important parameters in request.
         /// </summary>
         internal static string NoParameters {
@@ -110,7 +128,7 @@ namespace EGifts {
         /// </summary>
         internal static string WrongDateFormat {
             get {
-                return ResourceManager.GetString("WrongDateFormar", resourceCulture);
+                return ResourceManager.GetString("WrongDateFormat", resourceCulture);
             }
         }
         
