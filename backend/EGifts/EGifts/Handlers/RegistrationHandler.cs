@@ -122,6 +122,7 @@ namespace EGifts.Handlers
             };
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
+            user = dbContext.GetUser(login, password);
             return new LoginResponseMessage
             {
                 Result = true,

@@ -71,8 +71,18 @@ namespace EGifts.DataBase
                                     u.PasswordHash.SequenceEqual(password))
                         .Include(u => u.SentGifts)
                             .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.StaticUrls)
                         .Include(u => u.ReceivedGifts)
                             .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.StaticUrls)
+                        .Include(u => u.SentGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.GiftTags)
+                                    .ThenInclude(gt => gt.Tag)
+                        .Include(u => u.ReceivedGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.GiftTags)
+                                    .ThenInclude(gt => gt.Tag)
                         .FirstOrDefault();
         }
         

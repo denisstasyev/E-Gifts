@@ -75,6 +75,7 @@ namespace EGifts.Handlers
             user.Tokens.Add(token);
             user.SentGifts.Add(giftReference);
             dbContext.SaveChanges();
+            user = dbContext.GetUser(login, password);
             // TODO: б из юзера одной функой получать этот ответ? Или пересечёт транспорт и бд? (
             return new LoginResponseMessage
             {
