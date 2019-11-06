@@ -4,11 +4,20 @@ export const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-arround",
-    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
     height: "100%",
     // eslint-disable-next-line
-    height: "calc(var(--vh, 1vh) * 100)"
+    height: "calc(var(--vh, 1vh) * 100)",
+    backgroundColor: "black"
   },
-  markerImage: {}
+  markerImage: {
+    width: "80%",
+    maxWidth: "400px"
+  },
+  text: {
+    color: "white",
+    textAlign: "center",
+    padding: "0 10px"
+  }
 }));

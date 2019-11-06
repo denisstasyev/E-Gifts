@@ -2,22 +2,21 @@ import React from "react";
 
 import Typography from "@material-ui/core/Typography";
 
-import MarkerImage from "static/marker.png";
-
 import { useStyles } from "./styles";
 
 const Marker = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div id="marker" className={classes.root}>
       <img
         className={classes.markerImage}
-        src={MarkerImage}
+        src={require("static/marker.png")}
         alt="Marker"
-        width="40px"
       />
-      <Typography variant="h4">Text</Typography>
+      <Typography className={classes.text} variant="h4">
+        Point the camera to see magic
+      </Typography>
     </div>
   );
 };
