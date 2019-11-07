@@ -8,16 +8,14 @@ export const useStyles = makeStyles(theme => ({
     alignItems: "center",
     height: "100%",
     // eslint-disable-next-line
-    height: "calc(var(--vh, 1vh) * 100)",
-    backgroundColor: "black"
+    height: "calc(var(--vh, 1vh) * 100)"
   },
   markerImage: {
-    width: "80%",
-    maxWidth: "400px",
-    maxHeight: "400px"
+    maxWidth: "80%",
+    maxHeight: "80%"
   },
   text: {
-    color: "white",
+    marginTop: theme.spacing(2),
     textAlign: "center",
     padding: "0 10px"
   }
