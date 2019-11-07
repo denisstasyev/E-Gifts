@@ -4,9 +4,17 @@ Here you can find project frontend based on React.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Initial Setup
+
+To run [Sentry](https://sentry.io/) you need to create your own React App on the [Sentry Website](https://sentry.io/).
+Then create empty ".env" file in this folder (here, near with this README.md) and paste your unique link from the previous step.
+Your ".env" file should look like this:
+
+`REACT_APP_SENTRY_DSN="https://<your-token>@sentry.io/<your-number>"`
+
 ## List of technologies used
 
-Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, Material-UI React, Prettier, ESLint.
+Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, GSAP (GreenSock), Material-UI React, Prettier, ESLint, Sentry, DetectRTC.
 
 ## Available Scripts
 

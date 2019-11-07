@@ -1,12 +1,49 @@
 /* globals THREE */
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
+import TweenMax from "gsap/TweenMax";
 
 import initializeRenderer from "utils/initializeRenderer";
 import { initializeArToolkit, getMarker } from "utils/arToolkit";
 
+import MarkerImage from "static/marker.png";
+
 const { Camera, Group, Scene, AmbientLight, GLTFLoader } = THREE;
 
+const useStyles = makeStyles(theme => ({
+  markerSearchContainer: {
+    position: "absolute",
+    bottom: 160,
+    left: 0,
+    right: 0,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center"
+  },
+  markerSearchContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    color: "red",
+    borderColor: "red",
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderRadius: 20,
+    maxWidth: 200,
+    padding: 10
+  },
+  markerSearchImage: {
+    marginTop: 10,
+    height: 100,
+    width: 100
+  }
+}));
+
 const ARViewer = props => {
+  const classes = useStyles();
+
   const [markerFound, setMarkerFound] = React.useState(false);
 
   let canvas = null;
@@ -27,8 +64,8 @@ const ARViewer = props => {
       camera,
       onRenderFcts
     );
-    const marker = getMarker(arToolkitContext, markerRoot);
 
+    const marker = getMarker(arToolkitContext, markerRoot);
     marker.addEventListener("markerFound", () => {
       setMarkerFound(true);
     });
@@ -38,16 +75,22 @@ const ARViewer = props => {
 
     const loader = new GLTFLoader();
     loader.load(
-      "http://localhost:5000/pony_cartoon/scene.gltf",
+      props.modelURL,
       gltf => {
         // called when the resource is loaded
-        console.log(gltf.scene);
         gltf.scene.scale.set(0.005, 0.005, 0.005);
+        TweenMax.from(gltf.scene.position, 3, {
+          z: -8,
+          yoyo: true,
+          repeat: -1,
+          ease: "Power2.easeInOut"
+        });
+
         markerRoot.add(gltf.scene);
       },
       xhr => {
         // called while loading is progressing
-        console.log(`${(xhr.loaded / xhr.total) * 100}% model loaded`);
+        console.log(`${(xhr.loaded / xhr.total) * 100}% of the model loaded`);
       },
       error => {
         // called when loading has errors
@@ -56,7 +99,7 @@ const ARViewer = props => {
     );
 
     // render the scene
-    onRenderFcts.push(function() {
+    onRenderFcts.push(() => {
       renderer.render(scene, camera);
     });
 
@@ -77,52 +120,6 @@ const ARViewer = props => {
     };
     requestAnimationFrame(animate);
 
-    // const root = document.getElementById("root");
-    // const hammer = new Hammer(root);
-
-    // hammer.get("pinch").set({ enable: true });
-    // hammer.get("rotate").set({ enable: true });
-    // hammer.get("pan").set({ direction: Hammer.DIRECTION_ALL });
-
-    // let panStartX, panStartY;
-
-    // hammer.on("panstart", function(ev) {
-    //   panStartX = mesh.position.x;
-    //   panStartY = mesh.position.z;
-
-    //   mesh.position.x += ev.deltaX / 200;
-    //   mesh.position.z += ev.deltaY / 200;
-    // });
-
-    // hammer.on("panmove", function(ev) {
-    //   mesh.position.x = panStartX + ev.deltaX / 200;
-    //   mesh.position.z = panStartY + ev.deltaY / 200;
-    // });
-
-    // let pinchStartX, pinchStartY;
-
-    // hammer.on("pinchstart", function(ev) {
-    //   pinchStartX = mesh.scale.x;
-    //   pinchStartY = mesh.scale.y;
-    //   mesh.scale.x = ev.scale;
-    //   mesh.scale.y = ev.scale;
-    // });
-
-    // hammer.on("pinch", function(ev) {
-    //   mesh.scale.x = pinchStartX * ev.scale;
-    //   mesh.scale.y = pinchStartY * ev.scale;
-    // });
-
-    // let rotateStart;
-
-    // hammer.on("rotatestart", function(ev) {
-    //   rotateStart = mesh.rotation.z + degToRad(ev.rotation); // the first rotation is the angle between the two finger ignoring it.
-    // });
-
-    // hammer.on("rotatemove", function(ev) {
-    //   mesh.rotation.z = rotateStart - degToRad(ev.rotation);
-    // });
-
     // eslint-disable-next-line
   }, []);
 
@@ -133,7 +130,18 @@ const ARViewer = props => {
   return (
     <div>
       <canvas ref={storeRef} />
-      {!markerFound && <div>Looking for marker</div>}
+      {!markerFound && (
+        <div className={classes.markerSearchContainer}>
+          <div className={classes.markerSearchContent}>
+            <Typography variant="h6">Looking for Marker</Typography>
+            <img
+              className={classes.markerSearchImage}
+              alt="Marker Example"
+              src={MarkerImage}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

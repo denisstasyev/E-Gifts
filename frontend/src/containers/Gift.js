@@ -12,11 +12,11 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 
-import Header from "components/Header";
+import { Header } from "components/Header";
 
 import * as giftActionCreators from "store/actions/gift";
 
-import * as config from "config";
+import * as config from "configs/backendAPI";
 
 import { Carousel, CarouselSlide } from "material-ui-carousel";
 import { Card, CardMedia } from "@material-ui/core";

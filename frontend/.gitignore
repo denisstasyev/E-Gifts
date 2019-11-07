@@ -1,6 +1,8 @@
+# my
+/src/unused
+
 # dependencies
 /node_modules
-/public/js
 /.pnp
 .pnp.js
 
@@ -12,6 +14,7 @@
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local

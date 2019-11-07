@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import * as config from "config";
+import * as config from "configs/backendAPI";
 import * as actionTypes from "store/actionTypes";
 
 export const getAvailableTags = () => {
