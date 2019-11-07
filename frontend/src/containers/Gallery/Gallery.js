@@ -2,24 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
-import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-
-import { Header } from "components/Header";
-import ScrollTop from "components/ScrollTop";
-
-import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import Chip from "@material-ui/core/Chip";
-import Typography from "@material-ui/core/Typography";
-
 import Fab from "@material-ui/core/Fab";
+
 import SearchIcon from "@material-ui/icons/Search";
+
+import { MyContainer } from "components/MyContainer";
+import { Header } from "components/Header";
+import { MyBox } from "components/MyBox";
 
 import * as galleryActionCreators from "store/actions/gallery";
 import * as filtersActionCreators from "store/actions/filters";
@@ -28,35 +23,9 @@ import { GALLERY_VISIT, GIFT_SET } from "store/actionTypes";
 
 import * as config from "configs/backendAPI";
 
-const useStyles = makeStyles(theme => ({
-  error: {
-    margin: theme.spacing(2, 0, 2)
-  },
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
-    // overflowY: "auto"
-    // height: "80wh"
-  },
-  chip: {
-    marginRight: theme.spacing(1)
-  },
-  filter: {
-    position: "fixed",
-    bottom: theme.spacing(9),
-    left: theme.spacing(2)
-  },
-  filtersIcon: {
-    marginRight: theme.spacing(1)
-  }
-  // gift: {
-  //   background:
-  //     "linear-gradient(to top, rgba(0,0,0,0.6) 0%,  rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.35) 75%, rgba(0,0,0,0) 100%)"
-  // }
-}));
+import { MOBILE_WIDTH } from "configs/CSSvariables";
+
+import { useStyles } from "./styles";
 
 const Gallery = props => {
   const classes = useStyles();
@@ -71,27 +40,15 @@ const Gallery = props => {
   }, []);
 
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container>
+    <>
+      <MyContainer>
         <Header topic="Gallery" />
-        <Box my={2}>
-          {props.availableGifts.length === 0 ? (
-            <Typography className={classes.error} align="center">
-              No gifts found, try to change Filters
-            </Typography>
-          ) : (
-            <div className={classes.root}>
-              <GridList cellHeight={200} cols={3}>
-                <GridListTile
-                  key="Subheader"
-                  cols={3}
-                  style={{ height: "auto" }}
-                >
-                  <ListSubheader component="div">
-                    Filtered gifts list
-                  </ListSubheader>
-                </GridListTile>
+        <Box id="content" mb={9}>
+          <MyBox title="Filtered E-Gifts">
+            {props.availableGifts.length === 0 ? (
+              <Typography>No gifts found, try to change Filters</Typography>
+            ) : window.innerWidth > MOBILE_WIDTH ? (
+              <GridList className={classes.root} cellHeight={300} cols={3}>
                 {props.availableGifts.map((gift, index) => (
                   <GridListTile
                     key={index}
@@ -107,48 +64,74 @@ const Gallery = props => {
                       alt={gift.name}
                     />
                     <GridListTileBar
-                      // className={classes.gift}
                       title={
                         gift.price === 0
                           ? `${gift.name} - FREE`
                           : `${gift.name} - ${gift.price} $`
                       }
-                      subtitle={
-                        <React.Fragment>
-                          {gift.tags.map((tag, index) => (
-                            <Chip
-                              key={index}
-                              className={classes.chip}
-                              size="small"
-                              label={tag}
-                            />
-                          ))}
-                        </React.Fragment>
-                      }
+                      subtitle={gift.tags.map((tag, index) => (
+                        <Chip
+                          key={index}
+                          className={classes.chip}
+                          size="small"
+                          label={tag}
+                        />
+                      ))}
                     />
                   </GridListTile>
                 ))}
               </GridList>
-            </div>
-          )}
+            ) : (
+              <GridList className={classes.root} cellHeight={200} cols={2}>
+                {props.availableGifts.map((gift, index) => (
+                  <GridListTile
+                    key={index}
+                    cols={index % 5 === 0 ? 2 : 1}
+                    component={Link}
+                    to={`/gallery/gift/${gift.id}`}
+                    onClick={() => {
+                      props.handleSetGift(gift);
+                    }}
+                  >
+                    <img
+                      src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
+                      alt={gift.name}
+                    />
+                    <GridListTileBar
+                      title={
+                        gift.price === 0
+                          ? `${gift.name} - FREE`
+                          : `${gift.name} - ${gift.price} $`
+                      }
+                      subtitle={gift.tags.map((tag, index) => (
+                        <Chip
+                          key={index}
+                          className={classes.chip}
+                          size="small"
+                          label={tag}
+                        />
+                      ))}
+                    />
+                  </GridListTile>
+                ))}
+              </GridList>
+            )}
+          </MyBox>
         </Box>
-      </Container>
-      <ScrollTop />
+      </MyContainer>
       <Fab
         variant="extended"
         size="medium"
         color="primary"
         aria-label="add"
-        className={classes.filter}
+        className={classes.fixedButton}
         component={Link}
         to="/gallery/filters"
       >
-        <SearchIcon className={classes.filtersIcon} />
+        <SearchIcon className={classes.icon} />
         Filters
       </Fab>
-      <Toolbar />
-      <Toolbar />
-    </React.Fragment>
+    </>
   );
 };
 

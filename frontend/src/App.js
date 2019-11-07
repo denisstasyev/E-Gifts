@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import { Home } from "containers/Home";
-import Gallery from "containers/Gallery";
+import { Gallery } from "containers/Gallery";
 import { Filters } from "containers/Filters";
 import Gift from "containers/Gift";
 import { View } from "containers/View";
