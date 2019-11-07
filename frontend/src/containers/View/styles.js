@@ -4,8 +4,11 @@ export const useStyles = makeStyles(theme => ({
   step: {
     marginBottom: theme.spacing(1)
   },
+  mobileButton: {
+    marginTop: theme.spacing(2)
+  },
   fixedButton: {
-    position: "fixed",
+    position: "absolute",
     bottom: theme.spacing(9),
     left: theme.spacing(2)
   },

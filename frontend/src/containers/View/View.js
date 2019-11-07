@@ -11,7 +11,7 @@ import Fab from "@material-ui/core/Fab";
 
 import GalleryIcon from "@material-ui/icons/Redeem";
 import CropFreeIcon from "@material-ui/icons/CropFree";
-import CancelIcon from "@material-ui/icons/Cancel";
+import CloseIcon from "@material-ui/icons/Close";
 
 import DetectRTC from "detectrtc";
 
@@ -21,7 +21,7 @@ import { MyBox } from "components/MyBox";
 import { Marker } from "components/Marker";
 
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
-import { MOBILE_WIDTH } from "configs/CSSvariables";
+import { MOBILE_WIDTH, MOBILE_HEIGHT } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
 
@@ -42,11 +42,14 @@ const View = props => {
 
   const [showMarker, setShowMarker] = React.useState(false);
 
+  const isMobile =
+    window.innerWidth < MOBILE_WIDTH || window.innerHeight < MOBILE_HEIGHT;
+
   return !showMarker ? (
     <>
       <MyContainer>
         <Header topic="View" />
-        <Box id="content" mb={9}>
+        <Box id="content" mb={2}>
           {DetectRTC.isWebRTCSupported !== true ? (
             <MyBox title="Warning" type="warning">
               <Typography>
@@ -84,21 +87,38 @@ const View = props => {
               </Fab>
             </div>
           </MyBox>
+          {isMobile ? (
+            <Fab
+              variant="extended"
+              size="medium"
+              color="primary"
+              className={classes.mobileButton}
+              onClick={() => {
+                props.toggleLabelBottomNavigation();
+                setShowMarker(true);
+              }}
+            >
+              <CropFreeIcon className={classes.icon} />
+              Marker
+            </Fab>
+          ) : null}
         </Box>
       </MyContainer>
-      <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        className={classes.fixedButton}
-        onClick={() => {
-          props.toggleLabelBottomNavigation();
-          setShowMarker(true);
-        }}
-      >
-        <CropFreeIcon className={classes.icon} />
-        Marker
-      </Fab>
+      {isMobile ? null : (
+        <Fab
+          variant="extended"
+          size="medium"
+          color="primary"
+          className={classes.fixedButton}
+          onClick={() => {
+            props.toggleLabelBottomNavigation();
+            setShowMarker(true);
+          }}
+        >
+          <CropFreeIcon className={classes.icon} />
+          Marker
+        </Fab>
+      )}
     </>
   ) : (
     <>
@@ -113,7 +133,7 @@ const View = props => {
           setShowMarker(false);
         }}
       >
-        <CancelIcon className={classes.icon} />
+        <CloseIcon className={classes.icon} />
         Close
       </Fab>
     </>

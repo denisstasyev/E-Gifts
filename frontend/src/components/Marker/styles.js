@@ -13,7 +13,8 @@ export const useStyles = makeStyles(theme => ({
   },
   markerImage: {
     width: "80%",
-    maxWidth: "400px"
+    maxWidth: "400px",
+    maxHeight: "400px"
   },
   text: {
     color: "white",
