@@ -10,11 +10,10 @@ import Filters from "containers/Filters";
 import Gift from "containers/Gift";
 import { View } from "containers/View";
 import { ViewGift } from "containers/ViewGift";
-import Profile from "containers/Profile";
+import { Profile } from "containers/Profile";
+import SignIn from "containers/SignIn";
+import SignUp from "containers/SignUp";
 import { NotFound } from "containers/NotFound";
-
-import SignIn from "components/SignIn";
-import SignUp from "components/SignUp";
 
 import { LabelBottomNavigation } from "components/LabelBottomNavigation";
 

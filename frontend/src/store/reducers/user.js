@@ -7,7 +7,8 @@ const initialState = {
   mail: null,
   birthDate: null,
   token: null,
-  errorMessage: null
+  errorMessage: null,
+  isAuth: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -20,9 +21,11 @@ const userReducer = (state = initialState, action) => {
       state.birthDate = action.birthDate;
       state.token = action.token;
       state.errorMessage = null;
+      state.isAuth = true;
       return Object.assign({}, state);
     case actionTypes.USER_AUTH_FAIL:
       state.errorMessage = action.errorMessage;
+      state.isAuth = false;
       return Object.assign({}, state);
     case actionTypes.USER_CLEAN_ERROR:
       state.errorMessage = null;
@@ -35,6 +38,7 @@ const userReducer = (state = initialState, action) => {
       state.birthDate = null;
       state.token = null;
       state.errorMessage = null;
+      state.isAuth = false;
       return Object.assign({}, state);
     default:
       return state;
