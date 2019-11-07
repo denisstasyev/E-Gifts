@@ -2,7 +2,6 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
@@ -11,15 +10,7 @@ import GalleryIcon from "@material-ui/icons/Redeem";
 import CameraIcon from "@material-ui/icons/CameraAlt";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    position: "absolute",
-    bottom: "0",
-    backgroundColor: theme.palette.background.default
-    // height: "56px"
-  }
-}));
+import { useStyles } from "./styles";
 
 const LabelBottomNavigation = props => {
   const classes = useStyles();
