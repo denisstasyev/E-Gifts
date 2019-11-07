@@ -39,7 +39,7 @@ namespace EGifts.Handlers
             var firstStep = true;
             foreach (var tag in tags.Select(t => t.Trim(' ')).Where(t => !string.IsNullOrEmpty(t)))
             {
-                var dbTag = dbContext.GetTagFull(tag);
+                var dbTag = dbContext.GetTag(tag);
                 if (null == dbTag)
                 {
                     return new ErrorMessage

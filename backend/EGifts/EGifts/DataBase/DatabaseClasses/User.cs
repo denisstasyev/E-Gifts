@@ -34,6 +34,10 @@ namespace EGifts.DataBase.DatabaseClasses
         [JsonPropertyName(LoginNames.BirthDate)]
         public DateTime? BirthDate { get; set; }
         [JsonPropertyName(LoginNames.RegistrationDate)]
-        public DateTime? RegistrarionDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
+        [JsonPropertyName(LoginNames.SentGifts)]
+        public List<GiftReference> SentGifts { get; set; } = new List<GiftReference>();
+        [JsonPropertyName(LoginNames.ReceivedGifts)]
+        public List<GiftReference> ReceivedGifts { get; set; } = new List<GiftReference>();
     }
 }

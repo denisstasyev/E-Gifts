@@ -3,15 +3,17 @@ using System;
 using EGifts.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EGifts.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191106190410_GiftsSendersRecievers")]
+    partial class GiftsSendersRecievers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,18 +49,6 @@ namespace EGifts.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<long>("PurchasesNumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("ScaleX")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ScaleY")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ScaleZ")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
 
                     b.ToTable("Gifts");
@@ -85,9 +75,6 @@ namespace EGifts.Migrations
 
                     b.Property<long?>("SenderId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -288,7 +275,7 @@ namespace EGifts.Migrations
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("bytea");
 
-                    b.Property<DateTime?>("RegistrationDate")
+                    b.Property<DateTime?>("RegistrarionDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<long?>("RoleId")
@@ -333,7 +320,7 @@ namespace EGifts.Migrations
                         .HasForeignKey("GiftId");
 
                     b.HasOne("EGifts.DataBase.DatabaseClasses.User", "Owner")
-                        .WithMany("ReceivedGifts")
+                        .WithMany("RecievedGifts")
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("EGifts.DataBase.DatabaseClasses.User", "Sender")

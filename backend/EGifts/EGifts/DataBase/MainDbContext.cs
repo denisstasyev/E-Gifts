@@ -47,8 +47,45 @@ namespace EGifts.DataBase
             modelBuilder.Entity<Payment>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Payments);
+            modelBuilder.Entity<GiftReference>()
+                .HasOne(gr => gr.Owner)
+                .WithMany(u => u.ReceivedGifts);
+            modelBuilder.Entity<GiftReference>()
+                .HasOne(gr => gr.Sender)
+                .WithMany(u => u.SentGifts);
         }
 
+        // TODO: вынести функции доступа.
+        public GiftReference GetGiftReference(Guid guid)
+        {
+            return GiftReferences.Where(gr => gr.Guid == guid)
+                                .Include(gr => gr.Owner)
+                                .Include(gr => gr.Sender)
+                                .Include(gr => gr.Gift)
+                                .FirstOrDefault();
+        }
+        
+        public User GetUser(string name, byte[] password)
+        {
+            return Users.Where(u => u.Name.ToLower() == name.ToLower() &&
+                                    u.PasswordHash.SequenceEqual(password))
+                        .Include(u => u.SentGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.StaticUrls)
+                        .Include(u => u.ReceivedGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.StaticUrls)
+                        .Include(u => u.SentGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.GiftTags)
+                                    .ThenInclude(gt => gt.Tag)
+                        .Include(u => u.ReceivedGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.GiftTags)
+                                    .ThenInclude(gt => gt.Tag)
+                        .FirstOrDefault();
+        }
+        
         public IEnumerable<Gift> GetGifts()
         {
             return Gifts.Include(g => g.StaticUrls)
@@ -71,7 +108,7 @@ namespace EGifts.DataBase
                 .ThenInclude(gt => gt.Gift);
         }
 
-        public Tag GetTagFull(string name)
+        public Tag GetTag(string name)
         {
             return Tags.Where(t => t.Name.ToUpper() == name.ToUpper())
                 .Include(g => g.GiftTags)
@@ -82,16 +119,6 @@ namespace EGifts.DataBase
                 .ThenInclude(g => g.GiftTags)
                 .ThenInclude(gt => gt.Tag)
                 .FirstOrDefault();
-        }
-
-        public Tag GetTag(string name)
-        {
-            return Tags.FirstOrDefault(t => t.Name.ToUpper() == name.ToUpper());
-        }
-
-        public GiftReference GetGiftReference(Guid guid)
-        {
-            return GiftReferences.Include(r => r.Gift).FirstOrDefault(r => r.Guid == guid);
         }
 
         void Clear()
@@ -109,6 +136,7 @@ namespace EGifts.DataBase
             SaveChanges();
         }
 
+        //  TODO: вынести тестовое заполнение.
         public void TestCreateGiftsTags()
         {
             Clear();

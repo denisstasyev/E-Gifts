@@ -16,7 +16,8 @@ namespace EGifts.Handlers
         const string BaseUrl = "localhost:3000/view/";
         public BaseMessage Handle(HttpContext context)
         {
-            if (!context.Request.Query.ContainsKey(CommonNames.Id))
+            var requestData = context.Request.Query;
+            if (!requestData.ContainsKey(CommonNames.Id))
             {
                 return new ErrorMessage
                 {
@@ -24,8 +25,7 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.NoParameters,
                 };
             }
-
-            if (!long.TryParse(context.Request.Query[CommonNames.Id].ToString(), out var id))
+            if (!long.TryParse(requestData[CommonNames.Id].ToString(), out var id))
             {
                 return new ErrorMessage
                 {
@@ -33,6 +33,9 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.WrongIdFormat,
                 };
             }
+            
+            var text = requestData.ContainsKey(GiftNames.Text) ? requestData[GiftNames.Text].ToString() : null;
+            
             using var dbContext = new MainDbContext();
             var gift = dbContext.Gifts.FirstOrDefault(g => g.Id == id);
             if (null == gift)
@@ -49,8 +52,10 @@ namespace EGifts.Handlers
             {
                 Gift = gift,
                 Guid = guid,
+                Text = text,
                 Reference = $"{BaseUrl}{guid}",
             };
+            gift.PurchasesNumber++;
             dbContext.GiftReferences.Add(reference);
             dbContext.SaveChanges();
             return new BuyGiftRefResponse()
