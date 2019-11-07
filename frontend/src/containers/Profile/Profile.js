@@ -19,7 +19,11 @@ import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 
+import { addOnLoadAnimation, resolveContent } from "utils/animations";
+
 const Profile = props => {
+  addOnLoadAnimation(resolveContent);
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -58,18 +62,12 @@ const Profile = props => {
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="outlined"
-                  color="primary"
-                >
+                <Button fullWidth variant="outlined" color="primary">
                   Edit profile
                 </Button>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Button
-                  type="submit"
                   fullWidth
                   variant="outlined"
                   color="primary"

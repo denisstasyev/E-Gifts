@@ -11,8 +11,8 @@ import Gift from "containers/Gift";
 import { View } from "containers/View";
 import { ViewGift } from "containers/ViewGift";
 import { Profile } from "containers/Profile";
-import SignIn from "containers/SignIn";
 import SignUp from "containers/SignUp";
+import { SignIn } from "containers/SignIn";
 import { NotFound } from "containers/NotFound";
 
 import { LabelBottomNavigation } from "components/LabelBottomNavigation";

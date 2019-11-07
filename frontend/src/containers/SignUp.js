@@ -291,7 +291,7 @@ const SignUp = props => {
 
 const mapStateToProps = state => ({
   errorMessage: state.userReducer.errorMessage,
-  isAuth: state.userReducer.username && state.userReducer.token
+  isAuth: state.userReducer.isAuth
 });
 
 const mapDispatchToProps = dispatch => ({

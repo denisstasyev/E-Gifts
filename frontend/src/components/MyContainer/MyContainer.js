@@ -12,7 +12,9 @@ const MyContainer = props => {
     <div className={classes.root}>
       <CssBaseline />
       <div className={classes.container}>
-        <Container>{props.children}</Container>
+        <Container maxWidth={props.type === "small" ? "xs" : "lg"}>
+          {props.children}
+        </Container>
       </div>
     </div>
   );
