@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -69,10 +70,16 @@ namespace EGifts.Handlers
             var dateString = requestData.ContainsKey(LoginNames.BirthDate)
                 ? requestData[LoginNames.BirthDate].ToString()
                 : null;
-            if (DateTime.TryParse(dateString, out var tmpDate))
+
+            if (DateTime.TryParseExact(dateString,
+                       new[] { "dd.MM.yyyy", "d.M.yyyy", "d.MM.yyyy", "dd.M.yyyy", },
+                       CultureInfo.InvariantCulture,
+                       DateTimeStyles.None,
+                       out var tmpDate))
             {
                 birthDate = tmpDate;
             }
+
 
             if (null == birthDate && dateString != null)
             {
