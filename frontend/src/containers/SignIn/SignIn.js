@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -103,7 +102,6 @@ const SignIn = props => {
               <Checkbox
                 checked={values.rememberMe}
                 onChange={handleCheck("rememberMe")}
-                value="remember me"
                 color="primary"
               />
             }
@@ -115,7 +113,6 @@ const SignIn = props => {
             </Typography>
           ) : null}
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
