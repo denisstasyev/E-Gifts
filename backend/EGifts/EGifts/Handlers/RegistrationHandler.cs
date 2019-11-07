@@ -118,8 +118,9 @@ namespace EGifts.Handlers
                 LastName = lastName,
                 PasswordHash = password,
                 Tokens = new List<Token> {token},
-                SentGifts = new List<GiftReference> { giftReference },
             };
+            if (null != giftReference) user.SentGifts.Add(giftReference);
+
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
             user = dbContext.GetUser(login, password);
