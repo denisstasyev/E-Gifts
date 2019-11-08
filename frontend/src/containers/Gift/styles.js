@@ -9,22 +9,35 @@ export const useStyles = makeStyles(theme => ({
   image: {
     width: "100%"
   },
-  stepper: {
+  mobileStepper: {
     width: "100%",
     backgroundColor: theme.palette.background.paper
   },
-
   details: {
-    // width: "",
-    display: "flex",
-    flexDirection: "column"
-    // justifyContent: "center"
+    width: "100%"
   },
   chip: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
-  buy: {
-    margin: theme.spacing(2, 0, 2)
+  price: {
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    marginTop: theme.spacing(2)
+  },
+
+  stepper: {
+    backgroundColor: theme.palette.background.default
+  },
+  step: {
+    marginBottom: theme.spacing(1)
+  },
+
+  uniqueLink: {
+    backgroundColor: theme.palette.secondary.main, //TODO
+    borderRadius: 5,
+    margin: theme.spacing(1),
+    padding: theme.spacing(1)
   }
 }));

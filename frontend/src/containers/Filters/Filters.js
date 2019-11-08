@@ -40,8 +40,8 @@ const Filters = props => {
               <div className={classes.tags}>
                 {props.availableTags.map((tag, index) => (
                   <Chip
-                    className={classes.chip}
                     key={index}
+                    className={classes.chip}
                     size="medium"
                     label={tag}
                     color={

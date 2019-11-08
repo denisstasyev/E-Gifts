@@ -22,8 +22,10 @@ import { Marker } from "components/Marker";
 import { ButtonMobile } from "components/ButtonMobile";
 import { ButtonFixed } from "components/ButtonFixed";
 
+import { checkIsMobile } from "utils";
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
-import { MOBILE_WIDTH, MOBILE_HEIGHT } from "configs/CSSvariables";
+
+import { MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
 
@@ -44,8 +46,7 @@ const View = props => {
 
   const [showMarker, setShowMarker] = React.useState(false);
 
-  const isMobile =
-    window.innerWidth < MOBILE_WIDTH || window.innerHeight < MOBILE_HEIGHT;
+  const isMobile = checkIsMobile();
 
   return !showMarker ? (
     <>
