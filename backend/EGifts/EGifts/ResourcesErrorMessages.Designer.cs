@@ -61,6 +61,24 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Authorization error.
+        /// </summary>
+        internal static string AuthError {
+            get {
+                return ResourceManager.GetString("AuthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на User authorization token timed out.
+        /// </summary>
+        internal static string AuthTimeout {
+            get {
+                return ResourceManager.GetString("AuthTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на The gift olready owned.
         /// </summary>
         internal static string GiftReferenceOwned {
@@ -106,11 +124,29 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на User has no open session.
+        /// </summary>
+        internal static string NoOpenSession {
+            get {
+                return ResourceManager.GetString("NoOpenSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на No important parameters in request.
         /// </summary>
         internal static string NoParameters {
             get {
                 return ResourceManager.GetString("NoParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на User have to be authorized for this action.
+        /// </summary>
+        internal static string NotAuthorized {
+            get {
+                return ResourceManager.GetString("NotAuthorized", resourceCulture);
             }
         }
         
@@ -147,6 +183,15 @@ namespace EGifts {
         internal static string WrongLoginPassword {
             get {
                 return ResourceManager.GetString("WrongLoginPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Wrong format of authorization token.
+        /// </summary>
+        internal static string WrongTokenGuidFormat {
+            get {
+                return ResourceManager.GetString("WrongTokenGuidFormat", resourceCulture);
             }
         }
     }

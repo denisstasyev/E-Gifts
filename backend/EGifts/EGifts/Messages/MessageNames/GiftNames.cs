@@ -23,5 +23,6 @@ namespace EGifts.Messages.MessageNames
         public const string ScaleY = "scale_y";
         public const string ScaleZ = "scale_z";
         public const string PurchasesNumber = "purchases_namber";
+        public const string SelfGift = "self_gift";
     }
 }

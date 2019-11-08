@@ -121,6 +121,13 @@ namespace EGifts.DataBase
                 .FirstOrDefault();
         }
 
+        public Token GetToken(Guid guid)
+        {
+            return Tokens.Where(t => t.Guid == guid)
+                            .Include(t => t.User)
+                            .FirstOrDefault();
+        }
+
         void Clear()
         {
             /*

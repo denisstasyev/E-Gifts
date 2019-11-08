@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AuthError" xml:space="preserve">
+    <value>Authorization error</value>
+  </data>
+  <data name="AuthTimeout" xml:space="preserve">
+    <value>User authorization token timed out</value>
+  </data>
   <data name="GiftReferenceOwned" xml:space="preserve">
     <value>The gift olready owned</value>
   </data>
@@ -132,8 +138,14 @@
   <data name="NoGiftReference" xml:space="preserve">
     <value>There is no such gift geference </value>
   </data>
+  <data name="NoOpenSession" xml:space="preserve">
+    <value>User has no open session</value>
+  </data>
   <data name="NoParameters" xml:space="preserve">
     <value>No important parameters in request</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>User have to be authorized for this action</value>
   </data>
   <data name="ReferenceNotValid" xml:space="preserve">
     <value>Reference is not valid</value>
@@ -146,5 +158,8 @@
   </data>
   <data name="WrongLoginPassword" xml:space="preserve">
     <value>Wrong login or password</value>
+  </data>
+  <data name="WrongTokenGuidFormat" xml:space="preserve">
+    <value>Wrong format of authorization token</value>
   </data>
 </root>

@@ -101,47 +101,78 @@ namespace EGifts.Handlers
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                var dbContext = new MainDbContext();
                 endpoints.MapGet("/login", async context =>
                 {
                     var handler = new LoginHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
 
                 endpoints.MapGet("/reg", async context =>
                 {
                     var handler = new RegistrationHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/get_gallery", async context =>
                 {
                     var handler = new GetGalleryHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/get_gallery_by_tags", async context =>
                 {
                     var handler = new GetGalleryByTagsHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/get_tags", async context =>
                 {
                     var handler = new GetTagsHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/get_model_by_ref", async context =>
                 {
                     var handler = new GetModelByRefHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/buy_gift_ref", async context =>
                 {
                     var handler = new BuyGiftRefHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/get_gift", async context =>
                 {
                     var handler = new GetGiftHandler();
-                    await context.Response.WriteAsync(handler.Handle(context).ToJsonString);
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                }).RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/add_gift_ref_to_own_collection", async context =>
+                {
+                    var handler = new AddGiftRefToOwnCollection();
+                    var result = handler.Handle(context);
+                    if (result is ErrorMessage errorMessage)
+                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
                 }).RequireCors(MyAllowSpecificOrigins);
             });
             app.Run(async (context) => { await context.Response.WriteAsync("hello"); });

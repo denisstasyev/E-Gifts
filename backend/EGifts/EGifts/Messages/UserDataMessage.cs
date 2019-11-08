@@ -5,8 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace EGifts.Messages
 {
-    public class ErrorMessage : BaseMessage
+    public class UserDataMessage : BaseMessage
     {
-        [JsonIgnore] public int ErrorCode { get; set; } = 400;
+        [JsonPropertyName(LoginNames.UserData)]
+        public User User { get; set; }
     }
 }
