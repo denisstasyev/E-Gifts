@@ -11,6 +11,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
+import { Alert } from "components/Alert";
 import { ButtonFixed } from "components/ButtonFixed";
 
 import { FILTERS_SET_SELECTED_TAGS } from "store/actionTypes";
@@ -30,9 +31,7 @@ const Filters = props => {
             <SearchIcon />
           </MyAvatar>
           {props.availableTags.length === 0 ? (
-            <Typography className={classes.alert}>
-              Sorry, there are no available tags now
-            </Typography>
+            <Alert text="Sorry, there are no available tags now" />
           ) : (
             <div className={classes.chips}>
               <Typography className={classes.info} align="center">
