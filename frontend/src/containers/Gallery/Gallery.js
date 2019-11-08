@@ -25,6 +25,8 @@ import * as config from "configs/backendAPI";
 
 import { MOBILE_WIDTH } from "configs/CSSvariables";
 
+import { priceToString } from "utils";
+
 import { useStyles } from "./styles";
 
 const Gallery = props => {
@@ -64,11 +66,7 @@ const Gallery = props => {
                       alt={gift.name}
                     />
                     <GridListTileBar
-                      title={
-                        gift.price === 0
-                          ? `${gift.name} - FREE`
-                          : `${gift.name} - ${gift.price} $`
-                      }
+                      title={`${gift.name} - ${priceToString(gift.price)}`}
                       subtitle={gift.tags.map((tag, index) => (
                         <Chip
                           key={index}
@@ -123,7 +121,6 @@ const Gallery = props => {
         variant="extended"
         size="medium"
         color="primary"
-        aria-label="add"
         className={classes.fixedButton}
         component={Link}
         to="/gallery/filters"

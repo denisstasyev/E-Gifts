@@ -48,3 +48,8 @@ export const hexToRgb = hex => {
       )}`
     : null;
 };
+
+export const priceToString = price => {
+  if (price === 0) return "FREE";
+  else return `${price} $`;
+};
