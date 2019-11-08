@@ -5,7 +5,7 @@ import Fab from "@material-ui/core/Fab";
 
 import { useStyles } from "./styles";
 
-const FixedButton = props => {
+const ButtonMobile = props => {
   const classes = useStyles();
 
   return props.type === "link" ? (
@@ -13,7 +13,7 @@ const FixedButton = props => {
       variant="extended"
       size="medium"
       color="primary"
-      className={classes.fixedButton}
+      className={classes.mobileButton}
       component={Link}
       to={props.to}
     >
@@ -25,7 +25,7 @@ const FixedButton = props => {
       variant="extended"
       size="medium"
       color="primary"
-      className={classes.fixedButton}
+      className={classes.mobileButton}
       onClick={props.onClick}
     >
       {props.children}
@@ -34,4 +34,4 @@ const FixedButton = props => {
   ) : null;
 };
 
-export default FixedButton;
+export default ButtonMobile;

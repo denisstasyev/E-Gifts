@@ -11,7 +11,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
-import { FixedButton } from "components/FixedButton";
+import { ButtonFixed } from "components/ButtonFixed";
 
 import { FILTERS_SET_SELECTED_TAGS } from "store/actionTypes";
 
@@ -60,9 +60,9 @@ const Filters = props => {
           )}
         </MyBox2>
       </MyContainer>
-      <FixedButton type="link" text="Close" to="/gallery">
+      <ButtonFixed type="link" text="Close" to="/gallery">
         <CloseIcon />
-      </FixedButton>
+      </ButtonFixed>
     </>
   );
 };

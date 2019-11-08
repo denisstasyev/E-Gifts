@@ -19,7 +19,8 @@ import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 import { Marker } from "components/Marker";
-import { FixedButton } from "components/FixedButton";
+import { ButtonMobile } from "components/ButtonMobile";
+import { ButtonFixed } from "components/ButtonFixed";
 
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
 import { MOBILE_WIDTH, MOBILE_HEIGHT } from "configs/CSSvariables";
@@ -89,24 +90,21 @@ const View = props => {
             </div>
           </MyBox>
           {isMobile ? (
-            <Fab
-              variant="extended"
-              size="medium"
-              color="primary"
-              className={classes.mobileButton}
+            <ButtonMobile
+              type="onClick"
+              text="Marker"
               onClick={() => {
                 props.toggleLabelBottomNavigation();
                 setShowMarker(true);
               }}
             >
-              <CropFreeIcon className={classes.icon} />
-              Marker
-            </Fab>
+              <CropFreeIcon />
+            </ButtonMobile>
           ) : null}
         </Box>
       </MyContainer>
       {isMobile ? null : (
-        <FixedButton
+        <ButtonFixed
           type="onClick"
           text="Marker"
           onClick={() => {
@@ -115,13 +113,13 @@ const View = props => {
           }}
         >
           <CropFreeIcon />
-        </FixedButton>
+        </ButtonFixed>
       )}
     </>
   ) : (
     <>
       <Marker />
-      <FixedButton
+      <ButtonFixed
         type="onClick"
         text="Marker"
         onClick={() => {
@@ -130,7 +128,7 @@ const View = props => {
         }}
       >
         <CloseIcon />
-      </FixedButton>
+      </ButtonFixed>
     </>
   );
 };

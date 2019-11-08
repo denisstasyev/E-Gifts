@@ -14,7 +14,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
-import { FixedButton } from "components/FixedButton";
+import { ButtonFixed } from "components/ButtonFixed";
 
 import * as galleryActionCreators from "store/actions/gallery";
 import * as filtersActionCreators from "store/actions/filters";
@@ -117,9 +117,9 @@ const Gallery = props => {
           </MyBox>
         </Box>
       </MyContainer>
-      <FixedButton type="link" text="Filters" to="/gallery/filters">
+      <ButtonFixed type="link" text="Filters" to="/gallery/filters">
         <SearchIcon />
-      </FixedButton>
+      </ButtonFixed>
     </>
   );
 };
