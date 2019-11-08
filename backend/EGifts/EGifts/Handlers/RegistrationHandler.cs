@@ -44,9 +44,9 @@ namespace EGifts.Handlers
                 : null;
 
             GiftReference giftReference = null;
-            if (requestData.ContainsKey(GiftNames.GiftGuid))
+            if (requestData.ContainsKey(GiftNames.SentGiftGuid))
             {
-                giftReference = dbContext.GetGiftReference(new Guid(requestData[GiftNames.GiftGuid].ToString()));
+                giftReference = dbContext.GetGiftReference(new Guid(requestData[GiftNames.SentGiftGuid].ToString()));
                 if (null == giftReference)
                 {
                     return new ErrorMessage
@@ -65,7 +65,29 @@ namespace EGifts.Handlers
                     };
                 }
             }
+            GiftReference ownedGiftReference = null;
+            if (requestData.ContainsKey(GiftNames.OwnedGiftGuid))
+            {
+                ownedGiftReference = dbContext.GetGiftReference(new Guid(requestData[GiftNames.OwnedGiftGuid].ToString()));
+                if (null == ownedGiftReference)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.NoGiftReference,
+                    };
+                }
 
+                if (null != ownedGiftReference.Owner)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.GiftReferenceOwned,
+                    };
+                }
+            }
+            
             DateTime? birthDate = null;
             var dateString = requestData.ContainsKey(LoginNames.BirthDate)
                 ? requestData[LoginNames.BirthDate].ToString()
@@ -127,6 +149,7 @@ namespace EGifts.Handlers
                 Tokens = new List<Token> {token},
             };
             if (null != giftReference) user.SentGifts.Add(giftReference);
+            if (null != ownedGiftReference) user.ReceivedGifts.Add(ownedGiftReference);
 
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
