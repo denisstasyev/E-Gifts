@@ -121,7 +121,7 @@ const View = props => {
       <Marker />
       <ButtonFixed
         type="onClick"
-        text="Marker"
+        text="Close"
         onClick={() => {
           props.toggleLabelBottomNavigation();
           setShowMarker(false);

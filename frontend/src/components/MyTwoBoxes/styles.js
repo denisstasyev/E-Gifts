@@ -16,8 +16,23 @@ export const useStyles = makeStyles(theme => ({
       width: "100%"
     }
   },
+  leftBoxBig: {
+    width: "70%",
+    paddingRight: theme.spacing(1),
+    // eslint-disable-next-line
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
+      paddingRight: 0,
+      width: "100%"
+    }
+  },
   rightBox: {
     width: "50%",
+    paddingLeft: theme.spacing(1),
+    // eslint-disable-next-line
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }
+  },
+  rightBoxBig: {
+    width: "30%",
     paddingLeft: theme.spacing(1),
     // eslint-disable-next-line
     [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }

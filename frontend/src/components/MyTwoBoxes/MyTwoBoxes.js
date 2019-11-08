@@ -10,7 +10,9 @@ const MyTwoBoxes = props => {
 
   return (
     <div className={classes.boxes}>
-      <div className={classes.leftBox}>
+      <div
+        className={props.type === "big" ? classes.leftBoxBig : classes.leftBox}
+      >
         <Box className={classes.content} p={2} mt={2}>
           {props.leftBoxTitle !== undefined ? (
             <Typography className={classes.title} variant="h5">
@@ -20,7 +22,11 @@ const MyTwoBoxes = props => {
           {props.leftBox}
         </Box>
       </div>
-      <div className={classes.rightBox}>
+      <div
+        className={
+          props.type === "big" ? classes.rightBoxBig : classes.rightBox
+        }
+      >
         <Box className={classes.content} p={2} mt={2}>
           {props.rightBoxTitle !== undefined ? (
             <Typography className={classes.title} variant="h5">
