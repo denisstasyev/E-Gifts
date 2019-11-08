@@ -1,10 +1,9 @@
 import React from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
-import Fab from "@material-ui/core/Fab";
 
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
@@ -12,6 +11,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
+import { FixedButton } from "components/FixedButton";
 
 import { FILTERS_SET_SELECTED_TAGS } from "store/actionTypes";
 
@@ -60,17 +60,9 @@ const Filters = props => {
           )}
         </MyBox2>
       </MyContainer>
-      <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        className={classes.fixedButton}
-        component={Link}
-        to="/gallery"
-      >
-        <CloseIcon className={classes.icon} />
-        Close
-      </Fab>
+      <FixedButton type="link" text="Close" to="/gallery">
+        <CloseIcon />
+      </FixedButton>
     </>
   );
 };

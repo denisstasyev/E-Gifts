@@ -19,7 +19,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
-import { MyForm } from "components/MyForm";
+import { Form } from "components/Form";
 
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
@@ -64,7 +64,7 @@ const SignIn = props => {
         <MyAvatar title="Sign In">
           <LockOutlinedIcon />
         </MyAvatar>
-        <MyForm>
+        <Form>
           <TextField
             variant="outlined"
             margin="normal"
@@ -140,7 +140,7 @@ const SignIn = props => {
               </LinkButton>
             </Grid>
           </Grid>
-        </MyForm>
+        </Form>
       </MyBox2>
     </MyContainer>
   );

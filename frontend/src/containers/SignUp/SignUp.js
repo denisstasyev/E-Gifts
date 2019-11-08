@@ -25,7 +25,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
-import { MyForm } from "components/MyForm";
+import { Form } from "components/Form";
 
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
@@ -98,7 +98,7 @@ const SignUp = props => {
         <MyAvatar title="Sign Up">
           <LockOutlinedIcon />
         </MyAvatar>
-        <MyForm>
+        <Form>
           <Grid className={classes.mainGrid} container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -237,7 +237,7 @@ const SignUp = props => {
               </LinkButton>
             </Grid>
           </Grid>
-        </MyForm>
+        </Form>
       </MyBox2>
     </MyContainer>
   );

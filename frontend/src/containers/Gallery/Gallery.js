@@ -8,13 +8,13 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import Chip from "@material-ui/core/Chip";
-import Fab from "@material-ui/core/Fab";
 
 import SearchIcon from "@material-ui/icons/Search";
 
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
+import { FixedButton } from "components/FixedButton";
 
 import * as galleryActionCreators from "store/actions/gallery";
 import * as filtersActionCreators from "store/actions/filters";
@@ -117,17 +117,9 @@ const Gallery = props => {
           </MyBox>
         </Box>
       </MyContainer>
-      <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        className={classes.fixedButton}
-        component={Link}
-        to="/gallery/filters"
-      >
-        <SearchIcon className={classes.icon} />
-        Filters
-      </Fab>
+      <FixedButton type="link" text="Filters" to="/gallery/filters">
+        <SearchIcon />
+      </FixedButton>
     </>
   );
 };

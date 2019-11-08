@@ -19,6 +19,7 @@ import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 import { Marker } from "components/Marker";
+import { FixedButton } from "components/FixedButton";
 
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
 import { MOBILE_WIDTH, MOBILE_HEIGHT } from "configs/CSSvariables";
@@ -105,37 +106,31 @@ const View = props => {
         </Box>
       </MyContainer>
       {isMobile ? null : (
-        <Fab
-          variant="extended"
-          size="medium"
-          color="primary"
-          className={classes.fixedButton}
+        <FixedButton
+          type="onClick"
+          text="Marker"
           onClick={() => {
             props.toggleLabelBottomNavigation();
             setShowMarker(true);
           }}
         >
-          <CropFreeIcon className={classes.icon} />
-          Marker
-        </Fab>
+          <CropFreeIcon />
+        </FixedButton>
       )}
     </>
   ) : (
     <>
       <Marker />
-      <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        className={classes.fixedButton}
+      <FixedButton
+        type="onClick"
+        text="Marker"
         onClick={() => {
           props.toggleLabelBottomNavigation();
           setShowMarker(false);
         }}
       >
-        <CloseIcon className={classes.icon} />
-        Close
-      </Fab>
+        <CloseIcon />
+      </FixedButton>
     </>
   );
 };
