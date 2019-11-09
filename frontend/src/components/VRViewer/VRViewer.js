@@ -1,6 +1,8 @@
 /* globals THREE */
 import React from "react";
 
+import { useTheme } from "@material-ui/styles";
+
 import TweenMax from "gsap/TweenMax";
 
 const {
@@ -17,13 +19,15 @@ const {
 } = THREE;
 
 const VRViewer = props => {
+  const theme = useTheme();
+
   let canvas = null;
 
   React.useEffect(() => {
     const renderer = new WebGLRenderer({ canvas });
-    renderer.setClearColor(new Color("lightgrey"));
+    renderer.setClearColor(new Color(theme.palette.background.paper));
     // renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setSize(200, 200);
+    // renderer.setSize(200, 200);
 
     const scene = new Scene();
     // const camera = new Camera();
