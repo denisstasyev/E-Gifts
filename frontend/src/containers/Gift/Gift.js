@@ -102,7 +102,7 @@ const Gift = props => {
   };
 
   if (mode === "preview") {
-    //TODO Add error parameter to gift and check Loading
+    //TODO Add error parameter to gift to check Loading
     return props.id === null ? (
       <NotFound />
     ) : (
@@ -307,10 +307,10 @@ const Gift = props => {
           {link === "" ? null /*TODO*/ : (
             <MyBox title="How to use it?">
               <Typography>
-                Copy your link and send it to a friend. You can also follow it
-                to view the congratulations. It is important that only one
-                person (except you, the sender) can save a gift to himself. Sent
-                gifts can be viewed in the Pofile
+                Copy your link and send it to a friend. You can visit it to view
+                the congratulations. It is important that only one person
+                (except you, the sender) can save a gift to himself. Sent gifts
+                can be viewed in the Pofile
               </Typography>
             </MyBox>
           )}

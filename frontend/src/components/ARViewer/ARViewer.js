@@ -3,7 +3,7 @@ import React from "react";
 
 import Typography from "@material-ui/core/Typography";
 
-import TweenMax from "gsap/TweenMax";
+// import TweenMax from "gsap/TweenMax";
 
 import initializeRenderer from "utils/initializeRenderer";
 import { initializeArToolkit, getMarker } from "utils/arToolkit";
@@ -51,13 +51,13 @@ const ARViewer = props => {
       props.modelURL,
       gltf => {
         // called when the resource is loaded
-        gltf.scene.scale.set(0.005, 0.005, 0.005);
-        TweenMax.from(gltf.scene.position, 3, {
-          z: -8,
-          yoyo: true,
-          repeat: -1,
-          ease: "Power2.easeInOut"
-        });
+        gltf.scene.scale.set(props.scaleX, props.scaleY, props.scaleZ);
+        // TweenMax.from(gltf.scene.position, 3, {
+        //   z: -8,
+        //   yoyo: true,
+        //   repeat: -1,
+        //   ease: "Power2.easeInOut"
+        // });
 
         markerRoot.add(gltf.scene);
       },

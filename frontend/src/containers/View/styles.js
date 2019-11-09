@@ -12,5 +12,8 @@ export const useStyles = makeStyles(theme => ({
     alignSelf: "flex-end",
     display: "flex",
     flexDirection: "row-reverse"
+  },
+  icon: {
+    marginRight: theme.spacing(1)
   }
 }));

@@ -27,9 +27,9 @@ import { addOnLoadAnimation, resolveContent } from "utils/animations";
 
 import { MOBILE_WIDTH } from "configs/CSSvariables";
 
-import { useStyles } from "./styles";
-
 import { LABELBOTTOMNAVIGATION_TOGGLE } from "store/actionTypes";
+
+import { useStyles } from "./styles";
 
 const getSteps = () => {
   return [
@@ -83,7 +83,7 @@ const View = props => {
                 size="small"
                 color="primary"
                 component={Link}
-                to="/home"
+                to="/gallery"
               >
                 <GalleryIcon className={classes.icon} />
                 Gallery

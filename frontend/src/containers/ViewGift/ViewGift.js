@@ -1,30 +1,49 @@
 import React from "react";
 // import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Box from "@material-ui/core/Box";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 
+import CameraIcon from "@material-ui/icons/CameraAlt";
 import CropFreeIcon from "@material-ui/icons/CropFree";
+import CloseIcon from "@material-ui/icons/Close";
 
 import DetectRTC from "detectrtc";
 
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
-import { MyBox } from "components/MyBox";
+// import { MyBox } from "components/MyBox";
 import { VRViewer } from "components/VRViewer";
-import ARViewer from "components/ARViewer";
+import { ARViewer } from "components/ARViewer";
 import { Marker } from "components/Marker";
 import { ButtonMobile } from "components/ButtonMobile";
 import { ButtonFixed } from "components/ButtonFixed";
 
 import { checkIsMobile } from "utils";
+import { addOnLoadAnimation, resolveContent } from "utils/animations";
+
+import { LABELBOTTOMNAVIGATION_TOGGLE } from "store/actionTypes";
 
 import { useStyles } from "./styles";
 
+const getSteps = () => {
+  return [
+    "To get full experience you need to view this E-Gift in AR",
+    "To view E-Gift, open the Marker on another device (the button in the lower left corner of the View page) or print it"
+  ];
+};
+
 const View = props => {
   const classes = useStyles();
+  const steps = getSteps();
+
+  addOnLoadAnimation(resolveContent);
 
   // const link = props.location.pathname.substring(
   //   props.location.pathname.lastIndexOf("/") + 1,
@@ -41,15 +60,23 @@ const View = props => {
         <Header topic="Congratulations" />
         <Box id="content" mb={2}>
           <MyTwoBoxes
-            // type="big"
+            type="big"
             leftBoxTitle="Your E-Gift in VR"
             leftBox={
               <>
-                <VRViewer modelURL="http://localhost:5000/pony_cartoon/scene.gltf" />
-                <Typography>
-                  You can rotate it text text text text text text text text text
-                  text text //TODO: fix blue highlight
+                <div id="vr" className={classes.vr}>
+                  <VRViewer
+                    modelURL="http://localhost:5000/pony_cartoon/scene.gltf"
+                    scaleX={0.005}
+                    scaleY={0.005}
+                    scaleZ={0.005}
+                  />
+                </div>
+                <Typography>Drag to rotate, pinch or scroll to zoom</Typography>
+                <Typography className={classes.title}>
+                  Congratulator left you a message
                 </Typography>
+                <Typography className={classes.text}>text</Typography>
               </>
             }
             rightBoxType={DetectRTC.isWebRTCSupported === true ? "" : "warning"}
@@ -61,10 +88,26 @@ const View = props => {
             rightBox={
               DetectRTC.isWebRTCSupported === true ? (
                 <>
-                  <Typography className={classes.text}>
-                    To get full experience you need to view this E-Gift in AR
-                  </Typography>
-                  <div> Steps</div>
+                  <Stepper orientation="vertical">
+                    {steps.map((label, index) => (
+                      <Step className={classes.step} key={index}>
+                        <StepLabel>{label}</StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                  <Fab
+                    className={classes.fab}
+                    variant="extended"
+                    size="small"
+                    color="primary"
+                    onClick={() => {
+                      props.toggleLabelBottomNavigation();
+                      setMode("AR");
+                    }}
+                  >
+                    <CameraIcon className={classes.icon} />
+                    View in AR
+                  </Fab>
                 </>
               ) : (
                 <Typography className={classes.text}>
@@ -80,8 +123,8 @@ const View = props => {
               type="onClick"
               text="Marker"
               onClick={() => {
-                // props.toggleLabelBottomNavigation();
-                // setShowMarker(true);
+                props.toggleLabelBottomNavigation();
+                setMode("marker");
               }}
             >
               <CropFreeIcon />
@@ -94,55 +137,55 @@ const View = props => {
           type="onClick"
           text="Marker"
           onClick={() => {
-            // props.toggleLabelBottomNavigation();
-            // setShowMarker(true);
+            props.toggleLabelBottomNavigation();
+            setMode("marker");
           }}
         >
           <CropFreeIcon />
         </ButtonFixed>
       )}
     </>
-  ) : //       <Typography>To see a gift you need to buy it</Typography>
-  //       <Typography component={Link} to="/gallery">
-  //         You can buy them in Gallery
-  //       </Typography>
-  mode === "AR" ? (
-    <React.Fragment>
-      <ARViewer modelURL="http://localhost:5000/pony_cartoon/scene.gltf" />
-      <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        aria-label="add"
-        className={classes.filter}
+  ) : mode === "marker" ? (
+    <>
+      <Marker />
+      <ButtonFixed
+        type="onClick"
+        text="Close"
         onClick={() => {
+          props.toggleLabelBottomNavigation();
           setMode("");
-          window.location.reload();
         }}
       >
-        Close
-      </Fab>
-    </React.Fragment>
-  ) : mode === "marker" ? (
-    <div>Marker</div>
-  ) : (
-    <div>
-      Main
-      <VRViewer modelURL="http://localhost:5000/pony_cartoon/scene.gltf" />
-      {DetectRTC.isWebRTCSupported === true ? (
-        <Fab
-          variant="extended"
-          size="medium"
-          color="primary"
-          onClick={() => {
-            setMode("AR");
-          }}
-        >
-          View AR
-        </Fab>
-      ) : null}
-    </div>
-  );
+        <CloseIcon />
+      </ButtonFixed>
+    </>
+  ) : mode === "AR" ? (
+    <>
+      <ARViewer
+        modelURL="http://localhost:5000/pony_cartoon/scene.gltf"
+        scaleX={0.005}
+        scaleY={0.005}
+        scaleZ={0.005}
+      />
+      <ButtonFixed
+        type="onClick"
+        text="Close"
+        onClick={() => window.location.reload()}
+      >
+        <CloseIcon />
+      </ButtonFixed>
+    </>
+  ) : null;
 };
 
-export default View;
+const mapDispatchToProps = dispatch => ({
+  toggleLabelBottomNavigation: () =>
+    dispatch({
+      type: LABELBOTTOMNAVIGATION_TOGGLE
+    })
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(View);

@@ -5,20 +5,20 @@ import { useTheme } from "@material-ui/styles";
 
 import TweenMax from "gsap/TweenMax";
 
+import { useStyles } from "./styles";
+
 const {
   WebGLRenderer,
   Color,
-  // Camera,
   PerspectiveCamera,
-  // Group,
   Scene,
   AmbientLight,
   GLTFLoader,
   OrbitControls
-  // AnimationMixer
 } = THREE;
 
 const VRViewer = props => {
+  const classes = useStyles();
   const theme = useTheme();
 
   let canvas = null;
@@ -26,21 +26,26 @@ const VRViewer = props => {
   React.useEffect(() => {
     const renderer = new WebGLRenderer({ canvas });
     renderer.setClearColor(new Color(theme.palette.background.paper));
-    // renderer.setSize(window.innerWidth, window.innerHeight);
-    // renderer.setSize(200, 200);
+
+    const parent = document.getElementById("vr");
+    renderer.setSize(parent.clientWidth, parent.clientHeight);
+
+    const resizeRenderer = () => {
+      renderer.setSize(parent.clientWidth, parent.clientHeight);
+    };
+    window.addEventListener("resize", resizeRenderer);
 
     const scene = new Scene();
-    // const camera = new Camera();
     const camera = new PerspectiveCamera(
       65,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    camera.position.z = 4;
+    camera.position.z = 5;
     camera.position.y = 3;
-    camera.position.x = 3;
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    camera.position.x = -4;
+    camera.lookAt(new THREE.Vector3(50, 0, 0));
     scene.add(camera);
 
     var light = new AmbientLight(0x404040, 50); // white light
@@ -51,10 +56,16 @@ const VRViewer = props => {
       props.modelURL,
       gltf => {
         // called when the resource is loaded
-        gltf.scene.scale.set(0.005, 0.005, 0.005);
+        gltf.scene.scale.set(props.scaleX, props.scaleY, props.scaleZ);
 
         TweenMax.from(gltf.scene.position, 3, {
           y: -10,
+          yoyo: false,
+          repeat: 0,
+          ease: "Power2.easeInOut"
+        });
+        TweenMax.from(gltf.scene.rotation, 3, {
+          y: -2,
           yoyo: false,
           repeat: 0,
           ease: "Power2.easeInOut"
@@ -117,7 +128,7 @@ const VRViewer = props => {
     canvas = node;
   };
 
-  return <canvas ref={storeRef} />;
+  return <canvas className={classes.canvas} ref={storeRef} />;
 };
 
 export default VRViewer;

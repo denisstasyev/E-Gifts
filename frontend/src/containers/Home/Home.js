@@ -139,7 +139,7 @@ const Home = () => {
               component={Link}
               to="/gallery"
             >
-              <PlayArrowIcon className={classes.startIcon} />
+              <PlayArrowIcon className={classes.icon} />
               Get started
             </Fab>
           </div>
