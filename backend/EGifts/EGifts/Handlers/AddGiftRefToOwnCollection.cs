@@ -84,6 +84,14 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.ReferenceNotValid,
                 };
             }
+            if (null != reference.Owner)
+            {
+                return new ErrorMessage
+                {
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.GiftReferenceOwned,
+                };
+            }
             
             user.ReceivedGifts.Add(reference);
             dbContext.SaveChanges();
