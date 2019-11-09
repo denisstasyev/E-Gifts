@@ -73,7 +73,7 @@ const View = props => {
                   />
                 </div>
                 <Typography>Drag to rotate, pinch or scroll to zoom</Typography>
-                <Typography className={classes.title}>
+                <Typography className={classes.title} variant="h5">
                   Congratulator left you a message
                 </Typography>
                 <Typography className={classes.text}>text</Typography>

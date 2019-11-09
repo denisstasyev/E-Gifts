@@ -9,7 +9,7 @@ export const useStyles = makeStyles(theme => ({
   },
   title: {
     alignSelf: "flex-start",
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1)
   },
   step: {
