@@ -11,14 +11,18 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
 
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import GalleryIcon from "@material-ui/icons/Redeem";
 
 import axios from "axios";
 
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
+
+import { NotFound } from "containers/NotFound";
 
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
@@ -54,6 +58,18 @@ const Gift = props => {
   const [text, setText] = React.useState("");
   const [link, setLink] = React.useState("");
 
+  React.useEffect(() => {
+    if (props.id === null) {
+      props.getGift(
+        props.location.pathname.substring(
+          props.location.pathname.lastIndexOf("/") + 1,
+          props.location.pathname.length
+        )
+      );
+    }
+    // eslint-disable-next-line
+  }, []);
+
   const isMobile = checkIsMobile();
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -68,18 +84,6 @@ const Gift = props => {
   const handleStepChange = step => {
     setActiveStep(step);
   };
-
-  React.useEffect(() => {
-    if (props.id === null) {
-      props.getGift(
-        props.location.pathname.substring(
-          props.location.pathname.lastIndexOf("/") + 1,
-          props.location.pathname.length
-        )
-      );
-    }
-    // eslint-disable-next-line
-  }, []);
 
   const handleBuy = () => {
     axios
@@ -98,9 +102,9 @@ const Gift = props => {
   };
 
   if (mode === "preview") {
-    //TODO Add error parameter to gift и рисовать по гифт ji
+    //TODO Add error parameter to gift and check Loading
     return props.id === null ? (
-      <div>fd</div>
+      <NotFound />
     ) : (
       <>
         <MyContainer>
@@ -282,7 +286,7 @@ const Gift = props => {
               </Step>
             ))}
           </Stepper>
-          <MyBox title="Your unique E-Gift">
+          <MyBox title="Your unique E-Gift" type="success">
             <Typography>
               Thank you for purchase, this contribution will save our planet
               from pollution.
@@ -303,7 +307,7 @@ const Gift = props => {
           {link === "" ? null /*TODO*/ : (
             <MyBox title="How to use it?">
               <Typography>
-                Copy this link and send it to a friend. You can also follow it
+                Copy your link and send it to a friend. You can also follow it
                 to view the congratulations. It is important that only one
                 person (except you, the sender) can save a gift to himself. Sent
                 gifts can be viewed in the Pofile
@@ -311,6 +315,24 @@ const Gift = props => {
             </MyBox>
           )}
           {/* //TODO: add button to go in Profile or to go in Gallery */}
+          <MyBox title="Buy more E-Gifts">
+            <Typography>
+              The more E-Gifts you give to people, the cleaner our planet
+              becomes. More E-Gifts can be found in the Gallery
+            </Typography>
+            <div className={classes.fab}>
+              <Fab
+                variant="extended"
+                size="small"
+                color="primary"
+                component={Link}
+                to="/gallery"
+              >
+                <GalleryIcon className={classes.icon} />
+                Gallery
+              </Fab>
+            </div>
+          </MyBox>
         </Box>
       </MyContainer>
     );

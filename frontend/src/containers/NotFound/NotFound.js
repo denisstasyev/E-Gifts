@@ -61,7 +61,7 @@ const NotFound = props => {
                     size="small"
                     color="primary"
                     component={Link}
-                    to="/home"
+                    to="/gallery"
                   >
                     <GalleryIcon className={classes.icon} />
                     Gallery
@@ -81,7 +81,7 @@ const NotFound = props => {
                     size="small"
                     color="primary"
                     component={Link}
-                    to="/gallery"
+                    to="/home"
                   >
                     <HomeIcon className={classes.icon} />
                     Home

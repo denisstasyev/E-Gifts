@@ -35,9 +35,15 @@ export const useStyles = makeStyles(theme => ({
   },
 
   uniqueLink: {
-    backgroundColor: theme.palette.secondary.main, //TODO
-    borderRadius: 5,
-    margin: theme.spacing(1),
-    padding: theme.spacing(1)
+    marginTop: theme.spacing(1)
+  },
+  fab: {
+    marginTop: theme.spacing(1),
+    alignSelf: "flex-end",
+    display: "flex",
+    flexDirection: "row-reverse"
+  },
+  icon: {
+    marginRight: theme.spacing(1)
   }
 }));

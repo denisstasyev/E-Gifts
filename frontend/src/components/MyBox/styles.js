@@ -11,6 +11,10 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.warning,
     borderRadius: BORDER_RADIUS
   },
+  successBox: {
+    backgroundColor: theme.palette.background.success,
+    borderRadius: BORDER_RADIUS
+  },
   title: {
     marginBottom: theme.spacing(1)
   }

@@ -11,6 +11,8 @@ const MyBox = props => {
   let boxClassName = classes.defaultBox;
   if (props.type === "warning") {
     boxClassName = classes.warningBox;
+  } else if (props.type === "success") {
+    boxClassName = classes.successBox;
   }
 
   return (
