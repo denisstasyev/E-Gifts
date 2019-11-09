@@ -37,8 +37,15 @@ export const useStyles = makeStyles(theme => ({
     // eslint-disable-next-line
     [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }
   },
-  content: {
+  defaultBox: {
     backgroundColor: theme.palette.background.paper,
+    borderRadius: BORDER_RADIUS,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  warningBox: {
+    backgroundColor: theme.palette.background.warning,
     borderRadius: BORDER_RADIUS,
     display: "flex",
     flexDirection: "column",
