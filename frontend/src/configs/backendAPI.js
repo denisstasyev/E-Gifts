@@ -1,8 +1,9 @@
 export const BACKEND_SERVER = "http://localhost:5000";
 
-// User
 export const RESULT = "result";
 export const RESULT_MESSAGE = "result_message";
+
+// User
 export const DATA_USER = "user_data";
 export const USERNAME = "login";
 export const MAIL = "mail";
@@ -31,3 +32,6 @@ export const GIFT = "gift";
 
 // Gift and View
 export const GIFT_VIEW_LINK = "reference";
+
+// View
+export const VIEW_MODEL_URL = "model_url";

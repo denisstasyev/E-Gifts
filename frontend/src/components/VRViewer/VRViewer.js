@@ -45,7 +45,7 @@ const VRViewer = props => {
     camera.position.z = 5;
     camera.position.y = 3;
     camera.position.x = -4;
-    camera.lookAt(new THREE.Vector3(50, 0, 0));
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
 
     var light = new AmbientLight(0x404040, 50); // white light
@@ -116,6 +116,7 @@ const VRViewer = props => {
     controls.maxPolarAngle = Math.PI / 2; // radians
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
+    controls.target.set(0, 0.5, 0);
 
     onRenderFcts.push(() => {
       controls.update();
