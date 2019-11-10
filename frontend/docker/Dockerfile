@@ -2,8 +2,8 @@
 FROM node:12 as build-stage
 WORKDIR /app
 
-RUN npm install
 COPY . ./
+RUN npm install
 RUN npm run build
 
 # Stage 1, to have only the compiled app, ready for production with Nginx

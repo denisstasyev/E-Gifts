@@ -2,6 +2,7 @@
   "name": "e-gifts",
   "version": "0.1.0",
   "description": "Brings gifts to AR/VR!",
+  "homepage": "http://e-gifts.site",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^1.3.11",
