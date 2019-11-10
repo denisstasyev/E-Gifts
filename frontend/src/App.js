@@ -24,8 +24,8 @@ import {
   COLOR_BACKGROUND_PAPER_LIGHT,
   COLOR_BACKGROUND_WARNING_LIGHT,
   COLOR_BACKGROUND_SUCCESS_LIGHT,
-  COROL_PRIMARY_MAIN,
-  COROL_SECONDARY_MAIN
+  COLOR_PRIMARY_MAIN,
+  COLOR_SECONDARY_MAIN
 } from "configs/CSSvariables";
 
 const theme = createMuiTheme({
@@ -37,10 +37,10 @@ const theme = createMuiTheme({
       success: COLOR_BACKGROUND_SUCCESS_LIGHT
     },
     primary: {
-      main: COROL_PRIMARY_MAIN
+      main: COLOR_PRIMARY_MAIN
     },
     secondary: {
-      main: COROL_SECONDARY_MAIN
+      main: COLOR_SECONDARY_MAIN
     }
   }
 });

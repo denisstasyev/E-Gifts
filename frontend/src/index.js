@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import "index.css";
 
 import SentryErrorLogger from "SentryErrorLogger";
+import App from "App";
 
 import labelBottomNavigationReducer from "store/reducers/labelBottomNavigation";
 import userReducer from "store/reducers/user";
@@ -31,7 +32,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <SentryErrorLogger />
+    {process.env.NODE_ENV === "production" ? <SentryErrorLogger /> : <App />}
   </Provider>,
   document.getElementById("root")
 );
