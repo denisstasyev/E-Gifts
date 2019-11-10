@@ -12,9 +12,15 @@ Your ".env" file should look like this:
 
 `REACT_APP_SENTRY_DSN="https://<your-token>@sentry.io/<your-number>"`
 
+Also you should set your real backend URL as BACKEND_SERVER constant in E-Gifts/frontend/src/configs/backendAPI.js
+
 ## List of technologies used
 
 Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, GSAP (GreenSock), Material-UI React, Prettier, ESLint, Sentry, DetectRTC.
+
+## Images in the Gallery
+
+To look optimal, they should be rectangular 955 by 717 pixels (in horizontal orientation). Models should be on a white background. In the first photo, about a third of the height should occupy a white background below.
 
 ## Available Scripts
 
