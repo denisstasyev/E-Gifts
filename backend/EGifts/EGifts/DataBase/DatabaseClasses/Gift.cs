@@ -22,6 +22,9 @@ namespace EGifts.DataBase.DatabaseClasses
         [JsonPropertyName(GiftNames.ScaleZ)] 
         public float ScaleZ { get; set; } = 1;
         
+        [JsonPropertyName(GiftNames.Light)]
+        public int Light { get; set; }
+        
         [JsonPropertyName(GiftNames.Description)]
         public string Description { get; set; }
         
