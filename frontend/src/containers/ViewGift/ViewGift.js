@@ -48,6 +48,11 @@ const View = props => {
 
   const [isValidGift, setIsValidGift] = React.useState(true);
   const [modelURL, setModelURL] = React.useState("");
+  const [scaleX, setScaleX] = React.useState(0);
+  const [scaleY, setScaleY] = React.useState(0);
+  const [scaleZ, setScaleZ] = React.useState(0);
+  const [light, setLight] = React.useState(0);
+  const [text, setText] = React.useState("");
 
   addOnLoadAnimation(resolveContent);
 
@@ -56,19 +61,27 @@ const View = props => {
     props.location.pathname.length
   );
 
-  axios
-    .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
-    .then(response => {
-      if (response.data[config.RESULT]) {
-        setModelURL(response.data[config.VIEW_MODEL_URL]);
-      } else {
-        setIsValidGift(false);
-      }
-    })
-    .catch(() => {
-      console.log("Cannot buy gift: network problem");
-      setIsValidGift(false); //TODO: dispatch(loadFail("Network problem, try again later"));
-    });
+  React.useEffect(() => {
+    axios
+      .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
+      .then(response => {
+        if (response[config.DATA][config.RESULT]) {
+          setModelURL(response[config.DATA][config.VIEW_MODEL_URL]);
+          setScaleX(response[config.DATA][config.VIEW_SCALE_X]);
+          setScaleY(response[config.DATA][config.VIEW_SCALE_Y]);
+          setScaleZ(response[config.DATA][config.VIEW_SCALE_Z]);
+          setLight(response[config.DATA][config.VIEW_LIGHT]);
+          setText(response[config.DATA][config.VIEW_TEXT]);
+        } else {
+          setIsValidGift(false);
+        }
+      })
+      .catch(() => {
+        console.log("Cannot buy gift: network problem");
+        setIsValidGift(false); //TODO: dispatch(loadFail("Network problem, try again later"));
+      });
+    // eslint-disable-next-line
+  }, []);
 
   const [mode, setMode] = React.useState("");
 
@@ -89,20 +102,24 @@ const View = props => {
                 <>
                   <div id="vr" className={classes.vr}>
                     <VRViewer
-                      // modelURL="http://localhost:5000/pony_cartoon/scene.gltf"
                       modelURL={`${config.BACKEND_SERVER}/${modelURL}`}
-                      scaleX={0.005}
-                      scaleY={0.005}
-                      scaleZ={0.005}
+                      scaleX={scaleX}
+                      scaleY={scaleY}
+                      scaleZ={scaleZ}
+                      light={light}
                     />
                   </div>
                   <Typography>
                     Drag to rotate, pinch or scroll to zoom
                   </Typography>
-                  <Typography className={classes.title} variant="h5">
-                    Congratulator left you a message
-                  </Typography>
-                  <Typography className={classes.text}>text</Typography>
+                  {text !== "" ? (
+                    <>
+                      <Typography className={classes.title} variant="h5">
+                        Congratulator left you a message
+                      </Typography>
+                      <Typography className={classes.text}>{text}</Typography>
+                    </>
+                  ) : null}
                 </>
               }
               rightBoxType={
@@ -192,9 +209,10 @@ const View = props => {
         <ARViewer
           // modelURL="http://localhost:5000/pony_cartoon/scene.gltf"
           modelURL={`${config.BACKEND_SERVER}/${modelURL}`}
-          scaleX={0.005}
-          scaleY={0.005}
-          scaleZ={0.005}
+          scaleX={scaleX}
+          scaleY={scaleY}
+          scaleZ={scaleZ}
+          light={light}
         />
         <ButtonFixed
           type="onClick"

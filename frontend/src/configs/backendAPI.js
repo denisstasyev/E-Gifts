@@ -1,5 +1,6 @@
 export const BACKEND_SERVER = "http://localhost:5000";
 
+export const DATA = "data";
 export const RESULT = "result";
 export const RESULT_MESSAGE = "result_message";
 
@@ -32,6 +33,11 @@ export const GIFT = "gift";
 
 // Gift and View
 export const GIFT_VIEW_LINK = "reference";
+export const VIEW_TEXT = "text";
 
 // View
 export const VIEW_MODEL_URL = "model_url";
+export const VIEW_SCALE_X = "scale_x";
+export const VIEW_SCALE_Y = "scale_y";
+export const VIEW_SCALE_Z = "scale_z";
+export const VIEW_LIGHT = "light";

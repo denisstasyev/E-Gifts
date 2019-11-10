@@ -43,7 +43,7 @@ const ARViewer = props => {
       setMarkerFound(true);
     });
 
-    var light = new AmbientLight(0x404040, 50); // white light
+    var light = new AmbientLight(0x404040, props.light); // white light
     scene.add(light);
 
     const loader = new GLTFLoader();
