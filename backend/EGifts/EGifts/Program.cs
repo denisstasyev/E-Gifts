@@ -27,6 +27,7 @@ namespace EGifts
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseWebRoot(Environment.OSVersion.Platform == PlatformID.Win32NT ? @"C:\Static" : "/var/www/static");
                 });
     }
 }
