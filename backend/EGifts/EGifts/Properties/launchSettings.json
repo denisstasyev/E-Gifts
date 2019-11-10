@@ -22,7 +22,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"//"Production"
       },
       "applicationUrl": "http://localhost:5000;https://localhost:5001"
-    }/*,
+    },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
@@ -34,6 +34,6 @@
       "httpPort": 52034,
       "useSSL": true,
       "sslPort": 44340
-    }*/
+    }
   }
 }
