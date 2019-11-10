@@ -48,7 +48,7 @@ const VRViewer = props => {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
 
-    var light = new AmbientLight(0x404040, 50); // white light
+    var light = new AmbientLight(0x404040, props.light); // white light
     scene.add(light);
 
     const loader = new GLTFLoader();

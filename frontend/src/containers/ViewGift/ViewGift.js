@@ -48,6 +48,10 @@ const View = props => {
 
   const [isValidGift, setIsValidGift] = React.useState(true);
   const [modelURL, setModelURL] = React.useState("");
+  const [scaleX, setScaleX] = React.useState(0);
+  const [scaleY, setScaleY] = React.useState(0);
+  const [scaleZ, setScaleZ] = React.useState(0);
+  const [light, setLight] = React.useState(0);
 
   addOnLoadAnimation(resolveContent);
 
@@ -60,8 +64,12 @@ const View = props => {
     axios
       .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
       .then(response => {
-        if (response.data[config.RESULT]) {
-          setModelURL(response.data[config.VIEW_MODEL_URL]);
+        if (response[config.DATA][config.RESULT]) {
+          setModelURL(response[config.DATA][config.VIEW_MODEL_URL]);
+          setScaleX(response[config.DATA][config.VIEW_SCALE_X]);
+          setScaleY(response[config.DATA][config.VIEW_SCALE_Y]);
+          setScaleZ(response[config.DATA][config.VIEW_SCALE_Z]);
+          setLight(response[config.DATA][config.VIEW_LIGHT]);
         } else {
           setIsValidGift(false);
         }
@@ -92,11 +100,11 @@ const View = props => {
                 <>
                   <div id="vr" className={classes.vr}>
                     <VRViewer
-                      // modelURL="http://localhost:5000/pony_cartoon/scene.gltf"
                       modelURL={`${config.BACKEND_SERVER}/${modelURL}`}
-                      scaleX={0.005}
-                      scaleY={0.005}
-                      scaleZ={0.005}
+                      scaleX={scaleX}
+                      scaleY={scaleY}
+                      scaleZ={scaleZ}
+                      light={light}
                     />
                   </div>
                   <Typography>
@@ -195,9 +203,10 @@ const View = props => {
         <ARViewer
           // modelURL="http://localhost:5000/pony_cartoon/scene.gltf"
           modelURL={`${config.BACKEND_SERVER}/${modelURL}`}
-          scaleX={0.005}
-          scaleY={0.005}
-          scaleZ={0.005}
+          scaleX={scaleX}
+          scaleY={scaleY}
+          scaleZ={scaleZ}
+          light={light}
         />
         <ButtonFixed
           type="onClick"
