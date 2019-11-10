@@ -56,19 +56,22 @@ const View = props => {
     props.location.pathname.length
   );
 
-  axios
-    .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
-    .then(response => {
-      if (response.data[config.RESULT]) {
-        setModelURL(response.data[config.VIEW_MODEL_URL]);
-      } else {
-        setIsValidGift(false);
-      }
-    })
-    .catch(() => {
-      console.log("Cannot buy gift: network problem");
-      setIsValidGift(false); //TODO: dispatch(loadFail("Network problem, try again later"));
-    });
+  React.useEffect(() => {
+    axios
+      .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
+      .then(response => {
+        if (response.data[config.RESULT]) {
+          setModelURL(response.data[config.VIEW_MODEL_URL]);
+        } else {
+          setIsValidGift(false);
+        }
+      })
+      .catch(() => {
+        console.log("Cannot buy gift: network problem");
+        setIsValidGift(false); //TODO: dispatch(loadFail("Network problem, try again later"));
+      });
+    // eslint-disable-next-line
+  }, []);
 
   const [mode, setMode] = React.useState("");
 
