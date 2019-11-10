@@ -15,6 +15,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. Change line `"80:8080"` to `"<your-external-server-IP>:80:8080"` in docker-compose.yml file in E-Gifts/frontend/docker-compose.yml
 3. Also you should set your real backend URL as BACKEND_SERVER constant in E-Gifts/frontend/src/configs/backendAPI.js
 
+In case of problems try entering `sudo <your-command>`.
+
 ## List of technologies used
 
 Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, GSAP (GreenSock), Material-UI React, Prettier, ESLint, Sentry, DetectRTC.
