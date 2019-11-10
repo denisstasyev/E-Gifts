@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using EGifts.Authorization;
 using EGifts.DataBase;
 using EGifts.DataBase.DatabaseClasses;
+using EGifts.Exceptions;
 using EGifts.Messages;
 using EGifts.Messages.MessageNames;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +36,63 @@ namespace EGifts.Handlers
                 };
             }
             
-            var text = requestData.ContainsKey(GiftNames.Text) ? requestData[GiftNames.Text].ToString() : null;
+            var text = requestData.GetNullableValue(GiftNames.Text);
+            var self = requestData.GetNullableValue(GiftNames.SelfGift);
+
+            User user = null;
+            if (requestData.ContainsKey(CommonNames.AuthorizationToken))
+            {
+                try
+                {
+                    var token = new Guid(requestData[CommonNames.AuthorizationToken]);
+                    user = new Authorizator().Authorize(token);
+                }
+                catch (NotAuthorizedException)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.NoOpenSession,
+                        ErrorCode = 401,
+                    };
+                }
+                catch (AuthTimeoutException)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.AuthTimeout,
+                        ErrorCode = 401,
+                    };
+                }
+                catch (FormatException)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.WrongTokenGuidFormat,
+                    };
+                }
+                catch (Exception)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.AuthError,
+                    };
+                }
+            }
+
+            if ((null != self) &&
+                (null == user))
+            {
+                return new ErrorMessage
+                {
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.NotAuthorized,
+                    ErrorCode = 401,
+                };
+            }
             
             using var dbContext = new MainDbContext();
             var gift = dbContext.Gifts.FirstOrDefault(g => g.Id == id);
@@ -56,6 +114,10 @@ namespace EGifts.Handlers
                 Reference = $"{BaseUrl}{guid}",
             };
             gift.PurchasesNumber++;
+            
+            user?.SentGifts.Add(reference);
+            if (null != self) user.ReceivedGifts.Add(reference);
+            
             dbContext.GiftReferences.Add(reference);
             dbContext.SaveChanges();
             return new BuyGiftRefResponse()

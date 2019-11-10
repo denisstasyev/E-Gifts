@@ -34,9 +34,9 @@ namespace EGifts.Handlers
             var user = dbContext.GetUser(login, password);
 
             GiftReference giftReference = null;
-            if (requestData.ContainsKey(GiftNames.GiftGuid))
+            if (requestData.ContainsKey(GiftNames.SentGiftGuid))
             {
-                giftReference = dbContext.GetGiftReference(new Guid(requestData[GiftNames.GiftGuid].ToString()));
+                giftReference = dbContext.GetGiftReference(new Guid(requestData[GiftNames.SentGiftGuid].ToString()));
                 if (null == giftReference)
                 {
                     return new ErrorMessage
@@ -47,6 +47,28 @@ namespace EGifts.Handlers
                 }
 
                 if (null != giftReference.Sender)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.GiftReferenceOwned,
+                    };
+                }
+            }
+            GiftReference ownedGiftReference = null;
+            if (requestData.ContainsKey(GiftNames.OwnedGiftGuid))
+            {
+                ownedGiftReference = dbContext.GetGiftReference(new Guid(requestData[GiftNames.OwnedGiftGuid].ToString()));
+                if (null == ownedGiftReference)
+                {
+                    return new ErrorMessage
+                    {
+                        Result = false,
+                        ResultMessage = ResourcesErrorMessages.NoGiftReference,
+                    };
+                }
+
+                if (null != ownedGiftReference.Owner)
                 {
                     return new ErrorMessage
                     {
@@ -74,6 +96,7 @@ namespace EGifts.Handlers
             };
             user.Tokens.Add(token);
             if (null != giftReference) user.SentGifts.Add(giftReference);
+            if (null != ownedGiftReference) user.ReceivedGifts.Add(ownedGiftReference);
             dbContext.SaveChanges();
             user = dbContext.GetUser(login, password);
             // TODO: б из юзера одной функой получать этот ответ? Или пересечёт транспорт и бд? (

@@ -18,7 +18,21 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.NoParameters,
                 };
             }
-            var guid = new Guid( context.Request.Query[GiftNames.Guid].ToString());
+
+            Guid guid;
+            try
+            {
+                guid = new Guid( context.Request.Query[GiftNames.Guid].ToString());
+            }
+            catch (FormatException)
+            {
+                return new ErrorMessage
+                {
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.WrongTokenGuidFormat,
+                };
+            }
+            
             using var dbContext = new MainDbContext();
             var reference = dbContext.GetGiftReference(guid);
             if (null == reference)

@@ -11,5 +11,6 @@ namespace EGifts.Messages.MessageNames
         public const string ResultMessage = "result_message";
         public const string Id = "id";
         public const string Name = "name";
+        public const string AuthorizationToken = "authorization_token";
     }
 }

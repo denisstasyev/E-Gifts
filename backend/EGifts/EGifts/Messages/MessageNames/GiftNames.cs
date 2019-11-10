@@ -17,10 +17,12 @@ namespace EGifts.Messages.MessageNames
         public const string Guid = "guid";
         public const string ModelUrl = "model_url";
         public const string Reference = "reference";
-        public const string GiftGuid = "gift_guid";
+        public const string SentGiftGuid = "sent_gift_guid";
+        public const string OwnedGiftGuid = "owned_gift_guid";
         public const string ScaleX = "scale_x";
         public const string ScaleY = "scale_y";
         public const string ScaleZ = "scale_z";
         public const string PurchasesNumber = "purchases_namber";
+        public const string SelfGift = "self_gift";
     }
 }
