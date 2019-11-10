@@ -35,3 +35,6 @@ export const GIFT_VIEW_LINK = "reference";
 
 // View
 export const VIEW_MODEL_URL = "model_url";
+// export const VIEW_SCALE_X = "scale_x";
+// export const VIEW_SCALE_Y = "scale_y";
+// export const VIEW_SCALE_Z = "scale_z";
