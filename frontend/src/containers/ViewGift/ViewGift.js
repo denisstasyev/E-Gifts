@@ -52,6 +52,7 @@ const View = props => {
   const [scaleY, setScaleY] = React.useState(0);
   const [scaleZ, setScaleZ] = React.useState(0);
   const [light, setLight] = React.useState(0);
+  const [text, setText] = React.useState("");
 
   addOnLoadAnimation(resolveContent);
 
@@ -70,6 +71,7 @@ const View = props => {
           setScaleY(response[config.DATA][config.VIEW_SCALE_Y]);
           setScaleZ(response[config.DATA][config.VIEW_SCALE_Z]);
           setLight(response[config.DATA][config.VIEW_LIGHT]);
+          setText(response[config.DATA][config.VIEW_TEXT]);
         } else {
           setIsValidGift(false);
         }
@@ -110,10 +112,14 @@ const View = props => {
                   <Typography>
                     Drag to rotate, pinch or scroll to zoom
                   </Typography>
-                  <Typography className={classes.title} variant="h5">
-                    Congratulator left you a message
-                  </Typography>
-                  <Typography className={classes.text}>text</Typography>
+                  {text !== "" ? (
+                    <>
+                      <Typography className={classes.title} variant="h5">
+                        Congratulator left you a message
+                      </Typography>
+                      <Typography className={classes.text}>{text}</Typography>
+                    </>
+                  ) : null}
                 </>
               }
               rightBoxType={

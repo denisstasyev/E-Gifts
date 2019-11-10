@@ -33,6 +33,7 @@ export const GIFT = "gift";
 
 // Gift and View
 export const GIFT_VIEW_LINK = "reference";
+export const VIEW_TEXT = "text";
 
 // View
 export const VIEW_MODEL_URL = "model_url";
