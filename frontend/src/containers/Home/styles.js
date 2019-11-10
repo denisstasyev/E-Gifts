@@ -40,12 +40,12 @@ export const useStyles = makeStyles(theme => ({
   step: {
     marginBottom: theme.spacing(1)
   },
-  startIcon: {
-    marginRight: theme.spacing(1)
-  },
   fab: {
     marginTop: theme.spacing(1),
     display: "flex",
     flexDirection: "row-reverse"
+  },
+  icon: {
+    marginRight: theme.spacing(1)
   }
 }));

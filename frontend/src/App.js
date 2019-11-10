@@ -5,9 +5,9 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import { Home } from "containers/Home";
-import Gallery from "containers/Gallery";
+import { Gallery } from "containers/Gallery";
 import { Filters } from "containers/Filters";
-import Gift from "containers/Gift";
+import { Gift } from "containers/Gift";
 import { View } from "containers/View";
 import { ViewGift } from "containers/ViewGift";
 import { Profile } from "containers/Profile";
@@ -23,6 +23,7 @@ import {
   COLOR_BACKGROUND_DEFAULT_LIGHT,
   COLOR_BACKGROUND_PAPER_LIGHT,
   COLOR_BACKGROUND_WARNING_LIGHT,
+  COLOR_BACKGROUND_SUCCESS_LIGHT,
   COROL_PRIMARY_MAIN,
   COROL_SECONDARY_MAIN
 } from "configs/CSSvariables";
@@ -32,7 +33,8 @@ const theme = createMuiTheme({
     background: {
       default: COLOR_BACKGROUND_DEFAULT_LIGHT,
       paper: COLOR_BACKGROUND_PAPER_LIGHT,
-      warning: COLOR_BACKGROUND_WARNING_LIGHT
+      warning: COLOR_BACKGROUND_WARNING_LIGHT,
+      success: COLOR_BACKGROUND_SUCCESS_LIGHT
     },
     primary: {
       main: COROL_PRIMARY_MAIN

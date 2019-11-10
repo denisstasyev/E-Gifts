@@ -1,3 +1,5 @@
+import { MOBILE_WIDTH, MOBILE_HEIGHT } from "configs/CSSvariables";
+
 export const nullStringToEmpty = text => {
   if (text === null) {
     return "";
@@ -47,4 +49,13 @@ export const hexToRgb = hex => {
         16
       )}`
     : null;
+};
+
+export const priceToString = price => {
+  if (price === 0 || price === null) return "FREE";
+  else return `${price} $`;
+};
+
+export const checkIsMobile = () => {
+  return window.innerWidth < MOBILE_WIDTH || window.innerHeight < MOBILE_HEIGHT;
 };

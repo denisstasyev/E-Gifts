@@ -1,45 +1,18 @@
 /* globals THREE */
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+
 import Typography from "@material-ui/core/Typography";
 
-import TweenMax from "gsap/TweenMax";
+// import TweenMax from "gsap/TweenMax";
 
 import initializeRenderer from "utils/initializeRenderer";
 import { initializeArToolkit, getMarker } from "utils/arToolkit";
 
 import MarkerImage from "static/marker.png";
 
-const { Camera, Group, Scene, AmbientLight, GLTFLoader } = THREE;
+import { useStyles } from "./styles";
 
-const useStyles = makeStyles(theme => ({
-  markerSearchContainer: {
-    position: "absolute",
-    bottom: 160,
-    left: 0,
-    right: 0,
-    width: "100%",
-    display: "flex",
-    justifyContent: "center"
-  },
-  markerSearchContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    color: "red",
-    borderColor: "red",
-    borderWidth: 2,
-    borderStyle: "solid",
-    borderRadius: 20,
-    maxWidth: 200,
-    padding: 10
-  },
-  markerSearchImage: {
-    marginTop: 10,
-    height: 100,
-    width: 100
-  }
-}));
+const { Camera, Group, Scene, AmbientLight, GLTFLoader } = THREE;
 
 const ARViewer = props => {
   const classes = useStyles();
@@ -78,13 +51,13 @@ const ARViewer = props => {
       props.modelURL,
       gltf => {
         // called when the resource is loaded
-        gltf.scene.scale.set(0.005, 0.005, 0.005);
-        TweenMax.from(gltf.scene.position, 3, {
-          z: -8,
-          yoyo: true,
-          repeat: -1,
-          ease: "Power2.easeInOut"
-        });
+        gltf.scene.scale.set(props.scaleX, props.scaleY, props.scaleZ);
+        // TweenMax.from(gltf.scene.position, 3, {
+        //   z: -8,
+        //   yoyo: true,
+        //   repeat: -1,
+        //   ease: "Power2.easeInOut"
+        // });
 
         markerRoot.add(gltf.scene);
       },
@@ -133,7 +106,7 @@ const ARViewer = props => {
       {!markerFound && (
         <div className={classes.markerSearchContainer}>
           <div className={classes.markerSearchContent}>
-            <Typography variant="h6">Looking for Marker</Typography>
+            <Typography variant="h6">Show Marker</Typography>
             <img
               className={classes.markerSearchImage}
               alt="Marker Example"

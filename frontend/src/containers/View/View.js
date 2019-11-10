@@ -19,13 +19,17 @@ import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 import { Marker } from "components/Marker";
+import { ButtonMobile } from "components/ButtonMobile";
+import { ButtonFixed } from "components/ButtonFixed";
 
+import { checkIsMobile } from "utils";
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
-import { MOBILE_WIDTH, MOBILE_HEIGHT } from "configs/CSSvariables";
 
-import { useStyles } from "./styles";
+import { MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { LABELBOTTOMNAVIGATION_TOGGLE } from "store/actionTypes";
+
+import { useStyles } from "./styles";
 
 const getSteps = () => {
   return [
@@ -42,8 +46,7 @@ const View = props => {
 
   const [showMarker, setShowMarker] = React.useState(false);
 
-  const isMobile =
-    window.innerWidth < MOBILE_WIDTH || window.innerHeight < MOBILE_HEIGHT;
+  const isMobile = checkIsMobile();
 
   return !showMarker ? (
     <>
@@ -80,7 +83,7 @@ const View = props => {
                 size="small"
                 color="primary"
                 component={Link}
-                to="/home"
+                to="/gallery"
               >
                 <GalleryIcon className={classes.icon} />
                 Gallery
@@ -88,54 +91,45 @@ const View = props => {
             </div>
           </MyBox>
           {isMobile ? (
-            <Fab
-              variant="extended"
-              size="medium"
-              color="primary"
-              className={classes.mobileButton}
+            <ButtonMobile
+              type="onClick"
+              text="Marker"
               onClick={() => {
                 props.toggleLabelBottomNavigation();
                 setShowMarker(true);
               }}
             >
-              <CropFreeIcon className={classes.icon} />
-              Marker
-            </Fab>
+              <CropFreeIcon />
+            </ButtonMobile>
           ) : null}
         </Box>
       </MyContainer>
       {isMobile ? null : (
-        <Fab
-          variant="extended"
-          size="medium"
-          color="primary"
-          className={classes.fixedButton}
+        <ButtonFixed
+          type="onClick"
+          text="Marker"
           onClick={() => {
             props.toggleLabelBottomNavigation();
             setShowMarker(true);
           }}
         >
-          <CropFreeIcon className={classes.icon} />
-          Marker
-        </Fab>
+          <CropFreeIcon />
+        </ButtonFixed>
       )}
     </>
   ) : (
     <>
       <Marker />
-      <Fab
-        variant="extended"
-        size="medium"
-        color="primary"
-        className={classes.fixedButton}
+      <ButtonFixed
+        type="onClick"
+        text="Close"
         onClick={() => {
           props.toggleLabelBottomNavigation();
           setShowMarker(false);
         }}
       >
-        <CloseIcon className={classes.icon} />
-        Close
-      </Fab>
+        <CloseIcon />
+      </ButtonFixed>
     </>
   );
 };

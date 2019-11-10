@@ -9,7 +9,6 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Visibility from "@material-ui/icons/Visibility";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import LinkButton from "@material-ui/core/Link";
@@ -19,7 +18,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
-import { MyForm } from "components/MyForm";
+import { Form } from "components/Form";
+import { Alert } from "components/Alert";
 
 import * as userActionCreators from "store/actions/user";
 import { USER_CLEAN_ERROR } from "store/actionTypes";
@@ -64,7 +64,7 @@ const SignIn = props => {
         <MyAvatar title="Sign In">
           <LockOutlinedIcon />
         </MyAvatar>
-        <MyForm>
+        <Form>
           <TextField
             variant="outlined"
             margin="normal"
@@ -108,9 +108,7 @@ const SignIn = props => {
             label="Remember me"
           />
           {props.errorMessage !== null ? (
-            <Typography className={classes.alert} align="center">
-              {props.errorMessage}
-            </Typography>
+            <Alert text={props.errorMessage} />
           ) : null}
           <Button
             fullWidth
@@ -140,7 +138,7 @@ const SignIn = props => {
               </LinkButton>
             </Grid>
           </Grid>
-        </MyForm>
+        </Form>
       </MyBox2>
     </MyContainer>
   );

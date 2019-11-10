@@ -2,7 +2,7 @@ import React from "react";
 
 import { useStyles } from "./styles";
 
-const MyForm = props => {
+const Form = props => {
   const classes = useStyles();
 
   return (
@@ -12,4 +12,4 @@ const MyForm = props => {
   );
 };
 
-export default MyForm;
+export default Form;

@@ -16,14 +16,36 @@ export const useStyles = makeStyles(theme => ({
       width: "100%"
     }
   },
+  leftBoxBig: {
+    width: "70%",
+    paddingRight: theme.spacing(1),
+    // eslint-disable-next-line
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
+      paddingRight: 0,
+      width: "100%"
+    }
+  },
   rightBox: {
     width: "50%",
     paddingLeft: theme.spacing(1),
     // eslint-disable-next-line
     [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }
   },
-  content: {
+  rightBoxBig: {
+    width: "30%",
+    paddingLeft: theme.spacing(1),
+    // eslint-disable-next-line
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: { paddingLeft: 0, width: "100%" }
+  },
+  defaultBox: {
     backgroundColor: theme.palette.background.paper,
+    borderRadius: BORDER_RADIUS,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  warningBox: {
+    backgroundColor: theme.palette.background.warning,
     borderRadius: BORDER_RADIUS,
     display: "flex",
     flexDirection: "column",

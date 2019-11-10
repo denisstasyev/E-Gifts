@@ -7,18 +7,13 @@ export const useStyles = makeStyles(theme => ({
   mobileButton: {
     marginTop: theme.spacing(2)
   },
-  fixedButton: {
-    position: "absolute",
-    bottom: theme.spacing(9),
-    left: theme.spacing(2)
-  },
-  icon: {
-    marginRight: theme.spacing(1)
-  },
   fab: {
     marginTop: theme.spacing(1),
     alignSelf: "flex-end",
     display: "flex",
     flexDirection: "row-reverse"
+  },
+  icon: {
+    marginRight: theme.spacing(1)
   }
 }));
