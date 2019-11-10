@@ -43,10 +43,17 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.ReferenceNotValid,
                 };
             }
+
+            var gift = reference.Gift;
             return new GetModelByRefResponse
             {
                 Result = true,
-                ModelUrl = reference.Gift.ModelUrl,
+                ModelUrl = gift.ModelUrl,
+                ScaleX = gift.ScaleX,
+                ScaleY = gift.ScaleY,
+                ScaleZ = gift.ScaleZ,
+                Light = gift.Light,
+                Text = reference.Text
             };
         }
     }

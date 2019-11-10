@@ -10,5 +10,15 @@ namespace EGifts.Messages
     {
         [JsonPropertyName(GiftNames.ModelUrl)]
         public string ModelUrl { get; set; }
+        [JsonPropertyName(GiftNames.Text)]
+        public string Text { get; set; }
+        [JsonPropertyName(GiftNames.ScaleX)] 
+        public float ScaleX { get; set; }
+        [JsonPropertyName(GiftNames.ScaleY)] 
+        public float ScaleY { get; set; }
+        [JsonPropertyName(GiftNames.ScaleZ)] 
+        public float ScaleZ { get; set; }
+        [JsonPropertyName(GiftNames.Light)]
+        public int Light { get; set; }
     }
 }
