@@ -1,6 +1,5 @@
 export const BACKEND_SERVER = "https://e-gifts.site/api";
 
-export const DATA = "data";
 export const RESULT = "result";
 export const RESULT_MESSAGE = "result_message";
 

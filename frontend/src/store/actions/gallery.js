@@ -7,7 +7,7 @@ import { setGift } from "store/actions/gift";
 
 const setGifts = response => {
   let gifts = [];
-  response[config.DATA][config.AVAILABLE_GIFTS].forEach(element => {
+  response.data[config.AVAILABLE_GIFTS].forEach(element => {
     if (gifts.length === 0) {
       gifts.push(setGift(element));
     } else {
@@ -26,7 +26,7 @@ export const getAvailableGifts = selectedTags => {
       axios
         .get(`${config.BACKEND_SERVER}/get_gallery`)
         .then(response => {
-          if (response[config.DATA][config.RESULT]) {
+          if (response.data[config.RESULT]) {
             let gifts = setGifts(response);
             dispatch({
               type: actionTypes.GALLERY_SET_AVAILABLE_GIFTS,
@@ -46,7 +46,7 @@ export const getAvailableGifts = selectedTags => {
           `${config.BACKEND_SERVER}/get_gallery_by_tags?tags=${selectedTags}`
         )
         .then(response => {
-          if (response[config.DATA][config.RESULT]) {
+          if (response.data[config.RESULT]) {
             let gifts = setGifts(response);
             dispatch({
               type: actionTypes.GALLERY_SET_AVAILABLE_GIFTS,
