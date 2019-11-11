@@ -29,7 +29,6 @@ import { ButtonFixed } from "components/ButtonFixed";
 import * as config from "configs/backendAPI";
 
 import { checkIsMobile } from "utils";
-import { addOnLoadAnimation, resolveContent } from "utils/animations";
 
 import { LABELBOTTOMNAVIGATION_TOGGLE } from "store/actionTypes";
 
@@ -53,8 +52,6 @@ const View = props => {
   const [scaleZ, setScaleZ] = React.useState(0);
   const [light, setLight] = React.useState(0);
   const [text, setText] = React.useState("");
-
-  addOnLoadAnimation(resolveContent);
 
   const link = props.location.pathname.substring(
     props.location.pathname.lastIndexOf("/") + 1,
