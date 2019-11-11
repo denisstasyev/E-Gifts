@@ -1,4 +1,4 @@
-export const BACKEND_SERVER = "http://localhost:5000";
+export const BACKEND_SERVER = "https://e-gifts.site/api";
 
 export const DATA = "data";
 export const RESULT = "result";

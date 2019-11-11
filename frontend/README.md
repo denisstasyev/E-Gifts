@@ -12,8 +12,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 `REACT_APP_SENTRY_DSN="https://<your-token>@sentry.io/<your-number>"`
 
-2. Change line `"80:8080"` to `"<your-external-server-IP>:80:8080"` in docker-compose.yml file in E-Gifts/frontend/docker-compose.yml
-3. Also you should set your real backend URL as BACKEND_SERVER constant in E-Gifts/frontend/src/configs/backendAPI.js
+2. Also you should set your real backend URL as BACKEND_SERVER constant in E-Gifts/frontend/src/configs/backendAPI.js
 
 In case of problems try entering `sudo <your-command>`.
 
