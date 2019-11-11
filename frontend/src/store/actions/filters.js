@@ -8,9 +8,9 @@ export const getAvailableTags = () => {
     axios
       .get(`${config.BACKEND_SERVER}/get_tags`)
       .then(response => {
-        if (response[config.DATA][config.RESULT]) {
+        if (response.data[config.RESULT]) {
           let availableTags = [];
-          response[config.DATA][config.AVAILABLE_TAGS].forEach(element => {
+          response.data[config.AVAILABLE_TAGS].forEach(element => {
             if (availableTags.indexOf(element[config.TAG_NAME]) === -1) {
               availableTags.push(element[config.TAG_NAME]);
             }

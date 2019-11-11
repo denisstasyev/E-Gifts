@@ -89,8 +89,8 @@ const Gift = props => {
     axios
       .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}`)
       .then(response => {
-        if (response[config.DATA][config.RESULT]) {
-          setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
+        if (response.data[config.RESULT]) {
+          setLink(response.data[config.GIFT_VIEW_LINK]);
         } else {
           console.log("Cannot buy gift :(");
         }

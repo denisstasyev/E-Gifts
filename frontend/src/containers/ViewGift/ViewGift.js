@@ -65,13 +65,13 @@ const View = props => {
     axios
       .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
       .then(response => {
-        if (response[config.DATA][config.RESULT]) {
-          setModelURL(response[config.DATA][config.VIEW_MODEL_URL]);
-          setScaleX(response[config.DATA][config.VIEW_SCALE_X]);
-          setScaleY(response[config.DATA][config.VIEW_SCALE_Y]);
-          setScaleZ(response[config.DATA][config.VIEW_SCALE_Z]);
-          setLight(response[config.DATA][config.VIEW_LIGHT]);
-          setText(response[config.DATA][config.VIEW_TEXT]);
+        if (response.data[config.RESULT]) {
+          setModelURL(response.data[config.VIEW_MODEL_URL]);
+          setScaleX(response.data[config.VIEW_SCALE_X]);
+          setScaleY(response.data[config.VIEW_SCALE_Y]);
+          setScaleZ(response.data[config.VIEW_SCALE_Z]);
+          setLight(response.data[config.VIEW_LIGHT]);
+          setText(response.data[config.VIEW_TEXT]);
         } else {
           setIsValidGift(false);
         }
