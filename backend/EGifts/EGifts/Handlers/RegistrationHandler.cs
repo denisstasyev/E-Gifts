@@ -103,7 +103,7 @@ namespace EGifts.Handlers
             }
 
 
-            if (null == birthDate && dateString != null)
+            if (null == birthDate && !string.IsNullOrEmpty(dateString))
             {
                 return new ErrorMessage
                 {
