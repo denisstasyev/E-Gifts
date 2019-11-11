@@ -19,6 +19,7 @@ import DetectRTC from "detectrtc";
 import { NotFound } from "containers/NotFound";
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
+import { MyBox } from "components/MyBox";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
 import { VRViewer } from "components/VRViewer";
 import { ARViewer } from "components/ARViewer";
@@ -80,14 +81,28 @@ const View = props => {
     // eslint-disable-next-line
   }, []);
 
-  const [mode, setMode] = React.useState("");
+  const [mode, setMode] = React.useState("welcome");
 
   const isMobile = checkIsMobile();
 
   if (!isValidGift) {
     return <NotFound />;
   } else {
-    return mode === "" ? (
+    return mode === "welcome" ? (
+      <MyContainer>
+        <Header topic="Congratulations" />
+        <Box id="content" mb={2}>
+          {text !== "" ? (
+            <MyBox title="Congratulator left you a message">
+              <Typography className={classes.text}>{text}</Typography>
+            </MyBox>
+          ) : null}
+          <div onClick={() => setMode("main")}>
+            <MyBox title="Click to open your E-Gift" type="success" />
+          </div>
+        </Box>
+      </MyContainer>
+    ) : mode === "main" ? (
       <>
         <MyContainer>
           <Header topic="Congratulations" />
@@ -109,14 +124,6 @@ const View = props => {
                   <Typography>
                     Drag to rotate, pinch or scroll to zoom
                   </Typography>
-                  {text !== "" ? (
-                    <>
-                      <Typography className={classes.title} variant="h5">
-                        Congratulator left you a message
-                      </Typography>
-                      <Typography className={classes.text}>{text}</Typography>
-                    </>
-                  ) : null}
                 </>
               }
               rightBoxType={
@@ -195,7 +202,7 @@ const View = props => {
           text="Close"
           onClick={() => {
             props.toggleLabelBottomNavigation();
-            setMode("");
+            setMode("main");
           }}
         >
           <CloseIcon />
