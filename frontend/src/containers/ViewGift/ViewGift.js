@@ -21,8 +21,8 @@ import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
-import { VRViewer } from "components/VRViewer";
-import { ARViewer } from "components/ARViewer";
+import { ViewerVR } from "components/ViewerVR";
+import { ViewerAR } from "components/ViewerAR";
 import { Marker } from "components/Marker";
 import { ButtonMobile } from "components/ButtonMobile";
 import { ButtonFixed } from "components/ButtonFixed";
@@ -113,7 +113,7 @@ const View = props => {
               leftBox={
                 <>
                   <div id="vr" className={classes.vr}>
-                    <VRViewer
+                    <ViewerVR
                       modelURL={`${config.BACKEND_SERVER}/${modelURL}`}
                       scaleX={scaleX}
                       scaleY={scaleY}
@@ -210,7 +210,7 @@ const View = props => {
       </>
     ) : mode === "AR" ? (
       <>
-        <ARViewer
+        <ViewerAR
           // modelURL="http://localhost:5000/pony_cartoon/scene.gltf"
           modelURL={`${config.BACKEND_SERVER}/${modelURL}`}
           scaleX={scaleX}
