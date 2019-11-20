@@ -13,6 +13,7 @@ import { ViewGift } from "containers/ViewGift";
 import { Profile } from "containers/Profile";
 import { SignUp } from "containers/SignUp";
 import { SignIn } from "containers/SignIn";
+import { ViewerBeta } from "containers/ViewerBeta";
 import { NotFound } from "containers/NotFound";
 
 import { LabelBottomNavigation } from "components/LabelBottomNavigation";
@@ -80,6 +81,7 @@ const App = props => {
           <Route exact path="/profile" component={Profile} />
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />
+          <Route path="/beta" component={ViewerBeta} />
           <Route path="*" component={NotFound} />
         </Switch>
         <LabelBottomNavigation />
