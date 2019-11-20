@@ -18,7 +18,14 @@ const Header = props => {
         alt="E-Gifts logo"
         width="40px"
       />
-      <Typography variant="h4">{props.topic}</Typography>
+      <div>
+        <Typography variant="h4">{props.topic}</Typography>
+        <Typography variant="body2">
+          {props.topic === "E-Gifts"
+            ? "Brings gifts to AR/VR!"
+            : "E-Gifts - Brings gifts to AR/VR!"}
+        </Typography>
+      </div>
     </Toolbar>
   );
 };

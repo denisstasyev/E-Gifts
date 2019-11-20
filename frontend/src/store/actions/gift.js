@@ -46,8 +46,8 @@ export const getGift = id => {
     axios
       .get(`${config.BACKEND_SERVER}/get_gift?id=${id}`)
       .then(response => {
-        if (response.data[config.RESULT]) {
-          let gift = setGift(response.data[config.GIFT]);
+        if (response[config.DATA][config.RESULT]) {
+          let gift = setGift(response[config.DATA][config.GIFT]);
           dispatch({
             type: actionTypes.GIFT_SET,
             gift

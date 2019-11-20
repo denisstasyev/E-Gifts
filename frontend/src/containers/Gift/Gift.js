@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -89,8 +90,8 @@ const Gift = props => {
     axios
       .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}`)
       .then(response => {
-        if (response.data[config.RESULT]) {
-          setLink(response.data[config.GIFT_VIEW_LINK]);
+        if (response[config.DATA][config.RESULT]) {
+          setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
         } else {
           console.log("Cannot buy gift :(");
         }
@@ -175,15 +176,33 @@ const Gift = props => {
                   <Typography className={classes.price}>
                     Price: {priceToString(props.price)}
                   </Typography>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={() => setMode("customize")}
-                  >
-                    Customize
-                  </Button>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={() => setMode("customize")}
+                      >
+                        Customize
+                      </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={() => {
+                          setMode("buy");
+                          handleBuy();
+                        }}
+                      >
+                        Buy
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </div>
               }
             />

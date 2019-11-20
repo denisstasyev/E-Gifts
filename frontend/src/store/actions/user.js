@@ -86,10 +86,10 @@ export const signIn = (username, password, rememberMe) => {
         `${config.BACKEND_SERVER}/login?login=${username}&password=${password}`
       )
       .then(response => {
-        if (response.data[config.RESULT]) {
-          dispatch(authSuccess(response.data));
+        if (response[config.DATA][config.RESULT]) {
+          dispatch(authSuccess(response[config.DATA]));
           if (rememberMe) {
-            setLocalStorage(response.data);
+            setLocalStorage(response[config.DATA]);
           }
         } else {
           dispatch(authFail("Wrong username or password"));
@@ -116,15 +116,15 @@ export const signUp = (
         `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}&first_name=${firstName}&last_name=${lastName}&mail=${mail}&birth_date=${birthDate}`
       )
       .then(response => {
-        if (response.data[config.RESULT]) {
-          dispatch(authSuccess(response.data));
+        if (response[config.DATA][config.RESULT]) {
+          dispatch(authSuccess(response[config.DATA]));
           if (rememberMe) {
-            setLocalStorage(response.data);
+            setLocalStorage(response[config.DATA]);
           }
         } else {
           dispatch(
             authFail(
-              response.data[config.RESULT_MESSAGE]
+              response[config.DATA][config.RESULT_MESSAGE]
                 .replace(/login/g, "username")
                 .replace(/Login/g, "Username")
             )
