@@ -8,6 +8,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CameraIcon from "@material-ui/icons/CameraAlt";
 import CropFreeIcon from "@material-ui/icons/CropFree";
 import CloseIcon from "@material-ui/icons/Close";
@@ -97,9 +98,18 @@ const View = props => {
               <Typography className={classes.text}>{text}</Typography>
             </MyBox>
           ) : null}
-          <div onClick={() => setMode("main")}>
-            <MyBox title="Click to open your E-Gift" type="success" />
-          </div>
+          <MyBox title="Click to open your E-Gift" type="success">
+            <Fab
+              className={classes.fab}
+              variant="extended"
+              size="small"
+              color="primary"
+              onClick={() => setMode("main")}
+            >
+              <LockOpenIcon className={classes.icon} />
+              Open E-Gift
+            </Fab>
+          </MyBox>
         </Box>
       </MyContainer>
     ) : mode === "main" ? (
