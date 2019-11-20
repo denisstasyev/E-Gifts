@@ -101,14 +101,14 @@ const Gallery = props => {
                           ? `${gift.name} - FREE`
                           : `${gift.name} - ${gift.price} $`
                       }
-                      subtitle={gift.tags.map((tag, index) => (
-                        <Chip
-                          key={index}
-                          className={classes.chip}
-                          size="small"
-                          label={tag}
-                        />
-                      ))}
+                      // subtitle={gift.tags.map((tag, index) => (
+                      //   <Chip
+                      //     key={index}
+                      //     className={classes.chip}
+                      //     size="small"
+                      //     label={tag}
+                      //   />
+                      // ))}
                     />
                   </GridListTile>
                 ))}
