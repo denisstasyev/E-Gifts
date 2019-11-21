@@ -31,12 +31,13 @@ import { MyTwoBoxes } from "components/MyTwoBoxes";
 import { ButtonMobile } from "components/ButtonMobile";
 import { ButtonFixed } from "components/ButtonFixed";
 import { MyBox } from "components/MyBox";
+import { MyBoxCard } from "components/MyBoxCard";
 
 import * as giftActionCreators from "store/actions/gift";
 
 import * as config from "configs/backendAPI";
 
-import { priceToString, checkIsMobile } from "utils";
+import { priceToString, checkIsMobile, copyToClipboard } from "utils";
 import { MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
@@ -51,9 +52,19 @@ const getSteps = () => {
   ];
 };
 
+const getMessages = () => {
+  return [
+    "Birthdays are a new start, a fresh beginning and a time to pursue new endeavors with new goals. Move forward with confidence and courage. You are a very special person. May today and all of your days be amazing!",
+    "Your birthday is the first day of another 365-day journey. Be the shining thread in the beautiful tapestry of the world to make this year the best ever. Enjoy the ride.",
+    "Be happy! Today is the day you were brought into this world to be a blessing and inspiration to the people around you! You are a wonderful person! May you be given more birthdays to fulfill all of your dreams!",
+    "Hello! Wish you all the best!"
+  ];
+};
+
 const Gift = props => {
   const classes = useStyles();
   const steps = getSteps();
+  const messages = getMessages();
 
   const [mode, setMode] = React.useState("preview");
   const [text, setText] = React.useState("");
@@ -240,7 +251,21 @@ const Gift = props => {
               ))}
             </Stepper>
             <MyBox title="Make your E-Gift unique">
-              <Typography>You can enter a congratulatory text below</Typography>
+              <Typography>
+                Click to choose one of the ready-made congratulations
+              </Typography>
+              <div className={classes.messages}>
+                {messages.map((text, index) => (
+                  <MyBoxCard
+                    text={text}
+                    key={index}
+                    onClick={() => setText(text)}
+                  />
+                ))}
+              </div>
+              <Typography>
+                Or you can enter a congratulatory text below
+              </Typography>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -313,6 +338,7 @@ const Gift = props => {
             {link === "" ? null /*TODO*/ : (
               <div className={classes.uniqueLink}>
                 <TextField
+                  id="link"
                   className={classes.link}
                   variant="outlined"
                   label="Your unique Link with E-Gift"
@@ -322,9 +348,7 @@ const Gift = props => {
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={() => {
-                    navigator.clipboard.writeText(link);
-                  }}
+                  onClick={() => copyToClipboard("link")}
                 >
                   Copy
                 </Button>

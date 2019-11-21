@@ -33,6 +33,11 @@ export const useStyles = makeStyles(theme => ({
   step: {
     marginBottom: theme.spacing(1)
   },
+  messages: {
+    display: "flex",
+    overflowY: "auto",
+    margin: theme.spacing(2)
+  },
 
   uniqueLink: {
     marginTop: theme.spacing(2),
