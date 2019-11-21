@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import Chip from "@material-ui/core/Chip";
 
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -49,70 +48,69 @@ const Gallery = props => {
           <MyBox title="Filtered E-Gifts">
             {props.availableGifts.length === 0 ? (
               <Typography>No gifts found, try to change Filters</Typography>
-            ) : window.innerWidth > MOBILE_WIDTH ? (
-              <GridList className={classes.root} cellHeight={300} cols={3}>
-                {props.availableGifts.map((gift, index) => (
-                  <GridListTile
-                    key={index}
-                    cols={index % 10 === 0 || index % 10 === 6 ? 2 : 1}
-                    component={Link}
-                    to={`/gallery/gift/${gift.id}`}
-                    onClick={() => {
-                      props.handleSetGift(gift);
-                    }}
-                  >
-                    <img
-                      src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
-                      alt={gift.name}
-                    />
-                    <GridListTileBar
-                      title={`${gift.name} - ${priceToString(gift.price)}`}
-                      // subtitle={gift.tags.map((tag, index) => (
-                      //   <Chip
-                      //     key={index}
-                      //     className={classes.chip}
-                      //     size="small"
-                      //     label={tag}
-                      //   />
-                      // ))}
-                    />
-                  </GridListTile>
-                ))}
-              </GridList>
             ) : (
-              <GridList className={classes.root} cellHeight={200} cols={2}>
-                {props.availableGifts.map((gift, index) => (
-                  <GridListTile
-                    key={index}
-                    cols={index % 5 === 0 ? 2 : 1}
-                    component={Link}
-                    to={`/gallery/gift/${gift.id}`}
-                    onClick={() => {
-                      props.handleSetGift(gift);
-                    }}
+              <>
+                <Typography className={classes.topic}>
+                  Click on E-Gift below to choose
+                </Typography>
+                {window.innerWidth > MOBILE_WIDTH ? (
+                  <GridList
+                    className={classes.gridList}
+                    cellHeight={300}
+                    cols={3}
                   >
-                    <img
-                      src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
-                      alt={gift.name}
-                    />
-                    <GridListTileBar
-                      title={
-                        gift.price === 0
-                          ? `${gift.name} - FREE`
-                          : `${gift.name} - ${gift.price} $`
-                      }
-                      // subtitle={gift.tags.map((tag, index) => (
-                      //   <Chip
-                      //     key={index}
-                      //     className={classes.chip}
-                      //     size="small"
-                      //     label={tag}
-                      //   />
-                      // ))}
-                    />
-                  </GridListTile>
-                ))}
-              </GridList>
+                    {props.availableGifts.map((gift, index) => (
+                      <GridListTile
+                        key={index}
+                        cols={index % 10 === 0 || index % 10 === 6 ? 2 : 1}
+                        component={Link}
+                        to={`/gallery/gift/${gift.id}`}
+                        onClick={() => {
+                          props.handleSetGift(gift);
+                        }}
+                      >
+                        <img
+                          src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
+                          alt={gift.name}
+                        />
+                        <GridListTileBar
+                          title={`${gift.name} - ${priceToString(gift.price)}`}
+                        />
+                      </GridListTile>
+                    ))}
+                  </GridList>
+                ) : (
+                  <GridList
+                    className={classes.gridList}
+                    cellHeight={200}
+                    cols={2}
+                  >
+                    {props.availableGifts.map((gift, index) => (
+                      <GridListTile
+                        key={index}
+                        cols={index % 5 === 0 ? 2 : 1}
+                        component={Link}
+                        to={`/gallery/gift/${gift.id}`}
+                        onClick={() => {
+                          props.handleSetGift(gift);
+                        }}
+                      >
+                        <img
+                          src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
+                          alt={gift.name}
+                        />
+                        <GridListTileBar
+                          title={
+                            gift.price === 0
+                              ? `${gift.name} - FREE`
+                              : `${gift.name} - ${gift.price} $`
+                          }
+                        />
+                      </GridListTile>
+                    ))}
+                  </GridList>
+                )}
+              </>
             )}
           </MyBox>
         </Box>
