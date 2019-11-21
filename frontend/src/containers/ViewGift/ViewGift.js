@@ -91,7 +91,7 @@ const View = props => {
   } else {
     return mode === "welcome" ? (
       <MyContainer>
-        <Header topic="Congratulations" />
+        <Header topic="E-Gift for you" />
         <Box id="content" mb={2}>
           {text !== "" ? (
             <MyBox title="Congratulator left you a message">
@@ -115,7 +115,7 @@ const View = props => {
     ) : mode === "main" ? (
       <>
         <MyContainer>
-          <Header topic="Congratulations" />
+          <Header topic="E-Gift for you" />
           <Box id="content" mb={2}>
             <MyTwoBoxes
               type="big"

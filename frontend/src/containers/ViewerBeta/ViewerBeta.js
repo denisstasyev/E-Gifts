@@ -23,7 +23,7 @@ const ViewerBeta = () => {
 
   return (
     <MyContainer>
-      <Header topic="Beta Viewer" />
+      <Header topic="E-Gift for you" />
       <Box id="content" mb={2}>
         <MyBox title="Viewer">
           <ModelViewerComponent //! .glb models much better than .gltf
