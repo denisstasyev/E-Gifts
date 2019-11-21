@@ -308,18 +308,34 @@ const Gift = props => {
           <MyBox title="Your unique E-Gift" type="success">
             <Typography>
               Thank you for purchase, this contribution will save our planet
-              from pollution.
+              from pollution
             </Typography>
             {link === "" ? null /*TODO*/ : (
               <div className={classes.uniqueLink}>
-                <Typography>Your unique link with E-Gift:</Typography>
-                <Typography
+                <TextField
+                  className={classes.link}
+                  variant="outlined"
+                  label="Your unique Link with E-Gift"
+                  value={link}
+                  fullWidth
+                />
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    navigator.clipboard.writeText(link);
+                  }}
+                >
+                  Copy
+                </Button>
+
+                {/* <Typography
                   align="center"
                   component={Link}
                   to={link.substring(link.indexOf("/"), link.length)}
                 >
                   {link}
-                </Typography>
+                </Typography> */}
               </div>
             )}
           </MyBox>

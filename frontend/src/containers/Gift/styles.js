@@ -35,7 +35,11 @@ export const useStyles = makeStyles(theme => ({
   },
 
   uniqueLink: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(2),
+    display: "flex"
+  },
+  link: {
+    marginRight: theme.spacing(2)
   },
   fab: {
     marginTop: theme.spacing(1),
