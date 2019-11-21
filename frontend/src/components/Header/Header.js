@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -12,12 +13,14 @@ const Header = props => {
 
   return (
     <Toolbar className={classes.root} /*id="back-to-top-anchor"*/>
-      <img
-        className={classes.logoIcon}
-        src={LogoIcon}
-        alt="E-Gifts logo"
-        width="40px"
-      />
+      <Link to="/home">
+        <img
+          className={classes.logoIcon}
+          src={LogoIcon}
+          alt="E-Gifts logo"
+          width="40px"
+        />
+      </Link>
       <div>
         <Typography variant="h4">{props.topic}</Typography>
         <Typography variant="body2">
