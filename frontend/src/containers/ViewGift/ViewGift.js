@@ -95,7 +95,7 @@ const View = props => {
         <Box id="content" mb={2}>
           {text !== "" ? (
             <MyBox title="Congratulator left you a message">
-              <Typography className={classes.text}>{text}</Typography>
+              <Typography>{text}</Typography>
             </MyBox>
           ) : null}
           <MyBox title="Click to open your E-Gift" type="success">
