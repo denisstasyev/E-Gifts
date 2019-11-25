@@ -59,15 +59,3 @@ export const priceToString = price => {
 export const checkIsMobile = () => {
   return window.innerWidth < MOBILE_WIDTH || window.innerHeight < MOBILE_HEIGHT;
 };
-
-export const copyToClipboard = id => {
-  const copyTextarea = document.getElementById(id);
-  copyTextarea.focus();
-  copyTextarea.select();
-
-  try {
-    document.execCommand("copy");
-  } catch (error) {
-    console.log("Oops, unable to copy");
-  }
-};

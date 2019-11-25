@@ -39,11 +39,11 @@ export const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2)
   },
 
-  uniqueLink: {
+  textField: {
     marginTop: theme.spacing(2),
     display: "flex"
   },
-  link: {
+  text: {
     marginRight: theme.spacing(2)
   },
   fab: {

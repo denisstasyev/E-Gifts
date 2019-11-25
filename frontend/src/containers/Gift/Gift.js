@@ -23,6 +23,10 @@ import axios from "axios";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
+import Confetti from "react-confetti";
+
 import { NotFound } from "containers/NotFound";
 
 import { MyContainer } from "components/MyContainer";
@@ -37,7 +41,7 @@ import * as giftActionCreators from "store/actions/gift";
 
 import * as config from "configs/backendAPI";
 
-import { priceToString, checkIsMobile, copyToClipboard } from "utils";
+import { priceToString, checkIsMobile } from "utils";
 import { MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
@@ -266,17 +270,26 @@ const Gift = props => {
               <Typography>
                 Or you can enter a congratulatory text below
               </Typography>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                multiline
-                label="Congratulation"
-                value={text}
-                onChange={event => {
-                  setText(event.target.value);
-                }}
-              />
+              <div className={classes.textField}>
+                <TextField
+                  className={classes.text}
+                  variant="outlined"
+                  label="Congratulation"
+                  value={text}
+                  fullWidth
+                  multiline
+                  onChange={event => {
+                    setText(event.target.value);
+                  }}
+                />
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => setText("")}
+                >
+                  Clear
+                </Button>
+              </div>
               <Button
                 fullWidth
                 variant="contained"
@@ -330,70 +343,96 @@ const Gift = props => {
               </Step>
             ))}
           </Stepper>
-          <MyBox title="Your unique E-Gift" type="success">
+          <MyBox title="Thank you for purchase">
             <Typography>
-              Thank you for purchase, this contribution will save our planet
-              from pollution
+              This contribution will surely save our planet from pollution
+            </Typography>
+          </MyBox>
+          {link === "" ? null /*TODO*/ : (
+            <MyBox title="Attention" type="warning">
+              <Typography>
+                E-Gift can be sent only to one person. Unique Link will become
+                inactive after receiving
+              </Typography>
+            </MyBox>
+          )}
+          <MyBox title="Your E-Gift" type="success">
+            <Typography>
+              You can send E-Gift by email or you can copy unique Link to send
+              it in any other way
             </Typography>
             {link === "" ? null /*TODO*/ : (
-              <div className={classes.uniqueLink}>
+              <div className={classes.textField}>
                 <TextField
                   id="link"
-                  className={classes.link}
+                  className={classes.text}
                   variant="outlined"
                   label="Your unique Link with E-Gift"
                   value={link}
                   fullWidth
                 />
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => copyToClipboard("link")}
-                >
-                  Copy
-                </Button>
-
-                {/* <Typography
-                  align="center"
-                  component={Link}
-                  to={link.substring(link.indexOf("/"), link.length)}
-                >
-                  {link}
-                </Typography> */}
+                <CopyToClipboard text={link} onCopy={() => setMode("copied")}>
+                  <Button variant="outlined" color="primary">
+                    Copy
+                  </Button>
+                </CopyToClipboard>
               </div>
             )}
           </MyBox>
-          {link === "" ? null /*TODO*/ : (
-            <MyBox title="How to use it?">
-              <Typography>
-                Copy your link and send it to a friend. You can visit it to view
-                the congratulations. It is important that only one person
-                (except you, the sender) can save a gift to himself. Sent gifts
-                can be viewed in the Pofile
-              </Typography>
-            </MyBox>
-          )}
-          {/* //TODO: add button to go in Profile or to go in Gallery */}
-          <MyBox title="Buy more E-Gifts">
-            <Typography>
-              The more E-Gifts you give to people, the cleaner our planet
-              becomes. More E-Gifts can be found in the Gallery
-            </Typography>
-            <div className={classes.fab}>
-              <Fab
-                variant="extended"
-                size="small"
-                color="primary"
-                component={Link}
-                to="/gallery"
-              >
-                <GalleryIcon className={classes.icon} />
-                Gallery
-              </Fab>
-            </div>
-          </MyBox>
         </Box>
       </MyContainer>
+    );
+  } else if (mode === "copied" || mode === "sent") {
+    return (
+      <>
+        <Confetti numberOfPieces={400} recycle={false} />
+        <MyContainer>
+          <Header topic={mode === "copied" ? "Copied" : "Sent"} />
+          <Box id="content" mb={2}>
+            <Stepper
+              className={classes.stepper}
+              orientation={
+                window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
+              }
+              activeStep={3}
+            >
+              {steps.map((label, index) => (
+                <Step className={classes.step} key={index}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            {mode === "copied" ? (
+              <>
+                <MyBox title="Successfully copied" type="success">
+                  <Typography>
+                    You can send your Link in any social network or messenger by
+                    pasting it from the clipboard
+                  </Typography>
+                </MyBox>
+                <MyBox title="Buy more E-Gifts">
+                  <Typography>
+                    The more E-Gifts you give to people, the cleaner our planet
+                    becomes. More E-Gifts can be found in the Gallery
+                  </Typography>
+                  <div className={classes.fab}>
+                    <Fab
+                      variant="extended"
+                      size="small"
+                      color="primary"
+                      component={Link}
+                      to="/gallery"
+                    >
+                      <GalleryIcon className={classes.icon} />
+                      Gallery
+                    </Fab>
+                  </div>
+                </MyBox>
+              </>
+            ) : null}
+          </Box>
+        </MyContainer>
+      </>
     );
   }
 };
