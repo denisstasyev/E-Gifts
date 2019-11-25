@@ -14,9 +14,17 @@ import StepLabel from "@material-ui/core/StepLabel";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import AccountIcon from "@material-ui/icons/AccountCircle";
 import GalleryIcon from "@material-ui/icons/Redeem";
+import EmailIcon from "@material-ui/icons/Email";
 
 import axios from "axios";
 
@@ -102,6 +110,8 @@ const Gift = props => {
   };
 
   const handleBuy = () => {
+    //TODO: add different calls for auth and not auth User
+    // if (props.token === null) {
     axios
       .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}`)
       .then(response => {
@@ -115,6 +125,37 @@ const Gift = props => {
         console.log("Cannot buy gift: network problem");
         //TODO: dispatch(loadFail("Network problem, try again later"));
       });
+    //Add gift to user
+    // } else {
+    //   axios
+    //     .get(
+    //       `${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}&authorization_token${props.token}`
+    //     )
+    //     .then(response => {
+    //       if (response[config.DATA][config.RESULT]) {
+    //         setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
+    //       } else {
+    //         console.log("Cannot buy gift :(");
+    //       }
+    //     })
+    //     .catch(() => {
+    //       console.log("Cannot buy gift: network problem");
+    //       //TODO: dispatch(loadFail("Network problem, try again later"));
+    //     });
+    //Send api call to add myself
+    // }
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const [mail, setMail] = React.useState("");
+
+  const handleSendMail = () => {
+    //send to backend mail address
+    setMode("sent");
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   if (mode === "preview") {
@@ -272,7 +313,7 @@ const Gift = props => {
               </Typography>
               <div className={classes.textField}>
                 <TextField
-                  className={classes.text}
+                  className={classes.textFieldContent}
                   variant="outlined"
                   label="Congratulation"
                   value={text}
@@ -327,60 +368,102 @@ const Gift = props => {
     );
   } else if (mode === "buy") {
     return (
-      <MyContainer>
-        <Header topic="Congratulations" />
-        <Box id="content" mb={2}>
-          <Stepper
-            className={classes.stepper}
-            orientation={
-              window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
-            }
-            activeStep={2}
-          >
-            {steps.map((label, index) => (
-              <Step className={classes.step} key={index}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <MyBox title="Thank you for purchase">
-            <Typography>
-              This contribution will surely save our planet from pollution
-            </Typography>
-          </MyBox>
-          {link === "" ? null /*TODO*/ : (
-            <MyBox title="Attention" type="warning">
+      <>
+        <MyContainer>
+          <Header topic="Congratulations" />
+          <Box id="content" mb={2}>
+            <Stepper
+              className={classes.stepper}
+              orientation={
+                window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
+              }
+              activeStep={2}
+            >
+              {steps.map((label, index) => (
+                <Step className={classes.step} key={index}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <MyBox title="Thank you for purchase">
               <Typography>
-                E-Gift can be sent only to one person. Unique Link will become
-                inactive after receiving
+                This contribution will surely save our planet from pollution
               </Typography>
             </MyBox>
-          )}
-          <MyBox title="Your E-Gift" type="success">
-            <Typography>
-              You can send E-Gift by email or you can copy unique Link to send
-              it in any other way
-            </Typography>
             {link === "" ? null /*TODO*/ : (
-              <div className={classes.textField}>
-                <TextField
-                  id="link"
-                  className={classes.text}
-                  variant="outlined"
-                  label="Your unique Link with E-Gift"
-                  value={link}
-                  fullWidth
-                />
-                <CopyToClipboard text={link} onCopy={() => setMode("copied")}>
-                  <Button variant="outlined" color="primary">
-                    Copy
-                  </Button>
-                </CopyToClipboard>
-              </div>
+              <MyBox title="Attention" type="warning">
+                <Typography>
+                  E-Gift can be sent only to one person. Unique Link will become
+                  inactive after receiving
+                </Typography>
+              </MyBox>
             )}
-          </MyBox>
-        </Box>
-      </MyContainer>
+            <MyBox title="Your E-Gift" type="success">
+              <Typography>
+                You can send E-Gift by email or you can copy unique Link to send
+                it in any other way
+              </Typography>
+              {link === "" ? null /*TODO*/ : (
+                <>
+                  <div className={classes.textField}>
+                    <TextField
+                      id="link"
+                      className={classes.textFieldContent}
+                      variant="outlined"
+                      label="Your unique Link with E-Gift"
+                      value={link}
+                      fullWidth
+                    />
+                    <CopyToClipboard
+                      text={link}
+                      onCopy={() => setMode("copied")}
+                    >
+                      <Button variant="outlined" color="primary">
+                        Copy
+                      </Button>
+                    </CopyToClipboard>
+                  </div>
+                  <Fab
+                    className={classes.submit}
+                    variant="extended"
+                    size="small"
+                    color="primary"
+                    onClick={() => setOpen(true)}
+                  >
+                    <EmailIcon className={classes.icon} />
+                    Send email
+                  </Fab>
+                </>
+              )}
+            </MyBox>
+          </Box>
+        </MyContainer>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Send email with E-Gift</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Who do you want to send an email to?
+              <TextField
+                margin="normal"
+                variant="outlined"
+                label="Recipient's email"
+                value={mail}
+                onChange={event => setMail(event.target.value)}
+                fullWidth
+                autoComplete="email"
+              />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleSendMail} color="primary">
+              Send email
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
     );
   } else if (mode === "copied" || mode === "sent") {
     return (
@@ -410,8 +493,66 @@ const Gift = props => {
                     pasting it from the clipboard
                   </Typography>
                 </MyBox>
-                <MyBox title="Buy more E-Gifts">
+              </>
+            ) : (
+              <>
+                <MyBox title="Successfully sent" type="success">
                   <Typography>
+                    The recipient will receive an email shortly
+                  </Typography>
+                </MyBox>
+              </>
+            )}
+            <MyTwoBoxes
+              leftBoxTitle={
+                props.isAuth
+                  ? "View E-Gift in the Profile"
+                  : "Sign Up or Sign In to save"
+              }
+              leftBox={
+                props.isAuth ? (
+                  <>
+                    <Typography className={classes.text}>
+                      You can view sent E-Gifts in your Profile
+                    </Typography>
+                    <div className={classes.fab}>
+                      <Fab
+                        variant="extended"
+                        size="small"
+                        color="primary"
+                        component={Link}
+                        to="/profile"
+                      >
+                        <AccountIcon className={classes.icon} />
+                        Profile
+                      </Fab>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Typography className={classes.text}>
+                      You can Sign Up or Sign In in the Profile to save sent
+                      E-Gift to your Collection
+                    </Typography>
+                    <div className={classes.fab}>
+                      <Fab
+                        variant="extended"
+                        size="small"
+                        color="primary"
+                        component={Link}
+                        to="/profile"
+                      >
+                        <AccountIcon className={classes.icon} />
+                        Profile
+                      </Fab>
+                    </div>
+                  </>
+                )
+              }
+              rightBoxTitle="Buy more E-Gifts"
+              rightBox={
+                <>
+                  <Typography className={classes.text}>
                     The more E-Gifts you give to people, the cleaner our planet
                     becomes. More E-Gifts can be found in the Gallery
                   </Typography>
@@ -427,9 +568,9 @@ const Gift = props => {
                       Gallery
                     </Fab>
                   </div>
-                </MyBox>
-              </>
-            ) : null}
+                </>
+              }
+            />
           </Box>
         </MyContainer>
       </>
@@ -443,7 +584,9 @@ const mapStateToProps = state => ({
   description: state.giftReducer.description,
   price: state.giftReducer.price,
   tags: state.giftReducer.tags,
-  urls: state.giftReducer.urls
+  urls: state.giftReducer.urls,
+  isAuth: state.userReducer.isAuth,
+  token: state.userReducer.token
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -43,7 +43,7 @@ export const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     display: "flex"
   },
-  text: {
+  textFieldContent: {
     marginRight: theme.spacing(2)
   },
   fab: {
@@ -54,5 +54,8 @@ export const useStyles = makeStyles(theme => ({
   },
   icon: {
     marginRight: theme.spacing(1)
+  },
+  text: {
+    alignSelf: "flex-start"
   }
 }));
