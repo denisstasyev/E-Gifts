@@ -7,7 +7,6 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
 import HomeIcon from "@material-ui/icons/Home";
 import GalleryIcon from "@material-ui/icons/Redeem";
-import CameraIcon from "@material-ui/icons/CameraAlt";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 
 import { useStyles } from "./styles";
@@ -44,13 +43,6 @@ const LabelBottomNavigation = props => {
         icon={<GalleryIcon />}
         component={Link}
         to="/gallery"
-      />
-      <BottomNavigationAction
-        label="View"
-        value="view"
-        icon={<CameraIcon />}
-        component={Link}
-        to="/view"
       />
       <BottomNavigationAction
         label="Profile"
