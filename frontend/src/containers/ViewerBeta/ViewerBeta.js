@@ -11,6 +11,7 @@ import CameraIcon from "@material-ui/icons/CameraAlt";
 import "@google/model-viewer";
 
 import Confetti from "react-confetti";
+import BoomConfetti from "react-dom-confetti";
 
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
@@ -19,6 +20,38 @@ import { MyBox } from "components/MyBox";
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
 
 import { useStyles } from "./styles";
+import { resolveToTop } from "./animations";
+
+const config = {
+  angle: "90",
+  spread: "90",
+  startVelocity: 45,
+  elementCount: "150",
+  dragFriction: 0.1,
+  duration: "2500",
+  stagger: 5,
+  width: "10px",
+  height: "20px",
+  colors: [
+    "#f44336",
+    "#e91e63",
+    "#9c27b0",
+    "#673ab7",
+    "#3f51b5",
+    "#2196f3",
+    "#03a9f4",
+    "#00bcd4",
+    "#009688",
+    "#4CAF50",
+    "#8BC34A",
+    "#CDDC39",
+    "#FFEB3B",
+    "#FFC107",
+    "#FF9800",
+    "#FF5722",
+    "#795548"
+  ]
+};
 
 const ModelViewerComponent = "model-viewer";
 
@@ -26,10 +59,17 @@ const ViewerBeta = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-  addOnLoadAnimation(resolveContent);
-
   const [mode, setMode] = React.useState("welcome");
-  const [text, setText] = React.useState("welcome");
+  const [boom, setBoom] = React.useState(false);
+  const [text] = React.useState("welcome");
+
+  const handleOpen = () => {
+    resolveToTop();
+    setBoom(true);
+    setTimeout(() => {
+      setMode("main");
+    }, 1800);
+  };
 
   // if (!isValidGift) {
   //   return <NotFound />;
@@ -42,60 +82,78 @@ const ViewerBeta = () => {
         <Box id="content" mb={2}>
           {mode === "welcome" ? (
             <>
+              <MyBox title="Click to open your E-Gift">
+                <div className={classes.welcome}>
+                  <div
+                    className={[classes.boxImage, classes.boxImageNoTop].join(
+                      " "
+                    )}
+                  >
+                    <img
+                      id="top-image"
+                      className={classes.boxImageTop}
+                      src={require("static/view/top.svg")}
+                      alt="E-Gifts logo"
+                    />
+                    <BoomConfetti
+                      className={classes.boom}
+                      active={boom}
+                      config={config}
+                    />
+                  </div>
+                  <Fab
+                    className={classes.fab}
+                    variant="extended"
+                    color="primary"
+                    onClick={handleOpen}
+                  >
+                    <LockOpenIcon className={classes.icon} />
+                    Open E-Gift
+                  </Fab>
+                </div>
+              </MyBox>
+            </>
+          ) : (
+            <>
+              {addOnLoadAnimation(resolveContent)}
+              <MyBox title="Viewer">
+                <ModelViewerComponent //! .glb models much better than .gltf
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    minHeight: "400px",
+                    outline: "none"
+                  }}
+                  auto-rotate
+                  camera-controls
+                  autoplay
+                  shadow-intensity={1}
+                  background-color={theme.palette.background.paper}
+                  // camera-orbit="-20deg 75deg 2m"
+                  alt="A 3D model of an astronaut."
+                  src={require("static/models/Bee.glb")}
+                  ios-src={require("static/models/bee2.usdz")}
+                  magic-leap
+                  ar
+                >
+                  <Fab
+                    slot="ar-button"
+                    className={classes.button}
+                    variant="extended"
+                    size="small"
+                    color="primary"
+                  >
+                    <CameraIcon className={classes.icon} />
+                    Activate AR
+                  </Fab>
+                </ModelViewerComponent>
+              </MyBox>
               {text !== "" ? (
                 <MyBox title="Congratulator left you a message">
                   <Typography>{text}</Typography>
                 </MyBox>
               ) : null}
-              <MyBox title="Click to open your E-Gift" type="success">
-                <Fab
-                  className={classes.fab}
-                  variant="extended"
-                  size="small"
-                  color="primary"
-                  onClick={() => setMode("main")}
-                >
-                  <LockOpenIcon className={classes.icon} />
-                  Open E-Gift
-                </Fab>
-              </MyBox>
             </>
-          ) : (
-            <MyBox title="Viewer">
-              <ModelViewerComponent //! .glb models much better than .gltf
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  minHeight: "400px",
-                  outline: "none"
-                }}
-                auto-rotate
-                camera-controls
-                autoplay
-                shadow-intensity={1}
-                background-color={theme.palette.background.paper}
-                // camera-orbit="-20deg 75deg 2m"
-                alt="A 3D model of an astronaut."
-                src={require("static/models/Bee.glb")}
-                ios-src={require("static/models/bee2.usdz")}
-                magic-leap
-                ar
-              >
-                {/* <button  className={classes.button}> */}
-                <Fab
-                  slot="ar-button"
-                  className={classes.button}
-                  variant="extended"
-                  size="small"
-                  color="primary"
-                >
-                  <CameraIcon className={classes.icon} />
-                  Activate AR
-                </Fab>
-
-                {/* </button> */}
-              </ModelViewerComponent>
-            </MyBox>
           )}
         </Box>
       </MyContainer>
