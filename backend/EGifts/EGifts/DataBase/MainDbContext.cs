@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EGifts.DataBase.DatabaseClasses;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace EGifts.DataBase
@@ -62,6 +63,7 @@ namespace EGifts.DataBase
                                 .Include(gr => gr.Owner)
                                 .Include(gr => gr.Sender)
                                 .Include(gr => gr.Gift)
+                                    .ThenInclude(g => g.ModelUrls)
                                 .FirstOrDefault();
         }
         
@@ -143,6 +145,202 @@ namespace EGifts.DataBase
             SaveChanges();
         }
 
+        
+        public void TestCreateGiftsTags1()
+        {
+            Clear();
+            
+            var tags = new[] {"Christmas", "New Year", "Birthday", "Anniversary", "Kids", "Women", "Men"};
+            Tags.AddRange(tags.Select(t => new Tag(t)));
+            SaveChanges();
+
+            const string modelUrl1 = "/model/bee.glb";
+            const string modelUrl2 = "/model/bee.usdz";
+            const string imagesFolder = "/images/";
+            const string giftAl = "alchemist_fantasy_house";
+            var gift = new Gift
+            {
+                Name = "Alchemist Fantasy House",
+                Description = "Present this fantastic house to a friend so that his life becomes fantastic too. This is what we all dream of",
+                ScaleX = 0.005f,
+                ScaleY = 0.005f,
+                ScaleZ = 0.005f,
+                Light = 20,
+                //ModelUrl = giftAl+modelUrl,
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{giftAl}{modelUrl1}"),
+                    new StaticUrl($"{giftAl}{modelUrl2}"),
+                },
+                StaticUrls = new List<StaticUrl>(
+                        Enumerable.Range(1, 4).Select(n => new StaticUrl($"{giftAl}{imagesFolder}{n}.png")
+                    ).Reverse()),
+                
+            };
+            Gifts.Add(gift);
+            SaveChanges();
+            var tagList = new[] { "Men", "Women", "Kids", "Birthday", "Anniversary"};
+            var giftTags = Tags.Where(t => tagList.Contains(t.Name)).Select(t => new GiftTag {Gift = gift, Tag = t});
+            GiftTags.AddRange(giftTags);
+            SaveChanges();
+            
+            const string giftCt = "christmas_tree";
+            gift = new Gift
+            {
+                Name = "Christmas tree",
+                Description = "The perfect E-Gift for New Year and Christmas, which will always be near the recipient",
+                ScaleX = 0.01f,
+                ScaleY = 0.007f,
+                ScaleZ = 0.01f,
+                Light = 6,
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{giftCt}{modelUrl1}"),
+                    new StaticUrl($"{giftCt}{modelUrl2}"),
+                },
+                StaticUrls = new List<StaticUrl>(
+                    Enumerable.Range(1, 3).Select(n => new StaticUrl($"{giftCt}{imagesFolder}{n}.png")
+                    ).Reverse()),
+                
+            };
+            Gifts.Add(gift);
+            SaveChanges();
+            tagList = new[] { "Men", "Women", "New Year", "Christmas"};
+            giftTags = Tags.Where(t => tagList.Contains(t.Name)).Select(t => new GiftTag {Gift = gift, Tag = t});
+            GiftTags.AddRange(giftTags);
+            SaveChanges();
+            
+            const string giftFh = "forest_house";
+            gift = new Gift
+            {
+                Name = "Forest House",
+                Description = "This E-Gift is for children who dream of a fabulous house in the forest",
+                ScaleX = 0.3f,
+                ScaleY = 0.3f,
+                ScaleZ = 0.3f,
+                Light = 7,
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{giftFh}{modelUrl1}"),
+                    new StaticUrl($"{giftFh}{modelUrl2}"),
+                },
+                StaticUrls = new List<StaticUrl>(
+                    Enumerable.Range(1, 3).Select(n => new StaticUrl($"{giftFh}{imagesFolder}{n}.png")
+                    ).Reverse()),
+                
+            };
+            Gifts.Add(gift);
+            SaveChanges();
+            tagList = new[] { "Kids", "Birthday" };
+            giftTags = Tags.Where(t => tagList.Contains(t.Name)).Select(t => new GiftTag {Gift = gift, Tag = t});
+            GiftTags.AddRange(giftTags);
+            SaveChanges();
+            
+            const string giftGoogle = "google";
+            gift = new Gift
+            {
+                Name = "Google",
+                Description = "This E-Gift suits most of all for Google fans",
+                ScaleX = 0.6f,
+                ScaleY = 0.6f,
+                ScaleZ = 0.6f,
+                Light = 6,
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{giftGoogle}{modelUrl1}"),
+                    new StaticUrl($"{giftGoogle}{modelUrl2}"),
+                },
+                StaticUrls = new List<StaticUrl>(
+                    Enumerable.Range(1, 2).Select(n => new StaticUrl($"{giftGoogle}{imagesFolder}{n}.png")
+                    ).Reverse()),
+                
+            };
+            Gifts.Add(gift);
+            SaveChanges();
+            tagList = new[] { "Men", "Women","Birthday" };
+            giftTags = Tags.Where(t => tagList.Contains(t.Name)).Select(t => new GiftTag {Gift = gift, Tag = t});
+            GiftTags.AddRange(giftTags);
+            SaveChanges();
+            
+            const string giftGf = "guppy_fish";
+            gift = new Gift
+            {
+                Name = "Guppy fish",
+                Description = "Does your friend often leave home for a long time and therefore cannot feed aquarium fish? If yes, then this guppy living in a virtual world will be a great gift",
+                ScaleX = 0.7f,
+                ScaleY = 0.7f,
+                ScaleZ = 0.7f,
+                Light = 10,
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{giftGf}{modelUrl1}"),
+                    new StaticUrl($"{giftGf}{modelUrl2}"),
+                },
+                StaticUrls = new List<StaticUrl>(
+                    Enumerable.Range(1, 4).Select(n => new StaticUrl($"{giftGf}{imagesFolder}{n}.png")
+                    ).Reverse()),
+                
+            };
+            Gifts.Add(gift);
+            SaveChanges();
+            tagList = new[] { "Women", "Kids", "Birthday" };
+            giftTags = Tags.Where(t => tagList.Contains(t.Name)).Select(t => new GiftTag {Gift = gift, Tag = t});
+            GiftTags.AddRange(giftTags);
+            SaveChanges();
+            
+            const string giftOcc = "old_cartoon_car";
+            gift = new Gift
+            {
+                Name = "Old cartoon car",
+                Description = "This old car can be a great gift for both boys and adult men who are interested in cars, racing or auto-modeling",
+                ScaleX = 0.005f,
+                ScaleY = 0.005f,
+                ScaleZ = 0.005f,
+                Light = 50,
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{giftOcc}{modelUrl1}"),
+                    new StaticUrl($"{giftOcc}{modelUrl2}"),
+                },
+                StaticUrls = new List<StaticUrl>(
+                    Enumerable.Range(1, 3).Select(n => new StaticUrl($"{giftOcc}{imagesFolder}{n}.png")
+                    ).Reverse()),
+                
+            };
+            Gifts.Add(gift);
+            SaveChanges();
+            tagList = new[] { "Men", "Kids", "Birthday"};
+            giftTags = Tags.Where(t => tagList.Contains(t.Name)).Select(t => new GiftTag {Gift = gift, Tag = t});
+            GiftTags.AddRange(giftTags);
+            SaveChanges();
+            
+            const string giftT = "trailer";
+            gift = new Gift
+            {
+                Name = "Trailer",
+                Description = "All you need for the happiness of your friend in one E-Gift",
+                ScaleX = 0.03f,
+                ScaleY = 0.03f,
+                ScaleZ = 0.03f,
+                Light = 100,
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{giftT}{modelUrl1}"),
+                    new StaticUrl($"{giftT}{modelUrl2}"),
+                },
+                StaticUrls = new List<StaticUrl>(
+                    Enumerable.Range(1, 4).Select(n => new StaticUrl($"{giftT}{imagesFolder}{n}.png")
+                    ).Reverse()),
+                
+            };
+            Gifts.Add(gift);
+            SaveChanges();
+            tagList = new[] { "Men", "Birthday", "Anniversary"};
+            giftTags = Tags.Where(t => tagList.Contains(t.Name)).Select(t => new GiftTag {Gift = gift, Tag = t});
+            GiftTags.AddRange(giftTags);
+            SaveChanges();
+        }
+        
         //  TODO: вынести тестовое заполнение.
         public void TestCreateGiftsTags()
         {
@@ -158,7 +356,11 @@ namespace EGifts.DataBase
                     new StaticUrl($"{n}/1.png"),
                     new StaticUrl($"{n}/2.png"),
                 },
-                ModelUrl = $"{n}/model.obj",
+                ModelUrls = new List<StaticUrl>
+                {
+                    new StaticUrl($"{n}/Bee.glb"),
+                    new StaticUrl($"{n}/bee.usdz"),
+                },
                 Description = $"Awesome n",
             });
             Gifts.AddRange(gifts);

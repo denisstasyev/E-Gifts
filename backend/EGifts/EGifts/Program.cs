@@ -4,7 +4,6 @@ using System.Linq;
 using System.Globalization;
 using System.Threading.Tasks;
 using EGifts.DataBase;
-using EGifts.Handlers;
 using EGifts.Messages;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

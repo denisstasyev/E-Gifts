@@ -42,8 +42,8 @@ namespace EGifts.DataBase.DatabaseClasses
 
         [JsonIgnore] 
         public string CatalogStatic { get; set; }
-        [JsonIgnore] 
-        public string ModelUrl { get; set; }
+        [JsonIgnore]
+        public List<StaticUrl> ModelUrls { get; set; } = new List<StaticUrl>();
         [JsonIgnore] 
         public List<UserGift> UserGifts { get; set; } = new List<UserGift>();
         [JsonPropertyName(GiftNames.GiftTags)] 

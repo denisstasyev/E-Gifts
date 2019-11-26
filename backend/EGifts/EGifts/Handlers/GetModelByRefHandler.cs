@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using EGifts.DataBase;
 using EGifts.Messages;
 using EGifts.Messages.MessageNames;
@@ -48,7 +49,7 @@ namespace EGifts.Handlers
             return new GetModelByRefResponse
             {
                 Result = true,
-                ModelUrl = gift.ModelUrl,
+                ModelUrl = gift.ModelUrls.Select(s => s.Name).ToList(),
                 ScaleX = gift.ScaleX,
                 ScaleY = gift.ScaleY,
                 ScaleZ = gift.ScaleZ,

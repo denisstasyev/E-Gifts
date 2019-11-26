@@ -40,11 +40,11 @@ namespace EGifts.Handlers
             var self = requestData.GetNullableValue(GiftNames.SelfGift);
 
             User user = null;
-            if (requestData.ContainsKey(CommonNames.AuthorizationToken))
+            if (requestData.ContainsKey(CommonNames.Token))
             {
                 try
                 {
-                    var token = new Guid(requestData[CommonNames.AuthorizationToken]);
+                    var token = new Guid(requestData[CommonNames.Token]);
                     user = new Authorizator().Authorize(token);
                 }
                 catch (NotAuthorizedException)

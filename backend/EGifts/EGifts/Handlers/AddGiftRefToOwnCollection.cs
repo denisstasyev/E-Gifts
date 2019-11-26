@@ -22,7 +22,7 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.NoParameters,
                 };
             }
-            if (!requestData.ContainsKey(CommonNames.AuthorizationToken))
+            if (!requestData.ContainsKey(CommonNames.Token))
             {
                 return new ErrorMessage
                 {
@@ -35,7 +35,7 @@ namespace EGifts.Handlers
             User user;
             try
             {
-                var token = new Guid(requestData[CommonNames.AuthorizationToken]);
+                var token = new Guid(requestData[CommonNames.Token]);
                 guid = new Guid( requestData[GiftNames.Guid].ToString());
                 user = new Authorizator().Authorize(token);
             }

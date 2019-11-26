@@ -25,5 +25,6 @@ namespace EGifts.Messages.MessageNames
         public const string Light = "light";
         public const string PurchasesNumber = "purchases_namber";
         public const string SelfGift = "self_gift";
+        public const string Email = "email";
     }
 }

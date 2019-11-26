@@ -79,6 +79,15 @@ namespace EGifts {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Current e-mail is not valid.
+        /// </summary>
+        internal static string EmailNotValid {
+            get {
+                return ResourceManager.GetString("EmailNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на The gift olready owned.
         /// </summary>
         internal static string GiftReferenceOwned {
