@@ -87,7 +87,7 @@ const View = props => {
   const isMobile = checkIsMobile();
 
   if (!isValidGift) {
-    return <NotFound />;
+    return <NotFound type="view" />;
   } else {
     return mode === "welcome" ? (
       <MyContainer>

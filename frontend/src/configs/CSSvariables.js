@@ -1,4 +1,5 @@
 export const MOBILE_WIDTH = 800;
+export const PARTLY_MOBILE_WIDTH = 1000;
 export const MOBILE_HEIGHT = 800;
 
 export const BORDER_RADIUS = 20;

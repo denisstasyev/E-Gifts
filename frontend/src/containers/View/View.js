@@ -50,6 +50,17 @@ const View = () => {
             ))}
           </Stepper>
         </MyBox>
+        <MyBox title="Supported devices">
+          <Typography>
+            Our AR technology based on ARKit by Apple and ARCore by Google,
+            that's why only devices with iOS 12 or Android 9 or later are
+            supported.
+          </Typography>
+          <Typography>
+            Don't worry if the recipient doesn't have such a device. He will be
+            able to view E-Gift in VR
+          </Typography>
+        </MyBox>
         <MyBox title="Don't you want to wait for the holiday?">
           <Typography>You can always get E-Gift in the Gallery</Typography>
           <div className={classes.fab}>
