@@ -22,9 +22,17 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import SettingsIcon from "@material-ui/icons/Settings";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ClearIcon from "@material-ui/icons/Clear";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import TelegramIcon from "@material-ui/icons/Telegram";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+// import EmailIcon from "@material-ui/icons/Email";
+import EmailIcon from "@material-ui/icons/AlternateEmail";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import GalleryIcon from "@material-ui/icons/Redeem";
-import EmailIcon from "@material-ui/icons/Email";
 
 import axios from "axios";
 
@@ -50,7 +58,7 @@ import * as giftActionCreators from "store/actions/gift";
 import * as config from "configs/backendAPI";
 
 import { priceToString, checkIsMobile } from "utils";
-import { MOBILE_WIDTH } from "configs/CSSvariables";
+import { MOBILE_WIDTH, PARTLY_MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
 
@@ -66,10 +74,14 @@ const getSteps = () => {
 
 const getMessages = () => {
   return [
-    "Birthdays are a new start, a fresh beginning and a time to pursue new endeavors with new goals. Move forward with confidence and courage. You are a very special person. May today and all of your days be amazing!",
-    "Your birthday is the first day of another 365-day journey. Be the shining thread in the beautiful tapestry of the world to make this year the best ever. Enjoy the ride.",
-    "Be happy! Today is the day you were brought into this world to be a blessing and inspiration to the people around you! You are a wonderful person! May you be given more birthdays to fulfill all of your dreams!",
-    "Hello! Wish you all the best!"
+    "Birthdays are a new start. You are a very special person. May today and all of your days be amazing!",
+    "Your birthday is the first day of another 365-day journey. Enjoy the ride!",
+    "Wishing you a Happy New Year with the hope that you will have many blessings in the year to come!",
+    "Celebrate the Wonder and the Joy of the Festive Season. Merry Christmas!",
+    "Wishing a perfect pair a perfectly happy day!",
+    "Hope you find time to look back on all your sweet memories together!",
+    "Reach high, for stars lie hidden in your soul. Dream deep, for every dream precedes the goal!",
+    "You have finally walked that extra mile and gone up the ladder of success!"
   ];
 };
 
@@ -110,8 +122,7 @@ const Gift = props => {
   };
 
   const handleBuy = () => {
-    //TODO: add different calls for auth and not auth User
-    // if (props.token === null) {
+    // if (!props.isAuth) {
     axios
       .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}`)
       .then(response => {
@@ -144,6 +155,16 @@ const Gift = props => {
     //     });
     //Send api call to add myself
     // }
+  };
+
+  const [selectedTags, setSelectedTags] = React.useState([]);
+
+  const handleSelectTag = tag => {
+    if (selectedTags.indexOf(tag) === -1) {
+      setSelectedTags([...selectedTags, tag]);
+    } else {
+      setSelectedTags(selectedTags.filter(item => item !== tag));
+    }
   };
 
   const [open, setOpen] = React.useState(false);
@@ -241,6 +262,10 @@ const Gift = props => {
                         className={classes.submit}
                         onClick={() => setMode("customize")}
                       >
+                        {!(
+                          MOBILE_WIDTH < window.innerWidth &&
+                          window.innerWidth < PARTLY_MOBILE_WIDTH
+                        ) && <SettingsIcon className={classes.icon} />}
                         Customize
                       </Button>
                     </Grid>
@@ -255,6 +280,10 @@ const Gift = props => {
                           handleBuy();
                         }}
                       >
+                        {!(
+                          MOBILE_WIDTH < window.innerWidth &&
+                          window.innerWidth < PARTLY_MOBILE_WIDTH
+                        ) && <ShoppingCartIcon className={classes.icon} />}
                         Buy
                       </Button>
                     </Grid>
@@ -282,23 +311,24 @@ const Gift = props => {
         <MyContainer>
           <Header topic="Customization" />
           <Box id="content" mb={2}>
-            <Stepper
-              className={classes.stepper}
-              orientation={
-                window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
-              }
-              activeStep={1}
-            >
-              {steps.map((label, index) => (
-                <Step className={classes.step} key={index}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
+            {window.innerWidth < MOBILE_WIDTH ? null : (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={1}
+              >
+                {steps.map((label, index) => (
+                  <Step className={classes.step} key={index}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            )}
             <MyBox title="Make your E-Gift unique">
               <Typography>
                 Click to choose one of the ready-made congratulations
               </Typography>
+
               <div className={classes.messages}>
                 {messages.map((text, index) => (
                   <MyBoxCard
@@ -309,11 +339,27 @@ const Gift = props => {
                 ))}
               </div>
               <Typography>
-                Or you can enter a congratulatory text below
+                Or you can use Tags to find the best congratulation
               </Typography>
-              <div className={classes.textField}>
+              {props.tags.map((tag, index) => (
+                <Chip
+                  key={index}
+                  className={classes.chip}
+                  size="medium"
+                  label={tag}
+                  color={
+                    selectedTags.indexOf(tag) === -1 ? "default" : "primary"
+                  }
+                  onClick={() => {
+                    handleSelectTag(tag);
+                  }}
+                />
+              ))}
+              <Typography className={classes.check}>
+                Check and adjust a congratulatory text below
+              </Typography>
+              <div className={classes.message}>
                 <TextField
-                  className={classes.textFieldContent}
                   variant="outlined"
                   label="Congratulation"
                   value={text}
@@ -323,13 +369,16 @@ const Gift = props => {
                     setText(event.target.value);
                   }}
                 />
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => setText("")}
-                >
-                  Clear
-                </Button>
+                {text === "" ? null : (
+                  <Button
+                    className={classes.clear}
+                    size="small"
+                    onClick={() => setText("")}
+                  >
+                    <ClearIcon className={classes.icon} />
+                    Clear
+                  </Button>
+                )}
               </div>
               <Button
                 fullWidth
@@ -372,70 +421,101 @@ const Gift = props => {
         <MyContainer>
           <Header topic="Congratulations" />
           <Box id="content" mb={2}>
-            <Stepper
-              className={classes.stepper}
-              orientation={
-                window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
-              }
-              activeStep={2}
-            >
-              {steps.map((label, index) => (
-                <Step className={classes.step} key={index}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <MyBox title="Thank you for purchase">
-              <Typography>
-                This contribution will surely save our planet from pollution
-              </Typography>
-            </MyBox>
-            {link === "" ? null /*TODO*/ : (
-              <MyBox title="Attention" type="warning">
-                <Typography>
-                  E-Gift can be sent only to one person. Unique Link will become
-                  inactive after receiving
-                </Typography>
-              </MyBox>
+            {window.innerWidth < MOBILE_WIDTH ? null : (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={2}
+              >
+                {steps.map((label, index) => (
+                  <Step className={classes.step} key={index}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
             )}
-            <MyBox title="Your E-Gift" type="success">
-              <Typography>
-                You can send E-Gift by email or you can copy unique Link to send
-                it in any other way
-              </Typography>
-              {link === "" ? null /*TODO*/ : (
-                <>
-                  <div className={classes.textField}>
-                    <TextField
-                      id="link"
-                      className={classes.textFieldContent}
-                      variant="outlined"
-                      label="Your unique Link with E-Gift"
-                      value={link}
-                      fullWidth
-                    />
+            {link === "" ? null /*TODO*/ : (
+              <>
+                <MyBox title="Thank you for purchase">
+                  <Typography>
+                    This contribution will surely save our planet from pollution
+                  </Typography>
+                </MyBox>
+                <MyBox title="Your E-Gift" type="success">
+                  <Typography>
+                    E-Gift can be sent only to one person. Unique Link will
+                    become inactive after receiving
+                  </Typography>
+                  <TextField
+                    className={classes.link}
+                    variant="outlined"
+                    label="Your unique Link with E-Gift"
+                    value={link}
+                    fullWidth
+                  />
+                </MyBox>
+                <MyBox title="Social Networks">
+                  <Typography>
+                    You can send a message with unique Link with E-Gift to your
+                    friend
+                  </Typography>
+                  <div className={classes.buttons}>
+                    <Button variant="contained" color="primary">
+                      <FacebookIcon />
+                      {window.innerWidth < MOBILE_WIDTH ? null : (
+                        <div className={classes.socialText}>Facebook</div>
+                      )}
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                    >
+                      <TwitterIcon />
+                      {window.innerWidth < MOBILE_WIDTH ? null : (
+                        <div className={classes.socialText}>Twitter</div>
+                      )}
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                    >
+                      <TelegramIcon />
+                      {window.innerWidth < MOBILE_WIDTH ? null : (
+                        <div className={classes.socialText}>Telegram</div>
+                      )}
+                    </Button>
+                  </div>
+                </MyBox>
+                <MyBox title="Other Ways">
+                  <Typography>
+                    You can send E-Gift by email or you can copy unique Link to
+                    send it in any other way
+                  </Typography>
+                  <div className={classes.buttons}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setOpen(true)}
+                    >
+                      <EmailIcon className={classes.icon} />
+                      Email
+                    </Button>
                     <CopyToClipboard
+                      className={classes.button}
                       text={link}
                       onCopy={() => setMode("copied")}
                     >
-                      <Button variant="outlined" color="primary">
+                      <Button variant="contained" color="primary">
+                        <FileCopyIcon className={classes.icon} />
                         Copy
                       </Button>
                     </CopyToClipboard>
                   </div>
-                  <Fab
-                    className={classes.submit}
-                    variant="extended"
-                    size="small"
-                    color="primary"
-                    onClick={() => setOpen(true)}
-                  >
-                    <EmailIcon className={classes.icon} />
-                    Send email
-                  </Fab>
-                </>
-              )}
-            </MyBox>
+                </MyBox>
+              </>
+            )}
           </Box>
         </MyContainer>
         <Dialog open={open} onClose={handleClose}>
@@ -443,16 +523,16 @@ const Gift = props => {
           <DialogContent>
             <DialogContentText>
               Who do you want to send an email to?
-              <TextField
-                margin="normal"
-                variant="outlined"
-                label="Recipient's email"
-                value={mail}
-                onChange={event => setMail(event.target.value)}
-                fullWidth
-                autoComplete="email"
-              />
             </DialogContentText>
+            <TextField
+              margin="normal"
+              variant="outlined"
+              label="Recipient's email"
+              value={mail}
+              onChange={event => setMail(event.target.value)}
+              fullWidth
+              autoComplete="email"
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -472,19 +552,19 @@ const Gift = props => {
         <MyContainer>
           <Header topic={mode === "copied" ? "Copied" : "Sent"} />
           <Box id="content" mb={2}>
-            <Stepper
-              className={classes.stepper}
-              orientation={
-                window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
-              }
-              activeStep={3}
-            >
-              {steps.map((label, index) => (
-                <Step className={classes.step} key={index}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
+            {window.innerWidth < MOBILE_WIDTH ? null : (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={3}
+              >
+                {steps.map((label, index) => (
+                  <Step className={classes.step} key={index}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            )}
             {mode === "copied" ? (
               <>
                 <MyBox title="Successfully copied" type="success">

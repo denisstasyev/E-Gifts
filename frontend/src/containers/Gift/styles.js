@@ -38,14 +38,30 @@ export const useStyles = makeStyles(theme => ({
     overflowY: "auto",
     margin: theme.spacing(2)
   },
-
-  textField: {
+  check: {
+    marginTop: theme.spacing(1)
+  },
+  message: {
     marginTop: theme.spacing(2),
     display: "flex"
   },
-  textFieldContent: {
-    marginRight: theme.spacing(2)
+  clear: {
+    marginLeft: theme.spacing(2)
   },
+
+  link: {
+    marginTop: theme.spacing(2)
+  },
+  buttons: {
+    marginTop: theme.spacing(1)
+  },
+  button: {
+    marginLeft: theme.spacing(1)
+  },
+  socialText: {
+    marginLeft: theme.spacing(1)
+  },
+
   fab: {
     marginTop: theme.spacing(1),
     alignSelf: "flex-end",
