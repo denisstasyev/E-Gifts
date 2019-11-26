@@ -29,6 +29,7 @@ export const useStyles = makeStyles(theme => ({
     left: 100,
     bottom: 120
   },
+
   fab: {
     alignSelf: "flex-end",
     marginTop: theme.spacing(1)
@@ -40,5 +41,8 @@ export const useStyles = makeStyles(theme => ({
     position: "absolute",
     bottom: 0,
     right: 0
+  },
+  text: {
+    alignSelf: "flex-start"
   }
 }));

@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { useTheme } from "@material-ui/styles";
 import Box from "@material-ui/core/Box";
@@ -7,6 +9,8 @@ import Fab from "@material-ui/core/Fab";
 
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CameraIcon from "@material-ui/icons/CameraAlt";
+import AccountIcon from "@material-ui/icons/AccountCircle";
+import GalleryIcon from "@material-ui/icons/Redeem";
 
 import "@google/model-viewer";
 
@@ -16,6 +20,7 @@ import BoomConfetti from "react-dom-confetti";
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
+import { MyTwoBoxes } from "components/MyTwoBoxes";
 
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
 
@@ -55,7 +60,7 @@ const config = {
 
 const ModelViewerComponent = "model-viewer";
 
-const ViewerBeta = () => {
+const ViewerBeta = props => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -63,7 +68,7 @@ const ViewerBeta = () => {
   const [boom, setBoom] = React.useState(false);
   const [text] = React.useState("welcome");
 
-  const handleOpen = () => {
+  const handleOpen = props => {
     resolveToTop();
     setBoom(true);
     setTimeout(() => {
@@ -153,6 +158,74 @@ const ViewerBeta = () => {
                   <Typography>{text}</Typography>
                 </MyBox>
               ) : null}
+              <MyTwoBoxes
+                leftBoxTitle={
+                  props.isAuth
+                    ? "View E-Gift in the Profile"
+                    : "Sign Up or Sign In to save"
+                }
+                leftBox={
+                  props.isAuth ? (
+                    <>
+                      <Typography className={classes.text}>
+                        You can view sent E-Gifts in your Profile
+                      </Typography>
+                      <div className={classes.fab}>
+                        <Fab
+                          variant="extended"
+                          size="small"
+                          color="primary"
+                          component={Link}
+                          to="/profile"
+                        >
+                          <AccountIcon className={classes.icon} />
+                          Profile
+                        </Fab>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Typography className={classes.text}>
+                        You can Sign Up or Sign In in the Profile to save sent
+                        E-Gift to your Collection
+                      </Typography>
+                      <div className={classes.fab}>
+                        <Fab
+                          variant="extended"
+                          size="small"
+                          color="primary"
+                          component={Link}
+                          to="/profile"
+                        >
+                          <AccountIcon className={classes.icon} />
+                          Profile
+                        </Fab>
+                      </div>
+                    </>
+                  )
+                }
+                rightBoxTitle="Buy more E-Gifts"
+                rightBox={
+                  <>
+                    <Typography className={classes.text}>
+                      The more E-Gifts you give to people, the cleaner our
+                      planet becomes. More E-Gifts can be found in the Gallery
+                    </Typography>
+                    <div className={classes.fab}>
+                      <Fab
+                        variant="extended"
+                        size="small"
+                        color="primary"
+                        component={Link}
+                        to="/gallery"
+                      >
+                        <GalleryIcon className={classes.icon} />
+                        Gallery
+                      </Fab>
+                    </div>
+                  </>
+                }
+              />
             </>
           )}
         </Box>
@@ -161,4 +234,11 @@ const ViewerBeta = () => {
   );
 };
 
-export default ViewerBeta;
+const mapStateToProps = state => ({
+  isAuth: state.userReducer.isAuth
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(ViewerBeta);
