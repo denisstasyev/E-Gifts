@@ -161,14 +161,14 @@ const ViewerBeta = props => {
               <MyTwoBoxes
                 leftBoxTitle={
                   props.isAuth
-                    ? "View E-Gift in the Profile"
+                    ? "Save E-Gift to the Profile"
                     : "Sign Up or Sign In to save"
                 }
                 leftBox={
                   props.isAuth ? (
                     <>
                       <Typography className={classes.text}>
-                        You can view sent E-Gifts in your Profile
+                        You can save this E-Gift to your Profile
                       </Typography>
                       <div className={classes.fab}>
                         <Fab
@@ -179,7 +179,7 @@ const ViewerBeta = props => {
                           to="/profile"
                         >
                           <AccountIcon className={classes.icon} />
-                          Profile
+                          Save
                         </Fab>
                       </div>
                     </>
