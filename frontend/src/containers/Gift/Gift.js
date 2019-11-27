@@ -171,7 +171,24 @@ const Gift = props => {
   const [mail, setMail] = React.useState("");
 
   const handleSendMail = () => {
-    //send to backend mail address
+    axios
+      .get(
+        `${config.BACKEND_SERVER}/send_by_email?guid=${link.substring(
+          link.lastIndexOf("/") + 1,
+          link.length
+        )}&email=${mail}`
+      )
+      .then(response => {
+        if (response[config.DATA][config.RESULT]) {
+        } else {
+          console.log("Cannot send gift :(");
+        }
+      })
+      .catch(() => {
+        console.log("Cannot send gift: network problem");
+        //TODO: dispatch(loadFail("Network problem, try again later"));
+      });
+
     setMode("sent");
   };
 

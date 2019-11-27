@@ -47,5 +47,21 @@ export const useStyles = makeStyles(theme => ({
   },
   icon: {
     marginRight: theme.spacing(1)
+  },
+
+  idea: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  vr: {
+    flexGrow: 1,
+    // width: "100%",
+    // height: "100%",
+    minHeight: "400px",
+    minWidth: "400px",
+    maxHeight: "500px"
+  },
+  canvas: {
+    outline: "none"
   }
 }));
