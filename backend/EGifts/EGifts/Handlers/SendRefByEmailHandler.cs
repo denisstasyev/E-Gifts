@@ -9,11 +9,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace EGifts.Handlers
 {
-    class SendRefByEmailHndler
+    class SendRefByEmailHandler
     {
-        const string Mail = "test @test.ru";
-        const string Name = "EGifts-bot";
-        const string Password = "password";
         public BaseMessage Handle(HttpContext context)
         {
             if (!context.Request.Query.ContainsKey(GiftNames.Guid))
@@ -32,7 +29,6 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.NoParameters,
                 };
             }
-
 
             var mail = context.Request.Query[GiftNames.Email].ToString();
 
@@ -61,9 +57,7 @@ namespace EGifts.Handlers
                 };
             }
 
-            // ����������� - ������������� ����� � ������������ � ������ ���
-            var from = new MailAddress(Mail, Name);
-            // ���� ����������
+            var from = new MailAddress(ConfigurationManager.Email, ConfigurationManager.EmailName);
             MailAddress to;
             try
             {
@@ -77,21 +71,16 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.EmailNotValid,
                 };
             }
-            // ������� ������ ���������
-            MailMessage message = new MailMessage(from, to)
+            var message = new MailMessage(from, to)
             {
-                // ���� ������
                 Subject = "A gift for you!",
-                // ����� ������
                 Body = $"<h2>Your friend sent a gift to you.<br>It exists in augmented reality, u can see your gift on our site by reference below. Good luck!)</h2><h2>{reference.Reference}<h2>",
-                // ������ ������������ ��� html
                 IsBodyHtml = true
             };
-            // ����� smtp-������� � ����, � �������� ����� ���������� ������
+            // Адрес smtp-сервера и порт, с которого будем отправлять письмо
             var smtp = new SmtpClient("smtp.mail.ru", 25)
             {
-                // ����� � ������
-                Credentials = new NetworkCredential(Mail, Password),
+                Credentials = new NetworkCredential(ConfigurationManager.Email, ConfigurationManager.EmailPassword),
                 EnableSsl = true
             };
             smtp.Send(message);

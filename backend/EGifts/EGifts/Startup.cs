@@ -35,6 +35,8 @@ namespace EGifts
         {
             MainDbContext.ConnectionString = configuration.GetConnectionString("DefaultConnection");
 
+            var test = configuration.GetSection("EmailCredential")["Email"];
+            var test1 = configuration.GetSection("EmailCredential")["Password"];
             using var dbContext = new MainDbContext();
             dbContext.Database.Migrate();
 
@@ -175,7 +177,7 @@ namespace EGifts
                 });//.RequireCors(MyAllowSpecificOrigins);
                 endpoints.MapGet("/api/send_by_email", async context =>
                 {
-                    var handler = new SendRefByEmailHndler();
+                    var handler = new SendRefByEmailHandler();
                     var result = handler.Handle(context);
                     //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
