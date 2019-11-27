@@ -33,10 +33,35 @@ export const useStyles = makeStyles(theme => ({
   step: {
     marginBottom: theme.spacing(1)
   },
-
-  uniqueLink: {
+  messages: {
+    display: "flex",
+    overflowY: "auto",
+    margin: theme.spacing(2)
+  },
+  check: {
     marginTop: theme.spacing(1)
   },
+  message: {
+    marginTop: theme.spacing(2),
+    display: "flex"
+  },
+  clear: {
+    marginLeft: theme.spacing(2)
+  },
+
+  link: {
+    marginTop: theme.spacing(2)
+  },
+  buttons: {
+    marginTop: theme.spacing(1)
+  },
+  button: {
+    marginLeft: theme.spacing(1)
+  },
+  socialText: {
+    marginLeft: theme.spacing(1)
+  },
+
   fab: {
     marginTop: theme.spacing(1),
     alignSelf: "flex-end",
@@ -45,5 +70,8 @@ export const useStyles = makeStyles(theme => ({
   },
   icon: {
     marginRight: theme.spacing(1)
+  },
+  text: {
+    alignSelf: "flex-start"
   }
 }));

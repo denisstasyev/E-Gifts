@@ -8,6 +8,7 @@ import Fab from "@material-ui/core/Fab";
 
 import GalleryIcon from "@material-ui/icons/Redeem";
 import HomeIcon from "@material-ui/icons/Home";
+import CameraIcon from "@material-ui/icons/CameraAlt";
 
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
@@ -91,6 +92,25 @@ const NotFound = props => {
             }
           />
         )}
+        {props.type === "view" ? (
+          <MyBox title="How to view E-Gift?">
+            <Typography className={classes.text}>
+              More details about viewing E-Gifts can be found in the View
+            </Typography>
+            <div className={classes.fab}>
+              <Fab
+                variant="extended"
+                size="small"
+                color="primary"
+                component={Link}
+                to="/view"
+              >
+                <CameraIcon className={classes.icon} />
+                View
+              </Fab>
+            </div>
+          </MyBox>
+        ) : null}
       </Box>
     </MyContainer>
   );
