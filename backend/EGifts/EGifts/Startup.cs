@@ -33,10 +33,9 @@ namespace EGifts
 
         public Startup(IConfiguration configuration)
         {
+            ConfigurationManager.Configure(configuration);
             MainDbContext.ConnectionString = configuration.GetConnectionString("DefaultConnection");
 
-            var test = configuration.GetSection("EmailCredential")["Email"];
-            var test1 = configuration.GetSection("EmailCredential")["Password"];
             using var dbContext = new MainDbContext();
             dbContext.Database.Migrate();
 
