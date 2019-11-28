@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { MOBILE_WIDTH } from "configs/CSSvariables";
+
 import { hexToRgb } from "utils";
 
 import NoEImage from "static/home/no_e.svg";
@@ -31,7 +33,9 @@ export const useStyles = makeStyles(theme => ({
   },
   boxText: {
     display: "flex",
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   boxTextLetter: {
     backgroundColor: theme.palette.primary.main,
@@ -51,17 +55,28 @@ export const useStyles = makeStyles(theme => ({
 
   idea: {
     display: "flex",
-    flexWrap: "wrap"
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
+      flexDirection: "column"
+    }
   },
   vr: {
     flexGrow: 1,
-    // width: "100%",
-    // height: "100%",
-    minHeight: "400px",
-    minWidth: "400px",
-    maxHeight: "500px"
+    width: "50%",
+    height: "400px",
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
+      width: "100%"
+    }
   },
-  canvas: {
-    outline: "none"
+  ideaTitle: {
+    // width: "30%",
+    // flexShrink: 1,
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    [`@media (max-width: ${MOBILE_WIDTH}px)`]: {
+      alignItems: "center",
+      textAlign: "center"
+    }
   }
 }));
