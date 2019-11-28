@@ -60,6 +60,23 @@ const Home = props => {
               </Typography>
             </div>
           </div>
+          <div className={classes.fab}>
+            <Fab
+              variant="extended"
+              size="medium"
+              color="primary"
+              component={Link}
+              to="/gallery"
+            >
+              <PlayArrowIcon className={classes.icon} />
+              Get started
+            </Fab>
+            {window.innerWidth > MOBILE_WIDTH && (
+              <Typography className={classes.moreDetails}>
+                Read some more details below or
+              </Typography>
+            )}
+          </div>
         </MyBox>
         <MyBox title="Newest E-Gifts">Soon</MyBox>
         <MyTwoBoxes
