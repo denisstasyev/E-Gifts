@@ -458,20 +458,21 @@ const Gift = props => {
                     This contribution will surely save our planet from pollution
                   </Typography>
                 </MyBox>
-                <MyBox title="Your E-Gift" type="success">
+                <MyBox title="Email" type="success">
                   <Typography>
-                    E-Gift can be sent only to one person. Unique Link will
-                    become inactive after receiving
+                    You can send E-Gift by email with unique Link to your friend
                   </Typography>
-                  <TextField
-                    className={classes.link}
-                    variant="outlined"
-                    label="Your unique Link with E-Gift"
-                    value={link}
-                    fullWidth
-                  />
+                  <Button
+                    className={classes.mail}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpen(true)}
+                  >
+                    <EmailIcon className={classes.icon} />
+                    Email
+                  </Button>
                 </MyBox>
-                <MyBox title="Social Networks">
+                <MyBox title="Social Networks" type="success">
                   <Typography>
                     You can send a message with unique Link with E-Gift to your
                     friend
@@ -505,31 +506,28 @@ const Gift = props => {
                     </Button>
                   </div>
                 </MyBox>
-                <MyBox title="Other Ways">
+                <MyBox title="Your E-Gift" type="success">
                   <Typography>
-                    You can send E-Gift by email or you can copy unique Link to
-                    send it in any other way
+                    E-Gift can be sent only to one person. Unique Link will
+                    become inactive after receiving
                   </Typography>
-                  <div className={classes.buttons}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => setOpen(true)}
-                    >
-                      <EmailIcon className={classes.icon} />
-                      Email
+                  <TextField
+                    className={classes.link}
+                    variant="outlined"
+                    label="Your unique Link with E-Gift"
+                    value={link}
+                    fullWidth
+                  />
+                  <CopyToClipboard
+                    className={classes.copy}
+                    text={link}
+                    onCopy={() => setMode("copied")}
+                  >
+                    <Button variant="contained" color="primary">
+                      <FileCopyIcon className={classes.icon} />
+                      Copy
                     </Button>
-                    <CopyToClipboard
-                      className={classes.button}
-                      text={link}
-                      onCopy={() => setMode("copied")}
-                    >
-                      <Button variant="contained" color="primary">
-                        <FileCopyIcon className={classes.icon} />
-                        Copy
-                      </Button>
-                    </CopyToClipboard>
-                  </div>
+                  </CopyToClipboard>
                 </MyBox>
               </>
             )}

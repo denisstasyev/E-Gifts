@@ -49,10 +49,7 @@ export const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2)
   },
 
-  link: {
-    marginTop: theme.spacing(2)
-  },
-  buttons: {
+  mail: {
     marginTop: theme.spacing(1)
   },
   button: {
@@ -60,6 +57,15 @@ export const useStyles = makeStyles(theme => ({
   },
   socialText: {
     marginLeft: theme.spacing(1)
+  },
+  link: {
+    marginTop: theme.spacing(2)
+  },
+  copy: {
+    marginTop: theme.spacing(2)
+  },
+  buttons: {
+    marginTop: theme.spacing(1)
   },
 
   fab: {
