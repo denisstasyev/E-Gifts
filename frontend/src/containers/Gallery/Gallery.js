@@ -44,7 +44,7 @@ const Gallery = props => {
     <>
       <MyContainer>
         <Header topic="Gallery" />
-        <Box id="content" mb={9}>
+        <Box id="content" pb={9}>
           <MyBox title="Filtered E-Gifts">
             {props.availableGifts.length === 0 ? (
               <Typography>No gifts found, try to change Filters</Typography>

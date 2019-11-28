@@ -46,7 +46,7 @@ const Home = props => {
   return (
     <MyContainer>
       <Header topic="E-Gifts" />
-      <Box id="content" mb={2}>
+      <Box id="content" pb={2}>
         <MyBox title="What is it? 🤔">
           <div className={classes.idea}>
             <div id="vr" className={classes.vr}>

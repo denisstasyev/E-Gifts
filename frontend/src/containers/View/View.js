@@ -36,7 +36,7 @@ const View = () => {
   return (
     <MyContainer>
       <Header topic="View" />
-      <Box id="content" mb={2}>
+      <Box id="content" pb={2}>
         <MyBox title="How to view E-Gift?">
           <Stepper
             orientation={

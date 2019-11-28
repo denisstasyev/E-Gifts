@@ -27,7 +27,7 @@ const NotFound = props => {
   return (
     <MyContainer>
       <Header topic="Not Found" />
-      <Box id="content" mb={2}>
+      <Box id="content" pb={2}>
         {props.isAuth ? (
           <MyBox title="What happened?">
             <Typography className={classes.text}>

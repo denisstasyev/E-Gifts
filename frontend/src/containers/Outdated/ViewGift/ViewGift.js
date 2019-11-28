@@ -95,7 +95,7 @@ const View = props => {
     return mode === "welcome" ? (
       <MyContainer>
         <Header topic="E-Gift for you" />
-        <Box id="content" mb={2}>
+        <Box id="content" pb={2}>
           {text !== "" ? (
             <MyBox title="Congratulator left you a message">
               <Typography>{text}</Typography>
@@ -119,7 +119,7 @@ const View = props => {
       <>
         <MyContainer>
           <Header topic="E-Gift for you" />
-          <Box id="content" mb={2}>
+          <Box id="content" pb={2}>
             <MyTwoBoxes
               type="big"
               leftBoxTitle="Your E-Gift in VR"

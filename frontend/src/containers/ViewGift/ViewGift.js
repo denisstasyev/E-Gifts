@@ -84,7 +84,7 @@ const ViewGift = props => {
       <Confetti numberOfPieces={400} recycle={false} />
       <MyContainer>
         <Header topic="E-Gift for you" />
-        <Box id="content" mb={2}>
+        <Box id="content" pb={2}>
           {mode === "welcome" ? (
             <>
               <MyBox title="Click to open your E-Gift">

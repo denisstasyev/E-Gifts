@@ -204,7 +204,7 @@ const Gift = props => {
       <>
         <MyContainer>
           <Header topic={props.name} />
-          <Box id="content" mb={2}>
+          <Box id="content" pb={2}>
             <MyTwoBoxes
               type="big"
               leftBoxTitle="Preview"
@@ -327,7 +327,7 @@ const Gift = props => {
       <>
         <MyContainer>
           <Header topic="Customization" />
-          <Box id="content" mb={2}>
+          <Box id="content" pb={2}>
             {window.innerWidth < MOBILE_WIDTH ? null : (
               <Stepper
                 className={classes.stepper}
@@ -437,7 +437,7 @@ const Gift = props => {
       <>
         <MyContainer>
           <Header topic="Congratulations" />
-          <Box id="content" mb={2}>
+          <Box id="content" pb={2}>
             {window.innerWidth < MOBILE_WIDTH ? null : (
               <Stepper
                 className={classes.stepper}
@@ -568,7 +568,7 @@ const Gift = props => {
         <Confetti numberOfPieces={400} recycle={false} />
         <MyContainer>
           <Header topic={mode === "copied" ? "Copied" : "Sent"} />
-          <Box id="content" mb={2}>
+          <Box id="content" pb={2}>
             {window.innerWidth < MOBILE_WIDTH ? null : (
               <Stepper
                 className={classes.stepper}
