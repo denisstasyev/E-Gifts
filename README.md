@@ -1,6 +1,6 @@
 <p align="center">
   <img alt="E-Gifts logo" src="docs/logos/transparent.png" width="100px" />
-  <h1 align="center">E-Gifts - Brings gifts to AR/VR!</h1>
+  <h1 align="center">E-Gifts - Brings gifts to AR & VR!</h1>
 </p>
 
 You have found the E-Gifts GitHub repository, which is our graduation project of the TechnoTrack FullStack development course by Mail.Ru.

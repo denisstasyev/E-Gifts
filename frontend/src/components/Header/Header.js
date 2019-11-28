@@ -25,8 +25,8 @@ const Header = props => {
         <Typography variant="h4">{props.topic}</Typography>
         <Typography variant="body2">
           {props.topic === "E-Gifts"
-            ? "Brings gifts to AR/VR!"
-            : "E-Gifts - Brings gifts to AR/VR!"}
+            ? "Brings gifts to AR & VR!"
+            : "E-Gifts - Brings gifts to AR & VR!"}
         </Typography>
       </div>
     </Toolbar>
