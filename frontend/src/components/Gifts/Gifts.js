@@ -3,6 +3,8 @@ import React from "react";
 
 import { useTheme } from "@material-ui/styles";
 
+import { createBoxWithRoundedEdges } from "utils/three";
+
 import { useStyles } from "./styles";
 
 const Gifts = () => {
@@ -12,7 +14,11 @@ const Gifts = () => {
   let canvas = null;
 
   React.useEffect(() => {
-    const renderer = new THREE.WebGLRenderer({ canvas });
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      precision: "highp"
+    });
     renderer.setClearColor(new THREE.Color(theme.palette.background.paper));
 
     const parent = document.getElementById("vr");
@@ -32,7 +38,10 @@ const Gifts = () => {
 
     let geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshNormalMaterial();
-    const cube1 = new THREE.Mesh(geometry, material);
+    const cube1 = new THREE.Mesh(
+      createBoxWithRoundedEdges(1.05, 1.2, 1.05, 0.3, 10),
+      material
+    );
 
     geometry = new THREE.BoxGeometry(1.2, 0.6, 1.2);
     const cube2 = new THREE.Mesh(geometry, material);
