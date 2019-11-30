@@ -99,6 +99,7 @@ const ViewGift = props => {
                       className={classes.boxImageTop}
                       src={require("static/view/top.svg")}
                       alt="E-Gifts logo"
+                      onClick={handleOpen}
                     />
                     <BoomConfetti
                       className={classes.boom}

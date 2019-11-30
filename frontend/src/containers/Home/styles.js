@@ -84,5 +84,9 @@ export const useStyles = makeStyles(theme => ({
   },
   step: {
     marginBottom: theme.spacing(1)
+  },
+
+  mail: {
+    marginTop: theme.spacing(1)
   }
 }));

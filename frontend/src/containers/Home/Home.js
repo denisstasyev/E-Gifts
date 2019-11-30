@@ -8,8 +8,10 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Fab from "@material-ui/core/Fab";
+import Button from "@material-ui/core/Button";
 
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import EmailIcon from "@material-ui/icons/AlternateEmail";
 
 import { MyContainer } from "components/MyContainer";
 import { Header } from "components/Header";
@@ -189,6 +191,21 @@ const Home = props => {
               Get started
             </Fab>
           </div>
+        </MyBox>
+        <MyBox title="Contact Us">
+          <Typography>
+            Have you encountered a problem on this site? Do you have any ideas
+            for improving E-Gifts? Feel free to contact us via email
+          </Typography>
+          <Button
+            className={classes.mail}
+            variant="contained"
+            color="primary"
+            href="mailto:support@e-gifts.site"
+          >
+            <EmailIcon className={classes.icon} />
+            Email
+          </Button>
         </MyBox>
       </Box>
     </MyContainer>
