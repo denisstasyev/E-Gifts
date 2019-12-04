@@ -1,4 +1,4 @@
-/* globals THREE */
+import * as THREE from "three";
 
 export const createBoxWithRoundedEdges = (
   width,

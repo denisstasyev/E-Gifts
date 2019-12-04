@@ -1,7 +1,8 @@
-/* globals THREE */
 import React from "react";
 
 import { useTheme } from "@material-ui/styles";
+
+import * as THREE from "three";
 
 import { createBoxWithRoundedEdges } from "utils/three";
 

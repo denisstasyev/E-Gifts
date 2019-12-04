@@ -18,7 +18,7 @@ In case of problems try entering `sudo <your-command>`.
 
 ## List of technologies used
 
-Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, AR.js, GSAP (GreenSock), Material-UI React, Prettier, ESLint, Sentry, DetectRTC.
+Make, Docker, Docker-Compose, Nginx, React, Redux, Three.js, <model-viewer>, GSAP (GreenSock), Material-UI React, Prettier, ESLint, Sentry.
 
 ## Images in the Gallery
 

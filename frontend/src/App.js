@@ -14,7 +14,6 @@ import { Profile } from "containers/Profile";
 import { SignUp } from "containers/SignUp";
 import { SignIn } from "containers/SignIn";
 import { NotFound } from "containers/NotFound";
-import { OutdatedViewGift } from "containers/Outdated/ViewGift";
 
 import { LabelBottomNavigation } from "components/LabelBottomNavigation";
 
@@ -82,8 +81,6 @@ const App = props => {
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />
           <Route path="*" component={NotFound} />
-
-          <Route path="/outdated/:id" component={OutdatedViewGift} />
         </Switch>
         <LabelBottomNavigation />
       </MuiThemeProvider>

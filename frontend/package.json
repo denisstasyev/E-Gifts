@@ -26,7 +26,8 @@
     "react-swipeable-views": "^0.13.3",
     "react-swipeable-views-utils": "^0.13.3",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "three": "^0.111.0"
   },
   "scripts": {
     "start": "react-scripts start",
