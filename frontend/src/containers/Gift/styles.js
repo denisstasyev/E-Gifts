@@ -31,7 +31,7 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default
   },
   step: {
-    marginBottom: theme.spacing(1)
+    marginLeft: theme.spacing(1)
   },
   messages: {
     display: "flex",

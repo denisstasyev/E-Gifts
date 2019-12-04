@@ -32,7 +32,7 @@ import * as config from "configs/backendAPI";
 
 import { checkIsMobile } from "utils";
 
-import { LABELBOTTOMNAVIGATION_TOGGLE } from "store/actionTypes";
+import { NAVIGATION_TOGGLE } from "store/actionTypes";
 
 import { useStyles } from "./styles";
 
@@ -245,7 +245,7 @@ const View = props => {
 const mapDispatchToProps = dispatch => ({
   toggleLabelBottomNavigation: () =>
     dispatch({
-      type: LABELBOTTOMNAVIGATION_TOGGLE
+      type: NAVIGATION_TOGGLE
     })
 });
 

@@ -58,7 +58,6 @@ import * as giftActionCreators from "store/actions/gift";
 import * as config from "configs/backendAPI";
 
 import { priceToString, checkIsMobile } from "utils";
-import { MOBILE_WIDTH, PARTLY_MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
 
@@ -279,10 +278,9 @@ const Gift = props => {
                         className={classes.submit}
                         onClick={() => setMode("customize")}
                       >
-                        {!(
-                          MOBILE_WIDTH < window.innerWidth &&
-                          window.innerWidth < PARTLY_MOBILE_WIDTH
-                        ) && <SettingsIcon className={classes.icon} />}
+                        {!(!props.isMobile && props.isPartlyMobile) && (
+                          <SettingsIcon className={classes.icon} />
+                        )}
                         Customize
                       </Button>
                     </Grid>
@@ -297,10 +295,9 @@ const Gift = props => {
                           handleBuy();
                         }}
                       >
-                        {!(
-                          MOBILE_WIDTH < window.innerWidth &&
-                          window.innerWidth < PARTLY_MOBILE_WIDTH
-                        ) && <ShoppingCartIcon className={classes.icon} />}
+                        {!(!props.isMobile && props.isPartlyMobile) && (
+                          <ShoppingCartIcon className={classes.icon} />
+                        )}
                         Buy
                       </Button>
                     </Grid>
@@ -328,7 +325,22 @@ const Gift = props => {
         <MyContainer>
           <Header topic="Customization" />
           <Box id="content" pb={2}>
-            {window.innerWidth < MOBILE_WIDTH ? null : (
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={1}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
               <Stepper
                 className={classes.stepper}
                 orientation="horizontal"
@@ -438,7 +450,22 @@ const Gift = props => {
         <MyContainer>
           <Header topic="Congratulations" />
           <Box id="content" pb={2}>
-            {window.innerWidth < MOBILE_WIDTH ? null : (
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={2}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
               <Stepper
                 className={classes.stepper}
                 orientation="horizontal"
@@ -480,7 +507,7 @@ const Gift = props => {
                   <div className={classes.buttons}>
                     <Button variant="contained" color="primary">
                       <FacebookIcon />
-                      {window.innerWidth < MOBILE_WIDTH ? null : (
+                      {props.isMobile ? null : (
                         <div className={classes.socialText}>Facebook</div>
                       )}
                     </Button>
@@ -490,7 +517,7 @@ const Gift = props => {
                       color="primary"
                     >
                       <TwitterIcon />
-                      {window.innerWidth < MOBILE_WIDTH ? null : (
+                      {props.isMobile ? null : (
                         <div className={classes.socialText}>Twitter</div>
                       )}
                     </Button>
@@ -500,7 +527,7 @@ const Gift = props => {
                       color="primary"
                     >
                       <TelegramIcon />
-                      {window.innerWidth < MOBILE_WIDTH ? null : (
+                      {props.isMobile ? null : (
                         <div className={classes.socialText}>Telegram</div>
                       )}
                     </Button>
@@ -567,7 +594,22 @@ const Gift = props => {
         <MyContainer>
           <Header topic={mode === "copied" ? "Copied" : "Sent"} />
           <Box id="content" pb={2}>
-            {window.innerWidth < MOBILE_WIDTH ? null : (
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={3}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
               <Stepper
                 className={classes.stepper}
                 orientation="horizontal"
@@ -681,7 +723,9 @@ const mapStateToProps = state => ({
   tags: state.giftReducer.tags,
   urls: state.giftReducer.urls,
   isAuth: state.userReducer.isAuth,
-  token: state.userReducer.token
+  token: state.userReducer.token,
+  isMobile: state.settingsReducer.isMobile,
+  isPartlyMobile: state.settingsReducer.isPartlyMobile
 });
 
 const mapDispatchToProps = dispatch => ({

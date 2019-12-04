@@ -8,6 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 
+import { Header2 } from "components/Header2";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
@@ -25,6 +26,7 @@ const Filters = props => {
     <Redirect to="/gallery" />
   ) : (
     <>
+      <Header2 />
       <MyContainer type="small">
         <MyBox2>
           <MyAvatar title="Filters">

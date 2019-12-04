@@ -21,6 +21,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 import DateFnsUtils from "@date-io/date-fns";
 
+import { Header2 } from "components/Header2";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
@@ -93,151 +94,161 @@ const SignUp = props => {
   return props.isAuth ? (
     <Redirect to="/profile" />
   ) : (
-    <MyContainer type="small">
-      <MyBox2>
-        <MyAvatar title="Sign Up">
-          <LockOutlinedIcon />
-        </MyAvatar>
-        <Form>
-          <Grid className={classes.mainGrid} container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="First Name"
-                autoComplete="fname"
-                value={values.firstName}
-                onChange={handleChange("firstName")}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Last Name"
-                autoComplete="lname"
-                value={values.lastName}
-                onChange={handleChange("lastName")}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Email Address"
-                autoComplete="email"
-                value={values.mail}
-                onChange={handleChange("mail")}
-                error={values.mailError !== ""}
-                helperText={values.mailError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
+    <>
+      <Header2 />
+      <MyContainer type="small">
+        <MyBox2>
+          <MyAvatar title="Sign Up">
+            <LockOutlinedIcon />
+          </MyAvatar>
+          <Form>
+            <Grid className={classes.mainGrid} container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
                   fullWidth
-                  clearable
-                  inputVariant="outlined"
-                  disableFuture
-                  openTo="year"
-                  format="dd.MM.yyyy"
-                  label="Birth Date"
-                  views={["year", "month", "date"]}
-                  value={values.birthDate}
-                  onChange={handleBirthDateChange}
+                  label="First Name"
+                  autoComplete="fname"
+                  value={values.firstName}
+                  onChange={handleChange("firstName")}
                 />
-              </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="Last Name"
+                  autoComplete="lname"
+                  value={values.lastName}
+                  onChange={handleChange("lastName")}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="Email Address"
+                  autoComplete="email"
+                  value={values.mail}
+                  onChange={handleChange("mail")}
+                  error={values.mailError !== ""}
+                  helperText={values.mailError}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    fullWidth
+                    clearable
+                    inputVariant="outlined"
+                    disableFuture
+                    openTo="year"
+                    format="dd.MM.yyyy"
+                    label="Birth Date"
+                    views={["year", "month", "date"]}
+                    value={values.birthDate}
+                    onChange={handleBirthDateChange}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="Username"
+                  autoComplete="username"
+                  value={values.username}
+                  onChange={handleChange("username")}
+                  error={
+                    0 < values.username.length && values.username.length < 5
+                  }
+                  helperText={
+                    values.username.length === 0
+                      ? "Data required"
+                      : values.username.length < 5
+                      ? "Username is too short"
+                      : ""
+                  }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="Password"
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  onChange={handleChange("password")}
+                  autoComplete="new-password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          onClick={handleClickShowPassword}
+                        >
+                          {values.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                  error={
+                    0 < values.password.length && values.password.length < 5
+                  }
+                  helperText={
+                    values.password.length === 0
+                      ? "Data required"
+                      : values.password.length < 5
+                      ? "Password is too short"
+                      : ""
+                  }
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Username"
-                autoComplete="username"
-                value={values.username}
-                onChange={handleChange("username")}
-                error={0 < values.username.length && values.username.length < 5}
-                helperText={
-                  values.username.length === 0
-                    ? "Data required"
-                    : values.username.length < 5
-                    ? "Username is too short"
-                    : ""
-                }
-              />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={values.rememberMe}
+                  onChange={handleCheck("rememberMe")}
+                  color="primary"
+                />
+              }
+              label="Remember me"
+            />
+            {props.errorMessage !== "" ? (
+              <Alert text={props.errorMessage} />
+            ) : null}
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleSubmit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <LinkButton
+                  component={Link}
+                  to="/profile/signin"
+                  onClick={() => {
+                    if (props.errorMessage !== null)
+                      return props.handleRedirect();
+                  }}
+                >
+                  Already have an account? Sign In
+                </LinkButton>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Password"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleChange("password")}
-                autoComplete="new-password"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton edge="end" onClick={handleClickShowPassword}>
-                        {values.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-                error={0 < values.password.length && values.password.length < 5}
-                helperText={
-                  values.password.length === 0
-                    ? "Data required"
-                    : values.password.length < 5
-                    ? "Password is too short"
-                    : ""
-                }
-              />
-            </Grid>
-          </Grid>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={values.rememberMe}
-                onChange={handleCheck("rememberMe")}
-                color="primary"
-              />
-            }
-            label="Remember me"
-          />
-          {props.errorMessage !== "" ? (
-            <Alert text={props.errorMessage} />
-          ) : null}
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleSubmit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <LinkButton
-                component={Link}
-                to="/profile/signin"
-                onClick={() => {
-                  if (props.errorMessage !== null)
-                    return props.handleRedirect();
-                }}
-              >
-                Already have an account? Sign In
-              </LinkButton>
-            </Grid>
-          </Grid>
-        </Form>
-      </MyBox2>
-    </MyContainer>
+          </Form>
+        </MyBox2>
+      </MyContainer>
+    </>
   );
 };
 

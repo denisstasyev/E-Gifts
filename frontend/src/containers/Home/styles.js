@@ -83,6 +83,9 @@ export const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   step: {
+    marginLeft: theme.spacing(1)
+  },
+  stepMobile: {
     marginBottom: theme.spacing(1)
   },
 

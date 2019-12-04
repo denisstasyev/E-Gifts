@@ -22,8 +22,6 @@ import { GALLERY_VISIT, GIFT_SET } from "store/actionTypes";
 
 import * as config from "configs/backendAPI";
 
-import { MOBILE_WIDTH } from "configs/CSSvariables";
-
 import { priceToString } from "utils";
 
 import { useStyles } from "./styles";
@@ -42,9 +40,9 @@ const Gallery = props => {
 
   return (
     <>
-      <MyContainer>
+      <MyContainer showFooter={true}>
         <Header topic="Gallery" />
-        <Box id="content" pb={9}>
+        <Box id="content" pb={props.isPartlyMobile ? 9 : 2}>
           <MyBox title="Filtered E-Gifts">
             {props.availableGifts.length === 0 ? (
               <Typography>No gifts found, try to change Filters</Typography>
@@ -53,7 +51,7 @@ const Gallery = props => {
                 <Typography className={classes.topic}>
                   Click on E-Gift below to choose
                 </Typography>
-                {window.innerWidth > MOBILE_WIDTH ? (
+                {!props.isMobile ? (
                   <GridList
                     className={classes.gridList}
                     cellHeight={300}
@@ -125,7 +123,9 @@ const Gallery = props => {
 const mapStateToProps = state => ({
   selectedTags: state.filtersReducer.selectedTags,
   galleryWasVisited: state.galleryReducer.wasVisited,
-  availableGifts: state.galleryReducer.availableGifts
+  availableGifts: state.galleryReducer.availableGifts,
+  isMobile: state.settingsReducer.isMobile,
+  isPartlyMobile: state.settingsReducer.isPartlyMobile
 });
 
 const mapDispatchToProps = dispatch => ({

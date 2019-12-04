@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -20,7 +21,6 @@ import { MyTwoBoxes } from "components/MyTwoBoxes";
 import { Gifts } from "components/Gifts";
 
 import { addOnLoadAnimation } from "utils/animations";
-import { MOBILE_WIDTH } from "configs/CSSvariables";
 
 import { useStyles } from "./styles";
 import {
@@ -46,7 +46,7 @@ const Home = props => {
   addOnLoadAnimation(resolve);
 
   return (
-    <MyContainer>
+    <MyContainer showFooter={true}>
       <Header topic="E-Gifts" />
       <Box id="content" pb={2}>
         <MyBox title="What is it? 🤔">
@@ -73,7 +73,7 @@ const Home = props => {
               <PlayArrowIcon className={classes.icon} />
               Get started
             </Fab>
-            {window.innerWidth > MOBILE_WIDTH && (
+            {!props.isMobile && (
               <Typography className={classes.moreDetails}>
                 Read some more details below or
               </Typography>
@@ -162,13 +162,18 @@ const Home = props => {
         />
         <MyBox title="Most Trending E-Gifts">Soon</MyBox>
         <MyBox title="How to start? 🤗">
-          <Stepper
-            orientation={
-              window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
-            }
-          >
+          <Stepper orientation={props.isMobile ? "vertical" : "horizontal"}>
             {steps.map((label, index) => (
-              <Step className={classes.step} key={index}>
+              <Step
+                className={
+                  props.isMobile
+                    ? classes.stepMobile
+                    : index !== 0
+                    ? classes.step
+                    : null
+                }
+                key={index}
+              >
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
@@ -192,24 +197,34 @@ const Home = props => {
             </Fab>
           </div>
         </MyBox>
-        <MyBox title="Contact Us">
-          <Typography>
-            Have you encountered a problem on this site? Do you have any ideas
-            for improving E-Gifts? Feel free to contact us via email
-          </Typography>
-          <Button
-            className={classes.mail}
-            variant="contained"
-            color="primary"
-            href="mailto:support@e-gifts.site"
-          >
-            <EmailIcon className={classes.icon} />
-            Email
-          </Button>
-        </MyBox>
+        {props.isPartlyMobile && (
+          <MyBox title="Contact Us">
+            <Typography>
+              Have you encountered a problem on this site? Do you have any ideas
+              for improving E-Gifts? Feel free to contact us via email
+            </Typography>
+            <Button
+              className={classes.mail}
+              variant="contained"
+              color="primary"
+              href="mailto:support@e-gifts.site"
+            >
+              <EmailIcon className={classes.icon} />
+              Email
+            </Button>
+          </MyBox>
+        )}
       </Box>
     </MyContainer>
   );
 };
 
-export default Home;
+const mapStateToProps = state => ({
+  isMobile: state.settingsReducer.isMobile,
+  isPartlyMobile: state.settingsReducer.isPartlyMobile
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Home);
