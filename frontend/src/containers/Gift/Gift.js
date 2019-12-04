@@ -29,7 +29,6 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import TelegramIcon from "@material-ui/icons/Telegram";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-// import EmailIcon from "@material-ui/icons/Email";
 import EmailIcon from "@material-ui/icons/AlternateEmail";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import GalleryIcon from "@material-ui/icons/Redeem";
@@ -57,7 +56,7 @@ import * as giftActionCreators from "store/actions/gift";
 
 import * as config from "configs/backendAPI";
 
-import { priceToString, checkIsMobile } from "utils";
+import { priceToString, checkIsMobile, validateMail } from "utils";
 
 import { useStyles } from "./styles";
 
@@ -168,27 +167,41 @@ const Gift = props => {
 
   const [open, setOpen] = React.useState(false);
   const [mail, setMail] = React.useState("");
+  const [mailError, setMailError] = React.useState("");
+
+  const handleMail = event => {
+    if (validateMail(event.target.value) || event.target.value === "") {
+      setMailError("");
+    } else {
+      setMailError("Invalid Email Format");
+    }
+    setMail(event.target.value);
+  };
 
   const handleSendMail = () => {
-    axios
-      .get(
-        `${config.BACKEND_SERVER}/send_by_email?guid=${link.substring(
-          link.lastIndexOf("/") + 1,
-          link.length
-        )}&email=${mail}`
-      )
-      .then(response => {
-        if (response[config.DATA][config.RESULT]) {
-        } else {
-          console.log("Cannot send gift :(");
-        }
-      })
-      .catch(() => {
-        console.log("Cannot send gift: network problem");
-        //TODO: dispatch(loadFail("Network problem, try again later"));
-      });
+    if (mailError !== "" || mail === "") {
+      setMailError("Enter the correct email first");
+    } else {
+      axios
+        .get(
+          `${config.BACKEND_SERVER}/send_by_email?guid=${link.substring(
+            link.lastIndexOf("/") + 1,
+            link.length
+          )}&email=${mail}`
+        )
+        .then(response => {
+          if (response[config.DATA][config.RESULT]) {
+          } else {
+            console.log("Cannot send gift :(");
+          }
+        })
+        .catch(() => {
+          console.log("Cannot send gift: network problem");
+          //TODO: dispatch(loadFail("Network problem, try again later"));
+        });
 
-    setMode("sent");
+      setMode("sent");
+    }
   };
 
   const handleClose = () => {
@@ -571,9 +584,11 @@ const Gift = props => {
               variant="outlined"
               label="Recipient's email"
               value={mail}
-              onChange={event => setMail(event.target.value)}
+              onChange={handleMail}
               fullWidth
               autoComplete="email"
+              error={mailError !== ""}
+              helperText={mailError}
             />
           </DialogContent>
           <DialogActions>
