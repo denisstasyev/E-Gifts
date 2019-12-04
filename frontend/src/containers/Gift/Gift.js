@@ -217,6 +217,34 @@ const Gift = props => {
         <MyContainer>
           <Header topic={props.name} />
           <Box id="content" pb={2}>
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={0}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={0}
+              >
+                {steps.map((label, index) => (
+                  <Step className={classes.step} key={index}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            )}
             <MyTwoBoxes
               type="big"
               leftBoxTitle="Preview"

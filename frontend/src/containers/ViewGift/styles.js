@@ -30,6 +30,13 @@ export const useStyles = makeStyles(theme => ({
     bottom: 120
   },
 
+  tickerText: {
+    marginBottom: theme.spacing(1)
+  },
+  adviceText: {
+    textAlign: "center",
+    marginTop: theme.spacing(1)
+  },
   fab: {
     alignSelf: "flex-end",
     marginTop: theme.spacing(1)
