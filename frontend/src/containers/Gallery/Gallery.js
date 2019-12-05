@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Box from "@material-ui/core/Box";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
 import Typography from "@material-ui/core/Typography";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -22,14 +25,21 @@ import { GALLERY_VISIT, GIFT_SET } from "store/actionTypes";
 
 import * as config from "configs/backendAPI";
 
-import { MOBILE_WIDTH } from "configs/CSSvariables";
-
 import { priceToString } from "utils";
 
 import { useStyles } from "./styles";
 
+const getSteps = () => {
+  return [
+    "Choose E-Gift in the Gallery",
+    "Customize Congratulations and buy E-Gift",
+    "Send a unique Link with E-Gift to a friend"
+  ];
+};
+
 const Gallery = props => {
   const classes = useStyles();
+  const steps = getSteps();
 
   React.useEffect(() => {
     props.getAvailableGifts(props.selectedTags);
@@ -42,9 +52,34 @@ const Gallery = props => {
 
   return (
     <>
-      <MyContainer>
+      <MyContainer showFooter={true}>
         <Header topic="Gallery" />
-        <Box id="content" mb={9}>
+        <Box id="content" pb={props.isPartlyMobile ? 9 : 2}>
+          {props.isMobile ? (
+            <Stepper
+              className={classes.stepper}
+              orientation="horizontal"
+              activeStep={0}
+            >
+              {steps.map((label, index) => (
+                <Step className={index !== 0 ? classes.step : null} key={index}>
+                  <StepLabel />
+                </Step>
+              ))}
+            </Stepper>
+          ) : (
+            <Stepper
+              className={classes.stepper}
+              orientation="horizontal"
+              activeStep={0}
+            >
+              {steps.map((label, index) => (
+                <Step className={classes.step} key={index}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          )}
           <MyBox title="Filtered E-Gifts">
             {props.availableGifts.length === 0 ? (
               <Typography>No gifts found, try to change Filters</Typography>
@@ -53,7 +88,7 @@ const Gallery = props => {
                 <Typography className={classes.topic}>
                   Click on E-Gift below to choose
                 </Typography>
-                {window.innerWidth > MOBILE_WIDTH ? (
+                {!props.isMobile ? (
                   <GridList
                     className={classes.gridList}
                     cellHeight={300}
@@ -125,7 +160,9 @@ const Gallery = props => {
 const mapStateToProps = state => ({
   selectedTags: state.filtersReducer.selectedTags,
   galleryWasVisited: state.galleryReducer.wasVisited,
-  availableGifts: state.galleryReducer.availableGifts
+  availableGifts: state.galleryReducer.availableGifts,
+  isMobile: state.settingsReducer.isMobile,
+  isPartlyMobile: state.settingsReducer.isPartlyMobile
 });
 
 const mapDispatchToProps = dispatch => ({

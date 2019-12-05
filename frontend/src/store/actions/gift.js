@@ -12,6 +12,7 @@ import * as actionTypes from "store/actionTypes";
 //   tags: ["t1", "t2"],
 //   urls: ["g2url1", "g2url2"]
 // };
+
 export const setGift = element => {
   let gift = {};
   gift.id = element[config.GIFT_ID];

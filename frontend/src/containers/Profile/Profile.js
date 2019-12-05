@@ -39,7 +39,7 @@ const Profile = props => {
     <>
       <MyContainer>
         <Header topic={props.username} />
-        <Box id="content" mb={2}>
+        <Box id="content" pb={2}>
           <MyBox
             title={
               props.firstName !== "" || props.lastName !== ""

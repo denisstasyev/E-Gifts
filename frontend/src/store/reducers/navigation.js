@@ -4,9 +4,9 @@ const initialState = {
   show: true
 };
 
-const labelBottomNavigationReducer = (state = initialState, action) => {
+const navigationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LABELBOTTOMNAVIGATION_TOGGLE:
+    case actionTypes.NAVIGATION_TOGGLE:
       state.show = !state.show;
       return Object.assign({}, state);
     default:
@@ -14,4 +14,4 @@ const labelBottomNavigationReducer = (state = initialState, action) => {
   }
 };
 
-export default labelBottomNavigationReducer;
+export default navigationReducer;

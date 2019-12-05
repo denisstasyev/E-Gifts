@@ -14,9 +14,10 @@ import { Profile } from "containers/Profile";
 import { SignUp } from "containers/SignUp";
 import { SignIn } from "containers/SignIn";
 import { NotFound } from "containers/NotFound";
-import { OutdatedViewGift } from "containers/Outdated/ViewGift";
 
-import { LabelBottomNavigation } from "components/LabelBottomNavigation";
+import { Navigation } from "components/Navigation";
+
+import { SETTINGS_RESIZE } from "store/actionTypes";
 
 import * as userActionCreators from "store/actions/user";
 
@@ -48,6 +49,7 @@ const theme = createMuiTheme({
 
 const App = props => {
   props.handleAuthCheck();
+  props.handleResize();
 
   let vh =
     ((document &&
@@ -63,6 +65,8 @@ const App = props => {
         document.documentElement.clientHeight) ||
         window.innerHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    props.handleResize();
   });
 
   return (
@@ -82,17 +86,17 @@ const App = props => {
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />
           <Route path="*" component={NotFound} />
-
-          <Route path="/outdated/:id" component={OutdatedViewGift} />
         </Switch>
-        <LabelBottomNavigation />
+        <Navigation />
       </MuiThemeProvider>
     </BrowserRouter>
   );
 };
 
 const mapDispatchToProps = dispatch => ({
-  handleAuthCheck: () => dispatch(userActionCreators.authCheck())
+  handleAuthCheck: () => dispatch(userActionCreators.authCheck()),
+  handleResize: () =>
+    dispatch({ type: SETTINGS_RESIZE, width: window.innerWidth })
 });
 
 export default connect(

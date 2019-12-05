@@ -15,6 +15,7 @@ import LinkButton from "@material-ui/core/Link";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
+import { Header2 } from "components/Header2";
 import { MyContainer } from "components/MyContainer";
 import { MyBox2 } from "components/MyBox2";
 import { MyAvatar } from "components/MyAvatar";
@@ -59,88 +60,91 @@ const SignIn = props => {
   return props.isAuth ? (
     <Redirect to="/profile" />
   ) : (
-    <MyContainer type="small">
-      <MyBox2>
-        <MyAvatar title="Sign In">
-          <LockOutlinedIcon />
-        </MyAvatar>
-        <Form>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            label="Username"
-            value={values.username}
-            onChange={handleChange("username")}
-            autoComplete="username"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            label="Password"
-            type={values.showPassword ? "text" : "password"}
-            value={values.password}
-            onChange={handleChange("password")}
-            autoComplete="current-password"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    edge="end"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={values.rememberMe}
-                onChange={handleCheck("rememberMe")}
-                color="primary"
-              />
-            }
-            label="Remember me"
-          />
-          {props.errorMessage !== null ? (
-            <Alert text={props.errorMessage} />
-          ) : null}
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleSubmit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              {/* <Link href="#" variant="body2">
+    <>
+      <Header2 />
+      <MyContainer type="small">
+        <MyBox2>
+          <MyAvatar title="Sign In">
+            <LockOutlinedIcon />
+          </MyAvatar>
+          <Form>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Username"
+              value={values.username}
+              onChange={handleChange("username")}
+              autoComplete="username"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Password"
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
+              onChange={handleChange("password")}
+              autoComplete="current-password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      edge="end"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={values.rememberMe}
+                  onChange={handleCheck("rememberMe")}
+                  color="primary"
+                />
+              }
+              label="Remember me"
+            />
+            {props.errorMessage !== null ? (
+              <Alert text={props.errorMessage} />
+            ) : null}
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleSubmit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                {/* <Link href="#" variant="body2">
                 Forgot password?
               </Link> */}
+              </Grid>
+              <Grid item>
+                <LinkButton
+                  component={Link}
+                  to="/profile/signup"
+                  onClick={() => {
+                    if (props.errorMessage !== null)
+                      return props.handleRedirect();
+                  }}
+                >
+                  Don't have an account? Sign Up
+                </LinkButton>
+              </Grid>
             </Grid>
-            <Grid item>
-              <LinkButton
-                component={Link}
-                to="/profile/signup"
-                onClick={() => {
-                  if (props.errorMessage !== null)
-                    return props.handleRedirect();
-                }}
-              >
-                Don't have an account? Sign Up
-              </LinkButton>
-            </Grid>
-          </Grid>
-        </Form>
-      </MyBox2>
-    </MyContainer>
+          </Form>
+        </MyBox2>
+      </MyContainer>
+    </>
   );
 };
 

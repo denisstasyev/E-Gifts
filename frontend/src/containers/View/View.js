@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Box from "@material-ui/core/Box";
 import Stepper from "@material-ui/core/Stepper";
@@ -16,8 +17,6 @@ import { MyBox } from "components/MyBox";
 
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
 
-import { MOBILE_WIDTH } from "configs/CSSvariables";
-
 import { useStyles } from "./styles";
 
 const getSteps = () => {
@@ -27,7 +26,7 @@ const getSteps = () => {
   ];
 };
 
-const View = () => {
+const View = props => {
   const classes = useStyles();
   const steps = getSteps();
 
@@ -36,15 +35,14 @@ const View = () => {
   return (
     <MyContainer>
       <Header topic="View" />
-      <Box id="content" mb={2}>
+      <Box id="content" pb={2}>
         <MyBox title="How to view E-Gift?">
-          <Stepper
-            orientation={
-              window.innerWidth < MOBILE_WIDTH ? "vertical" : "horizontal"
-            }
-          >
+          <Stepper orientation={props.isMobile ? "vertical" : "horizontal"}>
             {steps.map((label, index) => (
-              <Step className={classes.step} key={index}>
+              <Step
+                className={props.isMobile ? classes.step : null}
+                key={index}
+              >
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
@@ -81,4 +79,11 @@ const View = () => {
   );
 };
 
-export default View;
+const mapStateToProps = state => ({
+  isMobile: state.settingsReducer.isMobile
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(View);

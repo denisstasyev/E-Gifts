@@ -9,21 +9,26 @@ import "index.css";
 import SentryErrorLogger from "SentryErrorLogger";
 import App from "App";
 
-import labelBottomNavigationReducer from "store/reducers/labelBottomNavigation";
+import navigationReducer from "store/reducers/navigation";
 import userReducer from "store/reducers/user";
 import filtersReducer from "store/reducers/filters";
 import galleryReducer from "store/reducers/gallery";
 import giftReducer from "store/reducers/gift";
+import settingsReducer from "store/reducers/settings";
 
 const rootReducer = combineReducers({
-  labelBottomNavigationReducer,
+  navigationReducer,
   userReducer,
   filtersReducer,
   galleryReducer,
-  giftReducer
+  giftReducer,
+  settingsReducer
 });
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+let composeEnhancers = compose;
+if (process.env.NODE_ENV !== "production") {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+}
 
 const store = createStore(
   rootReducer,

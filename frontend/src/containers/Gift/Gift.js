@@ -29,12 +29,9 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import TelegramIcon from "@material-ui/icons/Telegram";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-// import EmailIcon from "@material-ui/icons/Email";
 import EmailIcon from "@material-ui/icons/AlternateEmail";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import GalleryIcon from "@material-ui/icons/Redeem";
-
-import axios from "axios";
 
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
@@ -57,8 +54,8 @@ import * as giftActionCreators from "store/actions/gift";
 
 import * as config from "configs/backendAPI";
 
-import { priceToString, checkIsMobile } from "utils";
-import { MOBILE_WIDTH, PARTLY_MOBILE_WIDTH } from "configs/CSSvariables";
+import { priceToString, checkIsMobile, validateMail } from "utils";
+import { getGiftViewLink, sendMail } from "utils/gift";
 
 import { useStyles } from "./styles";
 
@@ -122,39 +119,9 @@ const Gift = props => {
   };
 
   const handleBuy = () => {
-    // if (!props.isAuth) {
-    axios
-      .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}`)
-      .then(response => {
-        if (response[config.DATA][config.RESULT]) {
-          setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
-        } else {
-          console.log("Cannot buy gift :(");
-        }
-      })
-      .catch(() => {
-        console.log("Cannot buy gift: network problem");
-        //TODO: dispatch(loadFail("Network problem, try again later"));
-      });
-    //Add gift to user
-    // } else {
-    //   axios
-    //     .get(
-    //       `${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}&authorization_token${props.token}`
-    //     )
-    //     .then(response => {
-    //       if (response[config.DATA][config.RESULT]) {
-    //         setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
-    //       } else {
-    //         console.log("Cannot buy gift :(");
-    //       }
-    //     })
-    //     .catch(() => {
-    //       console.log("Cannot buy gift: network problem");
-    //       //TODO: dispatch(loadFail("Network problem, try again later"));
-    //     });
-    //Send api call to add myself
-    // }
+    getGiftViewLink(props.id, text, props.isAuth).then(link => {
+      setLink(link);
+    });
   };
 
   const [selectedTags, setSelectedTags] = React.useState([]);
@@ -169,27 +136,24 @@ const Gift = props => {
 
   const [open, setOpen] = React.useState(false);
   const [mail, setMail] = React.useState("");
+  const [mailError, setMailError] = React.useState("");
+
+  const handleMail = event => {
+    if (validateMail(event.target.value) || event.target.value === "") {
+      setMailError("");
+    } else {
+      setMailError("Invalid Email Format");
+    }
+    setMail(event.target.value);
+  };
 
   const handleSendMail = () => {
-    axios
-      .get(
-        `${config.BACKEND_SERVER}/send_by_email?guid=${link.substring(
-          link.lastIndexOf("/") + 1,
-          link.length
-        )}&email=${mail}`
-      )
-      .then(response => {
-        if (response[config.DATA][config.RESULT]) {
-        } else {
-          console.log("Cannot send gift :(");
-        }
-      })
-      .catch(() => {
-        console.log("Cannot send gift: network problem");
-        //TODO: dispatch(loadFail("Network problem, try again later"));
-      });
-
-    setMode("sent");
+    if (mailError !== "" || mail === "") {
+      setMailError("Enter the correct email first");
+    } else {
+      sendMail(link.substring(link.lastIndexOf("/") + 1, link.length), mail);
+      setMode("sent");
+    }
   };
 
   const handleClose = () => {
@@ -197,14 +161,42 @@ const Gift = props => {
   };
 
   if (mode === "preview") {
-    //TODO Add error parameter to gift to check Loading
+    //TODO: add error parameter to gift to check Loading
     return props.id === null ? (
       <NotFound />
     ) : (
       <>
         <MyContainer>
           <Header topic={props.name} />
-          <Box id="content" mb={2}>
+          <Box id="content" pb={2}>
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={0}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={0}
+              >
+                {steps.map((label, index) => (
+                  <Step className={classes.step} key={index}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            )}
             <MyTwoBoxes
               type="big"
               leftBoxTitle="Preview"
@@ -279,10 +271,9 @@ const Gift = props => {
                         className={classes.submit}
                         onClick={() => setMode("customize")}
                       >
-                        {!(
-                          MOBILE_WIDTH < window.innerWidth &&
-                          window.innerWidth < PARTLY_MOBILE_WIDTH
-                        ) && <SettingsIcon className={classes.icon} />}
+                        {!(!props.isMobile && props.isPartlyMobile) && (
+                          <SettingsIcon className={classes.icon} />
+                        )}
                         Customize
                       </Button>
                     </Grid>
@@ -297,10 +288,9 @@ const Gift = props => {
                           handleBuy();
                         }}
                       >
-                        {!(
-                          MOBILE_WIDTH < window.innerWidth &&
-                          window.innerWidth < PARTLY_MOBILE_WIDTH
-                        ) && <ShoppingCartIcon className={classes.icon} />}
+                        {!(!props.isMobile && props.isPartlyMobile) && (
+                          <ShoppingCartIcon className={classes.icon} />
+                        )}
                         Buy
                       </Button>
                     </Grid>
@@ -327,8 +317,23 @@ const Gift = props => {
       <>
         <MyContainer>
           <Header topic="Customization" />
-          <Box id="content" mb={2}>
-            {window.innerWidth < MOBILE_WIDTH ? null : (
+          <Box id="content" pb={2}>
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={1}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
               <Stepper
                 className={classes.stepper}
                 orientation="horizontal"
@@ -437,8 +442,23 @@ const Gift = props => {
       <>
         <MyContainer>
           <Header topic="Congratulations" />
-          <Box id="content" mb={2}>
-            {window.innerWidth < MOBILE_WIDTH ? null : (
+          <Box id="content" pb={2}>
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={2}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
               <Stepper
                 className={classes.stepper}
                 orientation="horizontal"
@@ -458,6 +478,54 @@ const Gift = props => {
                     This contribution will surely save our planet from pollution
                   </Typography>
                 </MyBox>
+                <MyBox title="Email" type="success">
+                  <Typography>
+                    You can send E-Gift by email with unique Link to your friend
+                  </Typography>
+                  <Button
+                    className={classes.mail}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpen(true)}
+                  >
+                    <EmailIcon className={classes.icon} />
+                    Email
+                  </Button>
+                </MyBox>
+                <MyBox title="Social Networks" type="success">
+                  <Typography>
+                    You can send a message with unique Link with E-Gift to your
+                    friend
+                  </Typography>
+                  <div className={classes.buttons}>
+                    <Button variant="contained" color="primary">
+                      <FacebookIcon />
+                      {props.isMobile ? null : (
+                        <div className={classes.socialText}>Facebook</div>
+                      )}
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                    >
+                      <TwitterIcon />
+                      {props.isMobile ? null : (
+                        <div className={classes.socialText}>Twitter</div>
+                      )}
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                    >
+                      <TelegramIcon />
+                      {props.isMobile ? null : (
+                        <div className={classes.socialText}>Telegram</div>
+                      )}
+                    </Button>
+                  </div>
+                </MyBox>
                 <MyBox title="Your E-Gift" type="success">
                   <Typography>
                     E-Gift can be sent only to one person. Unique Link will
@@ -470,66 +538,16 @@ const Gift = props => {
                     value={link}
                     fullWidth
                   />
-                </MyBox>
-                <MyBox title="Social Networks">
-                  <Typography>
-                    You can send a message with unique Link with E-Gift to your
-                    friend
-                  </Typography>
-                  <div className={classes.buttons}>
+                  <CopyToClipboard
+                    className={classes.copy}
+                    text={link}
+                    onCopy={() => setMode("copied")}
+                  >
                     <Button variant="contained" color="primary">
-                      <FacebookIcon />
-                      {window.innerWidth < MOBILE_WIDTH ? null : (
-                        <div className={classes.socialText}>Facebook</div>
-                      )}
+                      <FileCopyIcon className={classes.icon} />
+                      Copy
                     </Button>
-                    <Button
-                      className={classes.button}
-                      variant="contained"
-                      color="primary"
-                    >
-                      <TwitterIcon />
-                      {window.innerWidth < MOBILE_WIDTH ? null : (
-                        <div className={classes.socialText}>Twitter</div>
-                      )}
-                    </Button>
-                    <Button
-                      className={classes.button}
-                      variant="contained"
-                      color="primary"
-                    >
-                      <TelegramIcon />
-                      {window.innerWidth < MOBILE_WIDTH ? null : (
-                        <div className={classes.socialText}>Telegram</div>
-                      )}
-                    </Button>
-                  </div>
-                </MyBox>
-                <MyBox title="Other Ways">
-                  <Typography>
-                    You can send E-Gift by email or you can copy unique Link to
-                    send it in any other way
-                  </Typography>
-                  <div className={classes.buttons}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => setOpen(true)}
-                    >
-                      <EmailIcon className={classes.icon} />
-                      Email
-                    </Button>
-                    <CopyToClipboard
-                      className={classes.button}
-                      text={link}
-                      onCopy={() => setMode("copied")}
-                    >
-                      <Button variant="contained" color="primary">
-                        <FileCopyIcon className={classes.icon} />
-                        Copy
-                      </Button>
-                    </CopyToClipboard>
-                  </div>
+                  </CopyToClipboard>
                 </MyBox>
               </>
             )}
@@ -546,9 +564,11 @@ const Gift = props => {
               variant="outlined"
               label="Recipient's email"
               value={mail}
-              onChange={event => setMail(event.target.value)}
+              onChange={handleMail}
               fullWidth
               autoComplete="email"
+              error={mailError !== ""}
+              helperText={mailError}
             />
           </DialogContent>
           <DialogActions>
@@ -568,8 +588,23 @@ const Gift = props => {
         <Confetti numberOfPieces={400} recycle={false} />
         <MyContainer>
           <Header topic={mode === "copied" ? "Copied" : "Sent"} />
-          <Box id="content" mb={2}>
-            {window.innerWidth < MOBILE_WIDTH ? null : (
+          <Box id="content" pb={2}>
+            {props.isMobile ? (
+              <Stepper
+                className={classes.stepper}
+                orientation="horizontal"
+                activeStep={3}
+              >
+                {steps.map((label, index) => (
+                  <Step
+                    className={index !== 0 ? classes.step : null}
+                    key={index}
+                  >
+                    <StepLabel />
+                  </Step>
+                ))}
+              </Stepper>
+            ) : (
               <Stepper
                 className={classes.stepper}
                 orientation="horizontal"
@@ -683,7 +718,9 @@ const mapStateToProps = state => ({
   tags: state.giftReducer.tags,
   urls: state.giftReducer.urls,
   isAuth: state.userReducer.isAuth,
-  token: state.userReducer.token
+  token: state.userReducer.token,
+  isMobile: state.settingsReducer.isMobile,
+  isPartlyMobile: state.settingsReducer.isPartlyMobile
 });
 
 const mapDispatchToProps = dispatch => ({
