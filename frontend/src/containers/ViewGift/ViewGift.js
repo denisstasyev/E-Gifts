@@ -14,8 +14,6 @@ import GalleryIcon from "@material-ui/icons/Redeem";
 
 import "@google/model-viewer";
 
-import axios from "axios";
-
 import Confetti from "react-confetti";
 import BoomConfetti from "react-dom-confetti";
 
@@ -27,9 +25,8 @@ import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
 
-import * as config from "configs/backendAPI";
-
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
+import { getViewGift } from "utils/view";
 
 import { useStyles } from "./styles";
 import { resolveToTop } from "./animations";
@@ -81,20 +78,11 @@ const ViewGift = props => {
   );
 
   React.useEffect(() => {
-    axios
-      .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
-      .then(response => {
-        if (response[config.DATA][config.RESULT]) {
-          setModelURL(response[config.DATA][config.VIEW_MODEL_URL]);
-          setText(response[config.DATA][config.VIEW_TEXT]);
-        } else {
-          setIsValidGift(false);
-        }
-      })
-      .catch(() => {
-        console.log("Cannot buy gift: network problem");
-        setIsValidGift(false); //TODO: dispatch(loadFail("Network problem, try again later"));
-      });
+    getViewGift(link).then(result => {
+      setIsValidGift(result.isValidGift);
+      setModelURL(result.modelURL);
+      setText(result.text);
+    });
     // eslint-disable-next-line
   }, []);
 

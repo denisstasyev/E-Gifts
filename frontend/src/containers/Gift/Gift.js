@@ -33,8 +33,6 @@ import EmailIcon from "@material-ui/icons/AlternateEmail";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import GalleryIcon from "@material-ui/icons/Redeem";
 
-import axios from "axios";
-
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 
@@ -57,6 +55,7 @@ import * as giftActionCreators from "store/actions/gift";
 import * as config from "configs/backendAPI";
 
 import { priceToString, checkIsMobile, validateMail } from "utils";
+import { getGiftViewLink, sendMail } from "utils/gift";
 
 import { useStyles } from "./styles";
 
@@ -120,39 +119,9 @@ const Gift = props => {
   };
 
   const handleBuy = () => {
-    // if (!props.isAuth) {
-    axios
-      .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}`)
-      .then(response => {
-        if (response[config.DATA][config.RESULT]) {
-          setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
-        } else {
-          console.log("Cannot buy gift :(");
-        }
-      })
-      .catch(() => {
-        console.log("Cannot buy gift: network problem");
-        //TODO: dispatch(loadFail("Network problem, try again later"));
-      });
-    //Add gift to user
-    // } else {
-    //   axios
-    //     .get(
-    //       `${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}&authorization_token${props.token}`
-    //     )
-    //     .then(response => {
-    //       if (response[config.DATA][config.RESULT]) {
-    //         setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
-    //       } else {
-    //         console.log("Cannot buy gift :(");
-    //       }
-    //     })
-    //     .catch(() => {
-    //       console.log("Cannot buy gift: network problem");
-    //       //TODO: dispatch(loadFail("Network problem, try again later"));
-    //     });
-    //Send api call to add myself
-    // }
+    getGiftViewLink(props.id, text, props.isAuth).then(link => {
+      setLink(link);
+    });
   };
 
   const [selectedTags, setSelectedTags] = React.useState([]);
@@ -182,24 +151,7 @@ const Gift = props => {
     if (mailError !== "" || mail === "") {
       setMailError("Enter the correct email first");
     } else {
-      axios
-        .get(
-          `${config.BACKEND_SERVER}/send_by_email?guid=${link.substring(
-            link.lastIndexOf("/") + 1,
-            link.length
-          )}&email=${mail}`
-        )
-        .then(response => {
-          if (response[config.DATA][config.RESULT]) {
-          } else {
-            console.log("Cannot send gift :(");
-          }
-        })
-        .catch(() => {
-          console.log("Cannot send gift: network problem");
-          //TODO: dispatch(loadFail("Network problem, try again later"));
-        });
-
+      sendMail(link.substring(link.lastIndexOf("/") + 1, link.length), mail);
       setMode("sent");
     }
   };
@@ -209,7 +161,7 @@ const Gift = props => {
   };
 
   if (mode === "preview") {
-    //TODO Add error parameter to gift to check Loading
+    //TODO: add error parameter to gift to check Loading
     return props.id === null ? (
       <NotFound />
     ) : (
