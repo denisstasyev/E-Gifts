@@ -31,15 +31,18 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2)
   },
   mail: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  mailButton: {
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
+    alignSelf: "flex-end"
   },
   icon: {
     marginRight: theme.spacing(1)
   },
   copyright: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    textAlign: "center"
   }
 }));

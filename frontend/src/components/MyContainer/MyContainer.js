@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
@@ -40,31 +41,36 @@ const MyContainer = props => {
           <div className={classes.footer}>
             <Container maxWidth={"lg"}>
               <Box mt={2} p={2}>
-                <Typography className={classes.title} variant="h5">
-                  About Us
-                </Typography>
-                <Typography className={classes.context}>
-                  This site was created by Denis Stasyev and Anton Chadov in
-                  2019
-                </Typography>
-                <Typography className={classes.title} variant="h5">
-                  Contact Us
-                </Typography>
-                <Typography>
-                  Have you encountered a problem on this site? Do you have any
-                  ideas for improving E-Gifts? Feel free to contact us via email
-                </Typography>
+                <Grid container>
+                  <Grid item xs>
+                    <Typography className={classes.title} variant="h5">
+                      About Us
+                    </Typography>
+                    <Typography className={classes.context}>
+                      This site was created by Denis Stasyev and Anton Chadov
+                    </Typography>
+                  </Grid>
+                  <Grid item xs className={classes.mail}>
+                    <Typography className={classes.title} variant="h5">
+                      Contact Us
+                    </Typography>
+                    <Typography>
+                      Have you encountered a problem on this site? Do you have
+                      any ideas for improving E-Gifts? Feel free to contact us
+                      via email
+                    </Typography>
+                    <Button
+                      className={classes.mailButton}
+                      href="mailto:support@e-gifts.site"
+                    >
+                      <EmailIcon className={classes.icon} />
+                      Send Email
+                    </Button>
+                  </Grid>
+                </Grid>
                 <div className={classes.copyright}>
-                  <Button
-                    className={classes.mail}
-                    href="mailto:support@e-gifts.site"
-                  >
-                    <EmailIcon className={classes.icon} />
-                    Send Email
-                  </Button>
-                  <Typography>
-                    © E-Gifts - Brings gifts to AR & VR! 2019
-                  </Typography>
+                  <Typography>© E-Gifts, 2019</Typography>
+                  <Typography>E-Gifts - Brings gifts to AR & VR!</Typography>
                 </div>
               </Box>
             </Container>

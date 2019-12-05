@@ -162,7 +162,10 @@ const Home = props => {
         />
         <MyBox title="Most Trending E-Gifts">Soon</MyBox>
         <MyBox title="How to start? 🤗">
-          <Stepper orientation={props.isMobile ? "vertical" : "horizontal"}>
+          <Stepper
+            activeStep={-1}
+            orientation={props.isMobile ? "vertical" : "horizontal"}
+          >
             {steps.map((label, index) => (
               <Step
                 className={
