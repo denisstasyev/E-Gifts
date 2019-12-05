@@ -25,7 +25,8 @@ const MyContainer = props => {
         >
           {props.children}
         </Container>
-        {/* {document.getElementById("main-container") === null ? null : (
+        {/* //TODO: add white box when too small height
+        {document.getElementById("main-container") === null ? null : (
           <Box
             height={
               window.innerHeight -

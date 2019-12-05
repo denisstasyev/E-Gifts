@@ -36,6 +36,11 @@ const SignIn = props => {
     showPassword: false
   });
 
+  React.useEffect(() => {
+    props.handleError("");
+    // eslint-disable-next-line
+  }, []);
+
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };

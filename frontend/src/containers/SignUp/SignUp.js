@@ -49,6 +49,11 @@ const SignUp = props => {
     mailError: ""
   });
 
+  React.useEffect(() => {
+    props.handleError("");
+    // eslint-disable-next-line
+  }, []);
+
   const handleChange = prop => event => {
     if (prop === "mail") {
       if (validateMail(event.target.value) || event.target.value === "") {
