@@ -17,44 +17,42 @@ const Header = props => {
 
   const value = props.location.pathname.split("/")[1];
 
-  return (
+  return !props.isPartlyMobile ? (
     <Container maxWidth="lg">
       <Toolbar className={classes.root}>
-        {!props.isPartlyMobile && (
-          <div className={classes.navigation}>
-            <Button
-              className={value === "home" ? classes.selectedLink : classes.link}
-              component={Link}
-              to="/home"
-            >
-              <HomeIcon className={classes.icon} />
-              Home
-            </Button>
-            <Button
-              className={
-                value === "gallery" ? classes.selectedLink : classes.link
-              }
-              component={Link}
-              to="/gallery"
-            >
-              <GalleryIcon className={classes.icon} />
-              Gallery
-            </Button>
-            <Button
-              className={
-                value === "profile" ? classes.selectedLink : classes.link
-              }
-              component={Link}
-              to="/profile"
-            >
-              <ProfileIcon className={classes.icon} />
-              Profile
-            </Button>
-          </div>
-        )}
+        <div className={classes.navigation}>
+          <Button
+            className={value === "home" ? classes.selectedLink : classes.link}
+            component={Link}
+            to="/home"
+          >
+            <HomeIcon className={classes.icon} />
+            Home
+          </Button>
+          <Button
+            className={
+              value === "gallery" ? classes.selectedLink : classes.link
+            }
+            component={Link}
+            to="/gallery"
+          >
+            <GalleryIcon className={classes.icon} />
+            Gallery
+          </Button>
+          <Button
+            className={
+              value === "profile" ? classes.selectedLink : classes.link
+            }
+            component={Link}
+            to="/profile"
+          >
+            <ProfileIcon className={classes.icon} />
+            Profile
+          </Button>
+        </div>
       </Toolbar>
     </Container>
-  );
+  ) : null;
 };
 
 const mapStateToProps = state => ({
