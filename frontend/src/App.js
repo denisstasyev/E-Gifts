@@ -45,6 +45,10 @@ const theme = createMuiTheme({
       main: COLOR_SECONDARY_MAIN
     }
   }
+  // typography: {
+  //   fontFamily: '"Nunito", "Helvetica", "Arial", sans-serif',
+  //   fontWeightMedium: 600
+  // }
 });
 
 const App = props => {
