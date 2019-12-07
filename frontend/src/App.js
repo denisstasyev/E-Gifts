@@ -17,43 +17,79 @@ import { NotFound } from "containers/NotFound";
 
 import { Navigation } from "components/Navigation";
 
-import { SETTINGS_RESIZE } from "store/actionTypes";
+import { SETTINGS_RESIZE, SETTINGS_SET_COLOR_THEME } from "store/actionTypes";
 
 import * as userActionCreators from "store/actions/user";
 
 import {
+  COLOR_PRIMARY_MAIN,
+  COLOR_SECONDARY_MAIN,
   COLOR_BACKGROUND_DEFAULT_LIGHT,
   COLOR_BACKGROUND_PAPER_LIGHT,
   COLOR_BACKGROUND_WARNING_LIGHT,
   COLOR_BACKGROUND_SUCCESS_LIGHT,
-  COLOR_PRIMARY_MAIN,
-  COLOR_SECONDARY_MAIN
+  COLOR_BACKGROUND_DEFAULT_DARK,
+  COLOR_BACKGROUND_PAPER_DARK,
+  COLOR_BACKGROUND_WARNING_DARK,
+  COLOR_BACKGROUND_SUCCESS_DARK,
+  COLOR_TEXT_PRIMARY_DARK,
+  COLOR_TEXT_SECONDARY_DARK
 } from "configs/CSSvariables";
 
-const theme = createMuiTheme({
+const lightTheme = createMuiTheme({
   palette: {
-    background: {
-      default: COLOR_BACKGROUND_DEFAULT_LIGHT,
-      paper: COLOR_BACKGROUND_PAPER_LIGHT,
-      warning: COLOR_BACKGROUND_WARNING_LIGHT,
-      success: COLOR_BACKGROUND_SUCCESS_LIGHT
-    },
     primary: {
       main: COLOR_PRIMARY_MAIN
     },
     secondary: {
       main: COLOR_SECONDARY_MAIN
+    },
+    background: {
+      default: COLOR_BACKGROUND_DEFAULT_LIGHT,
+      paper: COLOR_BACKGROUND_PAPER_LIGHT,
+      warning: COLOR_BACKGROUND_WARNING_LIGHT,
+      success: COLOR_BACKGROUND_SUCCESS_LIGHT
     }
+  },
+  typography: {
+    fontFamily: '"Nunito", "Helvetica", "Arial", sans-serif',
+    fontWeightMedium: 600
   }
-  // typography: {
-  //   fontFamily: '"Nunito", "Helvetica", "Arial", sans-serif',
-  //   fontWeightMedium: 600
-  // }
+});
+
+const darkTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: COLOR_PRIMARY_MAIN
+    },
+    secondary: {
+      main: COLOR_SECONDARY_MAIN
+    },
+    background: {
+      default: COLOR_BACKGROUND_DEFAULT_DARK,
+      paper: COLOR_BACKGROUND_PAPER_DARK,
+      warning: COLOR_BACKGROUND_WARNING_DARK,
+      success: COLOR_BACKGROUND_SUCCESS_DARK
+    },
+    text: {
+      primary: COLOR_TEXT_PRIMARY_DARK,
+      secondary: COLOR_TEXT_SECONDARY_DARK
+    }
+  },
+  typography: {
+    fontFamily: '"Nunito", "Helvetica", "Arial", sans-serif',
+    fontWeightMedium: 600
+  }
 });
 
 const App = props => {
   props.handleAuthCheck();
   props.handleResize();
+
+  let colorTheme = localStorage.getItem("colorTheme");
+  if (colorTheme === "dark") {
+    props.setColorTheme(colorTheme);
+  }
 
   let vh =
     ((document &&
@@ -75,7 +111,9 @@ const App = props => {
 
   return (
     <BrowserRouter>
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider
+        theme={props.colorTheme === "light" ? lightTheme : darkTheme}
+      >
         <Switch>
           <Route exact path="/">
             <Redirect to="/home" />
@@ -97,13 +135,19 @@ const App = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  colorTheme: state.settingsReducer.colorTheme
+});
+
 const mapDispatchToProps = dispatch => ({
   handleAuthCheck: () => dispatch(userActionCreators.authCheck()),
   handleResize: () =>
-    dispatch({ type: SETTINGS_RESIZE, width: window.innerWidth })
+    dispatch({ type: SETTINGS_RESIZE, width: window.innerWidth }),
+  setColorTheme: colorTheme =>
+    dispatch({ type: SETTINGS_SET_COLOR_THEME, colorTheme })
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);

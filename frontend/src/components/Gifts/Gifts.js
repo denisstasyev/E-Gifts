@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useTheme } from "@material-ui/styles";
-
 import * as THREE from "three";
 
 import { createBoxWithRoundedEdges } from "utils/three";
@@ -10,7 +8,6 @@ import { useStyles } from "./styles";
 
 const Gifts = () => {
   const classes = useStyles();
-  const theme = useTheme();
 
   let canvas = null;
 
@@ -18,9 +15,9 @@ const Gifts = () => {
     const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
-      precision: "highp"
+      precision: "highp",
+      alpha: true
     });
-    renderer.setClearColor(new THREE.Color(theme.palette.background.paper));
 
     const parent = document.getElementById("vr");
     renderer.setSize(parent.clientWidth, parent.clientHeight);
