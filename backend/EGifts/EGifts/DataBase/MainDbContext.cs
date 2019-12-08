@@ -86,7 +86,26 @@ namespace EGifts.DataBase
                                     .ThenInclude(gt => gt.Tag)
                         .FirstOrDefault();
         }
-        
+        public User GetUser(User user)
+        {
+            return Users.Where(u => u.Id == user.Id)
+                        .Include(u => u.SentGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.StaticUrls)
+                        .Include(u => u.ReceivedGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.StaticUrls)
+                        .Include(u => u.SentGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.GiftTags)
+                                    .ThenInclude(gt => gt.Tag)
+                        .Include(u => u.ReceivedGifts)
+                            .ThenInclude(gr => gr.Gift)
+                                .ThenInclude(g => g.GiftTags)
+                                    .ThenInclude(gt => gt.Tag)
+                        .FirstOrDefault();
+        }
+
         public IEnumerable<Gift> GetGifts()
         {
             return Gifts.Include(g => g.StaticUrls)

@@ -117,6 +117,13 @@ namespace EGifts
                     //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
                 });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_profile", async context =>
+                {
+                    var handler = new GetProfile();
+                    var result = handler.Handle(context);
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                });//.RequireCors(MyAllowSpecificOrigins);
 
                 endpoints.MapGet("/api/reg", async context =>
                 {
