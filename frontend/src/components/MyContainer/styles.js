@@ -44,5 +44,10 @@ export const useStyles = makeStyles(theme => ({
   },
   copyright: {
     textAlign: "center"
+  },
+
+  link: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2)
   }
 }));

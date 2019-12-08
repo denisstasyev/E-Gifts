@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,6 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 import EmailIcon from "@material-ui/icons/AlternateEmail";
+import HomeIcon from "@material-ui/icons/Home";
+import GalleryIcon from "@material-ui/icons/Redeem";
+import ProfileIcon from "@material-ui/icons/AccountCircle";
 
 import { useStyles } from "./styles";
 
@@ -25,7 +29,8 @@ const MyContainer = props => {
         >
           {props.children}
         </Container>
-        {/* {document.getElementById("main-container") === null ? null : (
+        {/* //TODO: add white box when too small height
+        {document.getElementById("main-container") === null ? null : (
           <Box
             height={
               window.innerHeight -
@@ -41,13 +46,14 @@ const MyContainer = props => {
           <div className={classes.footer}>
             <Container maxWidth={"lg"}>
               <Box mt={2} p={2}>
-                <Grid container>
+                <Grid container spacing={2}>
                   <Grid item xs>
                     <Typography className={classes.title} variant="h5">
                       About Us
                     </Typography>
                     <Typography className={classes.context}>
-                      This site was created by Denis Stasyev and Anton Chadov
+                      This site was created by MIPT students: Denis Stasyev and
+                      Anton Chadov
                     </Typography>
                   </Grid>
                   <Grid item xs className={classes.mail}>
@@ -68,6 +74,21 @@ const MyContainer = props => {
                     </Button>
                   </Grid>
                 </Grid>
+                <Typography className={classes.title} variant="h5">
+                  Sitemap
+                </Typography>
+                <Button className={classes.link} component={Link} to="/home">
+                  <HomeIcon className={classes.icon} />
+                  Home
+                </Button>
+                <Button className={classes.link} component={Link} to="/gallery">
+                  <GalleryIcon className={classes.icon} />
+                  Gallery
+                </Button>
+                <Button className={classes.link} component={Link} to="/profile">
+                  <ProfileIcon className={classes.icon} />
+                  Profile
+                </Button>
                 <div className={classes.copyright}>
                   <Typography>© E-Gifts, 2019</Typography>
                   <Typography>E-Gifts - Brings gifts to AR & VR!</Typography>

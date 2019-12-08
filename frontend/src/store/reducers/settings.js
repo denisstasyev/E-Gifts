@@ -4,7 +4,8 @@ import { MOBILE_WIDTH, PARTLY_MOBILE_WIDTH } from "configs/CSSvariables";
 
 const initialState = {
   isMobile: true,
-  isPartlyMobile: true
+  isPartlyMobile: true,
+  colorTheme: "light"
 };
 
 const settingsReducer = (state = initialState, action) => {
@@ -20,6 +21,9 @@ const settingsReducer = (state = initialState, action) => {
         state.isMobile = false;
         state.isPartlyMobile = false;
       }
+      return Object.assign({}, state);
+    case actionTypes.SETTINGS_SET_COLOR_THEME:
+      state.colorTheme = action.colorTheme;
       return Object.assign({}, state);
     default:
       return state;

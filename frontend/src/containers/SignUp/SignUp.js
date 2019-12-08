@@ -49,6 +49,11 @@ const SignUp = props => {
     mailError: ""
   });
 
+  React.useEffect(() => {
+    props.handleError("");
+    // eslint-disable-next-line
+  }, []);
+
   const handleChange = prop => event => {
     if (prop === "mail") {
       if (validateMail(event.target.value) || event.target.value === "") {
@@ -74,8 +79,9 @@ const SignUp = props => {
       values.username.length >= 5 &&
       values.password.length >= 5 &&
       values.mailError === "" &&
-      values.birthDate >= new Date("1.1.1900") &&
-      values.birthDate <= new Date()
+      (values.birthDate === null ||
+        (values.birthDate >= new Date("1.1.1900") &&
+          values.birthDate <= new Date()))
     ) {
       props.handleSubmit(
         values.firstName,
@@ -103,7 +109,7 @@ const SignUp = props => {
           </MyAvatar>
           <Form>
             <Grid className={classes.mainGrid} container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <TextField
                   variant="outlined"
                   fullWidth
@@ -113,7 +119,7 @@ const SignUp = props => {
                   onChange={handleChange("firstName")}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <TextField
                   variant="outlined"
                   fullWidth
@@ -155,7 +161,7 @@ const SignUp = props => {
                 <TextField
                   variant="outlined"
                   fullWidth
-                  label="Username"
+                  label="Username (required)"
                   autoComplete="username"
                   value={values.username}
                   onChange={handleChange("username")}
@@ -163,9 +169,7 @@ const SignUp = props => {
                     0 < values.username.length && values.username.length < 5
                   }
                   helperText={
-                    values.username.length === 0
-                      ? "Data required"
-                      : values.username.length < 5
+                    values.username.length !== 0 && values.username.length < 5
                       ? "Username is too short"
                       : ""
                   }
@@ -175,7 +179,7 @@ const SignUp = props => {
                 <TextField
                   variant="outlined"
                   fullWidth
-                  label="Password"
+                  label="Password (required)"
                   type={values.showPassword ? "text" : "password"}
                   value={values.password}
                   onChange={handleChange("password")}
@@ -200,9 +204,7 @@ const SignUp = props => {
                     0 < values.password.length && values.password.length < 5
                   }
                   helperText={
-                    values.password.length === 0
-                      ? "Data required"
-                      : values.password.length < 5
+                    values.password.length !== 0 && values.password.length < 5
                       ? "Password is too short"
                       : ""
                   }

@@ -52,9 +52,9 @@ const Gallery = props => {
 
   return (
     <>
-      <MyContainer showFooter={true}>
+      <MyContainer>
         <Header topic="Gallery" />
-        <Box id="content" pb={props.isPartlyMobile ? 9 : 2}>
+        <Box id="content" pb={props.isPartlyMobile ? 9 : 16}>
           {props.isMobile ? (
             <Stepper
               className={classes.stepper}

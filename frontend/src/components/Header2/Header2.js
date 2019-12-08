@@ -10,6 +10,8 @@ import HomeIcon from "@material-ui/icons/Home";
 import GalleryIcon from "@material-ui/icons/Redeem";
 import ProfileIcon from "@material-ui/icons/AccountCircle";
 
+import { LightToggleIcon } from "components/LightToggleIcon";
+
 import { useStyles } from "./styles";
 
 const Header = props => {
@@ -17,44 +19,43 @@ const Header = props => {
 
   const value = props.location.pathname.split("/")[1];
 
-  return (
+  return !props.isPartlyMobile ? (
     <Container maxWidth="lg">
       <Toolbar className={classes.root}>
-        {!props.isPartlyMobile && (
-          <div className={classes.navigation}>
-            <Button
-              className={value === "home" ? classes.selectedLink : classes.link}
-              component={Link}
-              to="/home"
-            >
-              <HomeIcon className={classes.icon} />
-              Home
-            </Button>
-            <Button
-              className={
-                value === "gallery" ? classes.selectedLink : classes.link
-              }
-              component={Link}
-              to="/gallery"
-            >
-              <GalleryIcon className={classes.icon} />
-              Gallery
-            </Button>
-            <Button
-              className={
-                value === "profile" ? classes.selectedLink : classes.link
-              }
-              component={Link}
-              to="/profile"
-            >
-              <ProfileIcon className={classes.icon} />
-              Profile
-            </Button>
-          </div>
-        )}
+        <div className={classes.navigation}>
+          <Button
+            className={value === "home" ? classes.selectedLink : classes.link}
+            component={Link}
+            to="/home"
+          >
+            <HomeIcon className={classes.icon} />
+            Home
+          </Button>
+          <Button
+            className={
+              value === "gallery" ? classes.selectedLink : classes.link
+            }
+            component={Link}
+            to="/gallery"
+          >
+            <GalleryIcon className={classes.icon} />
+            Gallery
+          </Button>
+          <Button
+            className={
+              value === "profile" ? classes.selectedLink : classes.link
+            }
+            component={Link}
+            to="/profile"
+          >
+            <ProfileIcon className={classes.icon} />
+            Profile
+          </Button>
+          <LightToggleIcon />
+        </div>
       </Toolbar>
     </Container>
-  );
+  ) : null;
 };
 
 const mapStateToProps = state => ({
