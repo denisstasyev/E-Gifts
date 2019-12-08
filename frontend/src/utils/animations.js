@@ -11,9 +11,18 @@ export const addOnLoadAnimation = resolve => {
   }
 };
 
+let animationState = false;
 export const resolveContent = () => {
-  TweenMax.from("#content", 1, {
-    opacity: 0,
-    y: 40
-  });
+  if (animationState !== true) {
+    TweenMax.from("#content", 1, {
+      opacity: 0,
+      y: 40,
+      onStart: () => {
+        animationState = true;
+      },
+      onComplete: () => {
+        animationState = false;
+      }
+    });
+  }
 };

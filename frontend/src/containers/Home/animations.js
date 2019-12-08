@@ -1,27 +1,43 @@
 import { TweenMax, Elastic } from "gsap/TweenMax";
 
+import { mobileAndTabletCheck } from "utils";
 import { resolveContent } from "utils/animations";
 
-const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isMobileOrTablet = mobileAndTabletCheck();
 
+let animationStateResolve = false;
 export const resolve = () => {
   resolveContent();
-  TweenMax.from("#e-image", 1, {
-    opacity: 0,
-    x: -40,
-    y: 20,
-    scale: 1.2
-  });
-  TweenMax.from("#g-image", 1, {
-    opacity: 0,
-    x: 40,
-    y: 20,
-    scale: 1.2
-  });
+  if (animationStateResolve !== true) {
+    TweenMax.from("#e-image", 1, {
+      opacity: 0,
+      x: -40,
+      y: 20,
+      scale: 1.2,
+      onStart: () => {
+        animationStateResolve = true;
+      },
+      onComplete: () => {
+        animationStateResolve = false;
+      }
+    });
+    TweenMax.from("#g-image", 1, {
+      opacity: 0,
+      x: 40,
+      y: 20,
+      scale: 1.2,
+      onStart: () => {
+        animationStateResolve = true;
+      },
+      onComplete: () => {
+        animationStateResolve = false;
+      }
+    });
+  }
 };
 
 export const resolveToE = () => {
-  if (!iOS) {
+  if (!isMobileOrTablet) {
     TweenMax.to("#e-image", 1, {
       x: -20,
       y: 10,
@@ -36,7 +52,7 @@ export const resolveToE = () => {
 };
 
 export const resolveOutE = () => {
-  if (!iOS) {
+  if (!isMobileOrTablet) {
     TweenMax.to("#e-image", 1, {
       x: 0,
       y: 0,
@@ -51,7 +67,7 @@ export const resolveOutE = () => {
 };
 
 export const resolveToG = () => {
-  if (!iOS) {
+  if (!isMobileOrTablet) {
     TweenMax.to("#g-image", 1, {
       x: 20,
       y: 10,
@@ -66,7 +82,7 @@ export const resolveToG = () => {
 };
 
 export const resolveOutG = () => {
-  if (!iOS) {
+  if (!isMobileOrTablet) {
     TweenMax.to("#g-image", 1, {
       x: 0,
       y: 0,
