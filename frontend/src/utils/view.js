@@ -6,9 +6,16 @@ export const getViewGift = async link => {
   let viewGift = await axios
     .get(`${config.BACKEND_SERVER}/get_model_by_ref?guid=${link}`)
     .then(response => {
-      let result = { modelURL: "", text: "", isValidGift: true };
+      let result = {
+        modelURL: "",
+        modelURLApple: "",
+        text: "",
+        isValidGift: true
+      };
       if (response[config.DATA][config.RESULT]) {
         result.modelURL = response[config.DATA][config.VIEW_MODEL_URL];
+        result.modelURLApple =
+          response[config.DATA][config.VIEW_MODEL_URL_APPLE];
         result.text = response[config.DATA][config.VIEW_TEXT];
       } else {
         result.isValidGift = false;

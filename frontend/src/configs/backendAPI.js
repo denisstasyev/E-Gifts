@@ -37,7 +37,4 @@ export const VIEW_TEXT = "text";
 
 // View
 export const VIEW_MODEL_URL = "model_url";
-export const VIEW_SCALE_X = "scale_x";
-export const VIEW_SCALE_Y = "scale_y";
-export const VIEW_SCALE_Z = "scale_z";
-export const VIEW_LIGHT = "light";
+export const VIEW_MODEL_URL_APPLE = "model_url_apple";

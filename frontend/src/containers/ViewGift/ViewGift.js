@@ -25,6 +25,8 @@ import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
 
+import * as config from "configs/backendAPI";
+
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
 import { getViewGift } from "utils/view";
 
@@ -70,6 +72,7 @@ const ViewGift = props => {
 
   const [isValidGift, setIsValidGift] = React.useState(true);
   const [modelURL, setModelURL] = React.useState("");
+  const [modelURLApple, setModelURLApple] = React.useState("");
   const [text, setText] = React.useState("");
 
   const link = props.location.pathname.substring(
@@ -81,6 +84,7 @@ const ViewGift = props => {
     getViewGift(link).then(result => {
       setIsValidGift(result.isValidGift);
       setModelURL(result.modelURL);
+      setModelURLApple(result.modelURLApple);
       setText(result.text);
     });
     // eslint-disable-next-line
@@ -167,10 +171,9 @@ const ViewGift = props => {
                     autoplay
                     // shadow-intensity={1}
                     background-color={theme.palette.background.paper}
-                    // camera-orbit="-20deg 75deg 2m"
                     alt="3D model"
-                    src={require("static/models/Bee.glb")}
-                    ios-src={require("static/models/bee2.usdz")}
+                    src={`${config.BACKEND_SERVER}/${modelURL}`}
+                    ios-src={`${config.BACKEND_SERVER}/${modelURLApple}`}
                     magic-leap
                     ar
                   >
