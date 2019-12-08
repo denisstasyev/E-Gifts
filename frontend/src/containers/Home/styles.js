@@ -23,8 +23,6 @@ export const useStyles = makeStyles(theme => ({
     }
   },
   ideaTitle: {
-    // width: "30%",
-    // flexShrink: 1,
     flexGrow: 1,
     display: "flex",
     flexDirection: "column",
