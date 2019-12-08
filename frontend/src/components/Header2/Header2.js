@@ -10,6 +10,8 @@ import HomeIcon from "@material-ui/icons/Home";
 import GalleryIcon from "@material-ui/icons/Redeem";
 import ProfileIcon from "@material-ui/icons/AccountCircle";
 
+import { LightToggleIcon } from "components/LightToggleIcon";
+
 import { useStyles } from "./styles";
 
 const Header = props => {
@@ -49,6 +51,7 @@ const Header = props => {
             <ProfileIcon className={classes.icon} />
             Profile
           </Button>
+          <LightToggleIcon />
         </div>
       </Toolbar>
     </Container>
