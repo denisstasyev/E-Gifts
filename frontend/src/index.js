@@ -15,6 +15,7 @@ import filtersReducer from "store/reducers/filters";
 import galleryReducer from "store/reducers/gallery";
 import giftReducer from "store/reducers/gift";
 import settingsReducer from "store/reducers/settings";
+import homeReducer from "store/reducers/home";
 
 const rootReducer = combineReducers({
   navigationReducer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   filtersReducer,
   galleryReducer,
   giftReducer,
-  settingsReducer
+  settingsReducer,
+  homeReducer
 });
 
 let composeEnhancers = compose;

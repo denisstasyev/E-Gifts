@@ -3,22 +3,7 @@ import axios from "axios";
 import * as config from "configs/backendAPI";
 import * as actionTypes from "store/actionTypes";
 
-import { setGift } from "store/actions/gift";
-
-const setGifts = response => {
-  let gifts = [];
-  response[config.DATA][config.AVAILABLE_GIFTS].forEach(element => {
-    if (gifts.length === 0) {
-      gifts.push(setGift(element));
-    } else {
-      let giftIds = gifts.map(gifts => gifts["id"]);
-      if (giftIds.indexOf(element[config.GIFT_ID]) === -1) {
-        gifts.push(setGift(element));
-      }
-    }
-  });
-  return gifts;
-};
+import { setGifts } from "utils/actions";
 
 export const getAvailableGifts = selectedTags => {
   return dispatch => {
