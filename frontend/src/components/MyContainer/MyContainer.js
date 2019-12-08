@@ -46,13 +46,14 @@ const MyContainer = props => {
           <div className={classes.footer}>
             <Container maxWidth={"lg"}>
               <Box mt={2} p={2}>
-                <Grid container>
+                <Grid container spacing={2}>
                   <Grid item xs>
                     <Typography className={classes.title} variant="h5">
                       About Us
                     </Typography>
                     <Typography className={classes.context}>
-                      This site was created by Denis Stasyev and Anton Chadov
+                      This site was created by MIPT students: Denis Stasyev and
+                      Anton Chadov
                     </Typography>
                   </Grid>
                   <Grid item xs className={classes.mail}>

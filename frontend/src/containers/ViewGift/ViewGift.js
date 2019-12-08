@@ -165,10 +165,10 @@ const ViewGift = props => {
                     auto-rotate
                     camera-controls
                     autoplay
-                    shadow-intensity={1}
+                    // shadow-intensity={1}
                     background-color={theme.palette.background.paper}
                     // camera-orbit="-20deg 75deg 2m"
-                    alt="A 3D model of an astronaut."
+                    alt="3D model"
                     src={require("static/models/Bee.glb")}
                     ios-src={require("static/models/bee2.usdz")}
                     magic-leap
@@ -190,7 +190,7 @@ const ViewGift = props => {
                   </Typography>
                 </MyBox>
                 {text !== "" ? (
-                  <MyBox title="Congratulator left you a message">
+                  <MyBox title="Congratulator sent you a message">
                     <Typography>{text}</Typography>
                   </MyBox>
                 ) : null}
