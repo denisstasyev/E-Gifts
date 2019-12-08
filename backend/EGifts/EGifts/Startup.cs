@@ -56,7 +56,7 @@ namespace EGifts
                     context.SaveChanges();
                 }
 
-                context.TestCreateGiftsTags1();
+                //context.TestCreateGiftsTags1();
             }
             catch (Exception e)
             {
@@ -174,7 +174,7 @@ namespace EGifts
                     //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
                 });//.RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/api/buy_gift_ref", async context =>
+                endpoints.MapGet("/api/buy_gift_ref", async context => //"e-gifts.site/view/603abfd4-d985-4da9-b4cb-136be0fa1b07"
                 {
                     var handler = new BuyGiftRefHandler();
                     var result = handler.Handle(context);
