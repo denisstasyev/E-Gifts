@@ -104,7 +104,9 @@ namespace EGifts.Handlers
             {
                 Result = true,
                 ResultMessage = "",
-                User = user,/*
+                User = user,
+                
+                /*
                 Name = user.Name,
                 BirthDate = user.BirthDate,
                 FirstName = user.FirstName,

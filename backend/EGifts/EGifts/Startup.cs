@@ -56,7 +56,7 @@ namespace EGifts
                     context.SaveChanges();
                 }
 
-                //context.TestCreateGiftsTags1();
+                context.TestCreateGiftsTags1();
             }
             catch (Exception e)
             {
@@ -128,6 +128,20 @@ namespace EGifts
                 endpoints.MapGet("/api/get_gallery", async context =>
                 {
                     var handler = new GetGalleryHandler();
+                    var result = handler.Handle(context);
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_gallery_popular", async context =>
+                {
+                    var handler = new GetGalleryPopularHandler();
+                    var result = handler.Handle(context);
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_gallery_last", async context =>
+                {
+                    var handler = new GetGalleryLastHandler();
                     var result = handler.Handle(context);
                     //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);

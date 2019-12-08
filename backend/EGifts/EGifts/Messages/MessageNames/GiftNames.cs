@@ -13,9 +13,11 @@ namespace EGifts.Messages.MessageNames
         public const string DonationOrganisation = "donation_organisation";
         public const string GiftTags = "gift_tags";
         public const string StaticUrls = "static_urls";
+        public const string CoverImage = "cover_image";
         public const string ImageUrl = "image_url";
         public const string Guid = "guid";
         public const string ModelUrl = "model_url";
+        public const string ModelUrlApple = "model_url_apple";
         public const string Reference = "reference";
         public const string SentGiftGuid = "sent_gift_guid";
         public const string OwnedGiftGuid = "owned_gift_guid";
@@ -23,7 +25,7 @@ namespace EGifts.Messages.MessageNames
         public const string ScaleY = "scale_y";
         public const string ScaleZ = "scale_z";
         public const string Light = "light";
-        public const string PurchasesNumber = "purchases_namber";
+        public const string PurchasesCount = "purchases_count";
         public const string SelfGift = "self_gift";
         public const string Email = "email";
     }

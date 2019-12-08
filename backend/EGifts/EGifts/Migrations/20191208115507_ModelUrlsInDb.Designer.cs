@@ -3,15 +3,17 @@ using System;
 using EGifts.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EGifts.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191208115507_ModelUrlsInDb")]
+    partial class ModelUrlsInDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace EGifts.Migrations
 
                     b.Property<double>("Cost")
                         .HasColumnType("double precision");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -56,7 +55,7 @@ namespace EGifts.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<long>("PurchasesCount")
+                    b.Property<long>("PurchasesNumber")
                         .HasColumnType("bigint");
 
                     b.Property<float>("ScaleX")

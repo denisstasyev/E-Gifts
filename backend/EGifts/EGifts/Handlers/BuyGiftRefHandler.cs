@@ -113,7 +113,7 @@ namespace EGifts.Handlers
                 Text = text,
                 Reference = $"{BaseUrl}{guid}",
             };
-            gift.PurchasesNumber++;
+            gift.PurchasesCount++;
             
             user?.SentGifts.Add(reference);
             if (null != self) user.ReceivedGifts.Add(reference);

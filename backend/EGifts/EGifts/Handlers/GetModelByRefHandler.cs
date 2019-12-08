@@ -49,11 +49,8 @@ namespace EGifts.Handlers
             return new GetModelByRefResponse
             {
                 Result = true,
-                ModelUrl = gift.ModelUrls.Select(s => s.Name).ToList(),
-                ScaleX = gift.ScaleX,
-                ScaleY = gift.ScaleY,
-                ScaleZ = gift.ScaleZ,
-                Light = gift.Light,
+                ModelUrl = gift.ModelUrl,
+                ModelUrlApple = gift.ModelUrlApple,
                 Text = reference.Text
             };
         }

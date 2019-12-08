@@ -63,7 +63,6 @@ namespace EGifts.DataBase
                                 .Include(gr => gr.Owner)
                                 .Include(gr => gr.Sender)
                                 .Include(gr => gr.Gift)
-                                    .ThenInclude(g => g.ModelUrls)
                                 .FirstOrDefault();
         }
         
@@ -160,18 +159,14 @@ namespace EGifts.DataBase
             const string giftAl = "alchemist_fantasy_house";
             var gift = new Gift
             {
-                Name = "Alchemist Fantasy House",
-                Description = "Present this fantastic house to a friend so that his life becomes fantastic too. This is what we all dream of",
+                Name = "Fantastic Bee",
+                Description = "Really Awesome Bee!",
                 ScaleX = 0.005f,
                 ScaleY = 0.005f,
                 ScaleZ = 0.005f,
                 Light = 20,
-                //ModelUrl = giftAl+modelUrl,
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{giftAl}{modelUrl1}"),
-                    new StaticUrl($"{giftAl}{modelUrl2}"),
-                },
+                ModelUrl = $"{giftAl}{modelUrl1}",
+                ModelUrlApple = $"{giftAl}{modelUrl2}",
                 StaticUrls = new List<StaticUrl>(
                         Enumerable.Range(1, 4).Select(n => new StaticUrl($"{giftAl}{imagesFolder}{n}.png")
                     ).Reverse()),
@@ -193,11 +188,8 @@ namespace EGifts.DataBase
                 ScaleY = 0.007f,
                 ScaleZ = 0.01f,
                 Light = 6,
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{giftCt}{modelUrl1}"),
-                    new StaticUrl($"{giftCt}{modelUrl2}"),
-                },
+                ModelUrl = $"{giftCt}{modelUrl1}",
+                ModelUrlApple = $"{giftCt}{modelUrl2}",
                 StaticUrls = new List<StaticUrl>(
                     Enumerable.Range(1, 3).Select(n => new StaticUrl($"{giftCt}{imagesFolder}{n}.png")
                     ).Reverse()),
@@ -219,11 +211,8 @@ namespace EGifts.DataBase
                 ScaleY = 0.3f,
                 ScaleZ = 0.3f,
                 Light = 7,
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{giftFh}{modelUrl1}"),
-                    new StaticUrl($"{giftFh}{modelUrl2}"),
-                },
+                ModelUrl = $"{giftFh}{modelUrl1}",
+                ModelUrlApple = $"{giftFh}{modelUrl2}",
                 StaticUrls = new List<StaticUrl>(
                     Enumerable.Range(1, 3).Select(n => new StaticUrl($"{giftFh}{imagesFolder}{n}.png")
                     ).Reverse()),
@@ -245,11 +234,9 @@ namespace EGifts.DataBase
                 ScaleY = 0.6f,
                 ScaleZ = 0.6f,
                 Light = 6,
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{giftGoogle}{modelUrl1}"),
-                    new StaticUrl($"{giftGoogle}{modelUrl2}"),
-                },
+                CreationDate = DateTime.Now,
+                ModelUrl = $"{giftGoogle}{modelUrl1}",
+                ModelUrlApple = $"{giftGoogle}{modelUrl2}",
                 StaticUrls = new List<StaticUrl>(
                     Enumerable.Range(1, 2).Select(n => new StaticUrl($"{giftGoogle}{imagesFolder}{n}.png")
                     ).Reverse()),
@@ -271,11 +258,8 @@ namespace EGifts.DataBase
                 ScaleY = 0.7f,
                 ScaleZ = 0.7f,
                 Light = 10,
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{giftGf}{modelUrl1}"),
-                    new StaticUrl($"{giftGf}{modelUrl2}"),
-                },
+                ModelUrl = $"{giftGf}{modelUrl1}",
+                ModelUrlApple = $"{giftGf}{modelUrl2}",
                 StaticUrls = new List<StaticUrl>(
                     Enumerable.Range(1, 4).Select(n => new StaticUrl($"{giftGf}{imagesFolder}{n}.png")
                     ).Reverse()),
@@ -297,11 +281,8 @@ namespace EGifts.DataBase
                 ScaleY = 0.005f,
                 ScaleZ = 0.005f,
                 Light = 50,
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{giftOcc}{modelUrl1}"),
-                    new StaticUrl($"{giftOcc}{modelUrl2}"),
-                },
+                ModelUrl = $"{giftOcc}{modelUrl1}",
+                ModelUrlApple = $"{giftOcc}{modelUrl2}",
                 StaticUrls = new List<StaticUrl>(
                     Enumerable.Range(1, 3).Select(n => new StaticUrl($"{giftOcc}{imagesFolder}{n}.png")
                     ).Reverse()),
@@ -323,11 +304,9 @@ namespace EGifts.DataBase
                 ScaleY = 0.03f,
                 ScaleZ = 0.03f,
                 Light = 100,
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{giftT}{modelUrl1}"),
-                    new StaticUrl($"{giftT}{modelUrl2}"),
-                },
+                ModelUrl = $"{giftT}{modelUrl1}",
+                CreationDate = DateTime.Now,
+                ModelUrlApple = $"{giftT}{modelUrl2}",
                 StaticUrls = new List<StaticUrl>(
                     Enumerable.Range(1, 4).Select(n => new StaticUrl($"{giftT}{imagesFolder}{n}.png")
                     ).Reverse()),
@@ -355,11 +334,6 @@ namespace EGifts.DataBase
                 {
                     new StaticUrl($"{n}/1.png"),
                     new StaticUrl($"{n}/2.png"),
-                },
-                ModelUrls = new List<StaticUrl>
-                {
-                    new StaticUrl($"{n}/Bee.glb"),
-                    new StaticUrl($"{n}/bee.usdz"),
                 },
                 Description = $"Awesome n",
             });

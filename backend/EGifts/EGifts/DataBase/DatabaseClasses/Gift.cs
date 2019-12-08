@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using EGifts.Messages.MessageNames;
 
@@ -31,8 +33,8 @@ namespace EGifts.DataBase.DatabaseClasses
         [JsonPropertyName(GiftNames.Cost)] 
         public double Cost { get; set; }
         
-        [JsonPropertyName(GiftNames.PurchasesNumber)] 
-        public long PurchasesNumber { get; set; }
+        [JsonPropertyName(GiftNames.PurchasesCount)] 
+        public long PurchasesCount { get; set; }
         
         [JsonPropertyName(GiftNames.DonationPercent)]
         public int DonationPercent { get; set; }
@@ -43,14 +45,22 @@ namespace EGifts.DataBase.DatabaseClasses
         [JsonIgnore] 
         public string CatalogStatic { get; set; }
         [JsonIgnore]
-        public List<StaticUrl> ModelUrls { get; set; } = new List<StaticUrl>();
+        public string ModelUrl { get; set; } = "";
+        [JsonIgnore]
+        public string ModelUrlApple { get; set; } = "";
         [JsonIgnore] 
         public List<UserGift> UserGifts { get; set; } = new List<UserGift>();
+        [JsonIgnore]
+        public DateTime? CreationDate { get; set; } 
+
         [JsonPropertyName(GiftNames.GiftTags)] 
         public List<GiftTag> GiftTags { get; set; } = new List<GiftTag>();
 
         [JsonPropertyName(GiftNames.StaticUrls)]
         public List<StaticUrl> StaticUrls { get; set; } = new List<StaticUrl>();
+
+        [JsonPropertyName(GiftNames.CoverImage)]
+        public string CoverImage => StaticUrls.FirstOrDefault()?.Name;
 
     }
 }

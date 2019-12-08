@@ -9,7 +9,9 @@ namespace EGifts.Messages
     public class GetModelByRefResponse : BaseMessage
     {
         [JsonPropertyName(GiftNames.ModelUrl)]
-        public List<string> ModelUrl { get; set; }
+        public string ModelUrl { get; set; }
+        [JsonPropertyName(GiftNames.ModelUrl)]
+        public string ModelUrlApple { get; set; }
         [JsonPropertyName(GiftNames.Text)]
         public string Text { get; set; }
         [JsonPropertyName(GiftNames.ScaleX)] 
