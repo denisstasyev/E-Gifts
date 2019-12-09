@@ -11,6 +11,8 @@ const initialState = {
   isAuth: false,
   sentGiftGUID: "",
   receivedGiftGUID: ""
+  // sentGifts: [],
+  // receivedGifts: []
 };
 
 const userReducer = (state = initialState, action) => {

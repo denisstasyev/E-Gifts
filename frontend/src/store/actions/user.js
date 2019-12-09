@@ -163,3 +163,9 @@ export const signOut = () => {
     clearLocalStorage();
   };
 };
+
+export const updateUser = () => {
+  return dispatch => {
+    // dispatch({ type: actionTypes.USER_AUTH_EXIT });
+  };
+};

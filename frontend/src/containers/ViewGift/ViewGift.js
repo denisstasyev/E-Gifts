@@ -95,7 +95,7 @@ const ViewGift = props => {
   const [mode, setMode] = React.useState("welcome");
   const [boom, setBoom] = React.useState(false);
 
-  const handleOpen = props => {
+  const handleOpen = () => {
     resolveToTop();
     setBoom(true);
     setTimeout(() => {
