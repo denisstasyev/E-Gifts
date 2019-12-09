@@ -98,7 +98,7 @@ namespace EGifts.Handlers
             
             return new UserDataMessage
             {
-                Result = false,
+                Result = true,
                 User = user,
             };
         }

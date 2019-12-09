@@ -15,7 +15,7 @@ namespace EGifts.Handlers
     class BuyGiftRefHandler : IRequestHandler
     {
         //TODO: вынести в бд!
-        const string BaseUrl = "e-gifts.site/view/";
+        const string BaseUrl = "https://e-gifts.site/view/";
         public BaseMessage Handle(HttpContext context)
         {
             var requestData = context.Request.Query;

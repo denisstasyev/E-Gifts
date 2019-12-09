@@ -17,7 +17,7 @@ namespace EGifts.Handlers
             return new GetGalleryResponse
             {
                 Result = true,
-                Gifts = dbContext.GetGifts().OrderByDescending(g => g.PurchasesCount).ToList(),
+                Gifts = dbContext.GetGifts().OrderByDescending(g => g.PurchasesCount).Take(5).ToList(),
             };
         }
     }

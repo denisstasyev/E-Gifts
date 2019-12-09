@@ -69,8 +69,6 @@ namespace EGifts.Handlers
                 };
             }
 
-            using var dbContext = new MainDbContext();
-            user = dbContext.GetUser(user); // Получаем связные данные.
             if (null == user)
             {
                 return new ErrorMessage

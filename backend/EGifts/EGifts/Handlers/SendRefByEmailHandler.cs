@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -71,10 +72,12 @@ namespace EGifts.Handlers
                     ResultMessage = ResourcesErrorMessages.EmailNotValid,
                 };
             }
+
+            var html = File.ReadAllText("mail.html").Replace("https://e-gifts.site", reference.Reference);
             var message = new MailMessage(from, to)
             {
                 Subject = "A gift for you!",
-                Body = $"<h2>Your friend sent a gift to you.<br>It exists in augmented reality, u can see your gift on our site by reference below. Good luck!)</h2><h2>{reference.Reference}<h2>",
+                Body = html,
                 IsBodyHtml = true
             };
             // Адрес smtp-сервера и порт, с которого будем отправлять письмо
