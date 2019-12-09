@@ -113,20 +113,23 @@ namespace EGifts.Handlers
                 Text = text,
                 Reference = $"{BaseUrl}{guid}",
             };
-            gift.PurchasesCount++;
+            dbContext.GiftReferences.Add(reference);
+            //gift.PurchasesCount++;
+            dbContext.SaveChanges();
+            reference = dbContext.GiftReferences.FirstOrDefault(g => g.Guid == guid);
 
             if (null != user)
             {
-                user.SentGifts.Add(reference);
+                user = dbContext.Users.FirstOrDefault(u => u.Id == user.Id);
+                //user.SentGifts.Add(reference);
                 reference.Sender = user;
-            }
-            if (null != self)
-            {
-                user.ReceivedGifts.Add(reference);
-                reference.Owner = user;
+                if (null != self)
+                {
+                    //user.ReceivedGifts.Add(reference);
+                    reference.Owner = user;
+                }
             }
             
-            dbContext.GiftReferences.Add(reference);
             dbContext.SaveChanges();
             return new BuyGiftRefResponse()
             {
