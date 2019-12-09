@@ -1,4 +1,5 @@
 export const MOBILE_WIDTH = 800;
+export const SMALL_MOBILE_WIDTH = 350;
 export const PARTLY_MOBILE_WIDTH = 960;
 export const MOBILE_HEIGHT = 800;
 
