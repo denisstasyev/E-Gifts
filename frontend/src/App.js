@@ -84,30 +84,35 @@ const darkTheme = createMuiTheme({
 
 const App = props => {
   props.handleAuthCheck();
-  props.handleResize();
 
-  let colorTheme = localStorage.getItem("colorTheme");
-  if (colorTheme === "dark") {
-    props.setColorTheme(colorTheme);
-  }
+  React.useEffect(() => {
+    props.handleResize();
 
-  let vh =
-    ((document &&
-      document.documentElement &&
-      document.documentElement.clientHeight) ||
-      window.innerHeight) * 0.01;
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
+    let colorTheme = localStorage.getItem("colorTheme");
+    if (colorTheme === "dark") {
+      props.setColorTheme(colorTheme);
+    }
 
-  window.addEventListener("resize", () => {
-    vh =
+    let vh =
       ((document &&
         document.documentElement &&
         document.documentElement.clientHeight) ||
         window.innerHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
-    props.handleResize();
-  });
+    window.addEventListener("resize", () => {
+      vh =
+        ((document &&
+          document.documentElement &&
+          document.documentElement.clientHeight) ||
+          window.innerHeight) * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+      props.handleResize();
+    });
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <BrowserRouter>
