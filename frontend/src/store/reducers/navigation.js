@@ -1,7 +1,7 @@
 import * as actionTypes from "store/actionTypes";
 
 const initialState = {
-  show: true
+  show: true // not used now, left for fullscreen preview in Gift
 };
 
 const navigationReducer = (state = initialState, action) => {
