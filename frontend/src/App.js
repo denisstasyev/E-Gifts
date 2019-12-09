@@ -13,6 +13,7 @@ import { ViewGift } from "containers/ViewGift";
 import { Profile } from "containers/Profile";
 import { SignUp } from "containers/SignUp";
 import { SignIn } from "containers/SignIn";
+import { Demo } from "containers/Demo";
 import { NotFound } from "containers/NotFound";
 
 import { Navigation } from "components/Navigation";
@@ -84,30 +85,35 @@ const darkTheme = createMuiTheme({
 
 const App = props => {
   props.handleAuthCheck();
-  props.handleResize();
 
-  let colorTheme = localStorage.getItem("colorTheme");
-  if (colorTheme === "dark") {
-    props.setColorTheme(colorTheme);
-  }
+  React.useEffect(() => {
+    props.handleResize();
 
-  let vh =
-    ((document &&
-      document.documentElement &&
-      document.documentElement.clientHeight) ||
-      window.innerHeight) * 0.01;
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
+    let colorTheme = localStorage.getItem("colorTheme");
+    if (colorTheme === "dark") {
+      props.setColorTheme(colorTheme);
+    }
 
-  window.addEventListener("resize", () => {
-    vh =
+    let vh =
       ((document &&
         document.documentElement &&
         document.documentElement.clientHeight) ||
         window.innerHeight) * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
-    props.handleResize();
-  });
+    window.addEventListener("resize", () => {
+      vh =
+        ((document &&
+          document.documentElement &&
+          document.documentElement.clientHeight) ||
+          window.innerHeight) * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+      props.handleResize();
+    });
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <BrowserRouter>
@@ -127,6 +133,7 @@ const App = props => {
           <Route exact path="/profile" component={Profile} />
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />
+          <Route path="/demo" component={Demo} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Navigation />

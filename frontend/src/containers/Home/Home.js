@@ -10,6 +10,9 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Fab from "@material-ui/core/Fab";
 import Button from "@material-ui/core/Button";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
 
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import EmailIcon from "@material-ui/icons/AlternateEmail";
@@ -20,6 +23,13 @@ import { MyBox } from "components/MyBox";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
 import { Gifts } from "components/Gifts";
 
+import * as homeActionCreators from "store/actions/home";
+
+import { GIFT_SET } from "store/actionTypes";
+
+import * as config from "configs/backendAPI";
+
+import { priceToString } from "utils";
 import { addOnLoadAnimation } from "utils/animations";
 
 import { useStyles } from "./styles";
@@ -45,11 +55,17 @@ const Home = props => {
 
   addOnLoadAnimation(resolve);
 
+  React.useEffect(() => {
+    props.getNewestGifts();
+    props.getPopularGifts();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <MyContainer showFooter={true}>
       <Header topic="E-Gifts" />
       <Box id="content" pb={2}>
-        <MyBox title="What is it? 🤔">
+        <MyBox title="What is it?">
           <div className={classes.idea}>
             <div id="vr" className={classes.vr}>
               <Gifts />
@@ -80,7 +96,35 @@ const Home = props => {
             )}
           </div>
         </MyBox>
-        <MyBox title="Newest E-Gifts">Soon</MyBox>
+        <MyBox title="Newest E-Gifts">
+          <Typography className={classes.topic}>
+            Click on E-Gift below to choose
+          </Typography>
+          <GridList
+            className={classes.gridList}
+            cellHeight={props.isMobile ? 200 : 300}
+            cols={props.isMobile ? 1.5 : 2.5}
+          >
+            {props.newestGifts.map((gift, index) => (
+              <GridListTile
+                key={index}
+                component={Link}
+                to={`/gallery/gift/${gift.id}`}
+                onClick={() => {
+                  props.handleSetGift(gift);
+                }}
+              >
+                <img
+                  src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
+                  alt={gift.name}
+                />
+                <GridListTileBar
+                  title={`${gift.name} - ${priceToString(gift.price)}`}
+                />
+              </GridListTile>
+            ))}
+          </GridList>
+        </MyBox>
         <MyTwoBoxes
           leftBoxTitle="Ecology"
           leftBox={
@@ -107,16 +151,9 @@ const Home = props => {
                   E
                 </Avatar>
                 <Typography>
-                  cology is experiencing big changes{" "}
-                  <span role="img" aria-label="Sad face">
-                    😞
-                  </span>{" "}
-                  these days. Refusing traditional gifts in favor of virtual
-                  ones will help reduce environmental pollution and save our
-                  planet!{" "}
-                  <span role="img" aria-label="Happy face">
-                    😀
-                  </span>
+                  cology is experiencing big changes these days. Refusing
+                  traditional gifts in favor of virtual ones will help reduce
+                  environmental pollution and save our planet!
                 </Typography>
               </div>
             </>
@@ -146,22 +183,44 @@ const Home = props => {
                   G
                 </Avatar>
                 <Typography>
-                  ifts usually associate with attention{" "}
-                  <span role="img" aria-label="Astonished face">
-                    😲
-                  </span>{" "}
-                  and new experiences. E-Gifts offers you to give gifts in the
-                  virtual world of AR & VR (Augmented and Virtual Reality)!{" "}
-                  <span role="img" aria-label="Winking face">
-                    😉
-                  </span>
+                  ifts usually associate with attention and new experiences.
+                  E-Gifts offers you to give gifts in the virtual world of AR &
+                  VR (Augmented and Virtual Reality)!
                 </Typography>
               </div>
             </>
           }
         />
-        <MyBox title="Most Trending E-Gifts">Soon</MyBox>
-        <MyBox title="How to start? 🤗">
+        <MyBox title="Most Trending E-Gifts">
+          <Typography className={classes.topic}>
+            Click on E-Gift below to choose
+          </Typography>
+          <GridList
+            className={classes.gridList}
+            cellHeight={props.isMobile ? 200 : 300}
+            cols={props.isMobile ? 1.5 : 2.5}
+          >
+            {props.popularGifts.map((gift, index) => (
+              <GridListTile
+                key={index}
+                component={Link}
+                to={`/gallery/gift/${gift.id}`}
+                onClick={() => {
+                  props.handleSetGift(gift);
+                }}
+              >
+                <img
+                  src={`${config.BACKEND_SERVER}/${gift.urls[0]}`}
+                  alt={gift.name}
+                />
+                <GridListTileBar
+                  title={`${gift.name} - ${priceToString(gift.price)}`}
+                />
+              </GridListTile>
+            ))}
+          </GridList>
+        </MyBox>
+        <MyBox title="How to start?">
           <Stepper
             activeStep={-1}
             orientation={props.isMobile ? "vertical" : "horizontal"}
@@ -182,10 +241,7 @@ const Home = props => {
             ))}
           </Stepper>
           <Typography>
-            E-Gifts do not take up space, but always near the recipient!{" "}
-            <span role="img" aria-label="Astonished face">
-              😲
-            </span>
+            E-Gifts do not take up space, but always near the recipient!
           </Typography>
           <div className={classes.fab}>
             <Fab
@@ -224,10 +280,18 @@ const Home = props => {
 
 const mapStateToProps = state => ({
   isMobile: state.settingsReducer.isMobile,
-  isPartlyMobile: state.settingsReducer.isPartlyMobile
+  isPartlyMobile: state.settingsReducer.isPartlyMobile,
+  newestGifts: state.homeReducer.newestGifts,
+  popularGifts: state.homeReducer.popularGifts
+});
+
+const mapDispatchToProps = dispatch => ({
+  getNewestGifts: () => dispatch(homeActionCreators.getNewestGifts()),
+  getPopularGifts: () => dispatch(homeActionCreators.getPopularGifts()),
+  handleSetGift: gift => dispatch({ type: GIFT_SET, gift })
 });
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Home);

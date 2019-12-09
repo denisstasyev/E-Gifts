@@ -23,8 +23,6 @@ export const useStyles = makeStyles(theme => ({
     }
   },
   ideaTitle: {
-    // width: "30%",
-    // flexShrink: 1,
     flexGrow: 1,
     display: "flex",
     flexDirection: "column",
@@ -91,5 +89,14 @@ export const useStyles = makeStyles(theme => ({
 
   mail: {
     marginTop: theme.spacing(1)
+  },
+
+  topic: {
+    marginBottom: theme.spacing(1)
+  },
+  gridList: {
+    flexWrap: "nowrap",
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: "translateZ(0)"
   }
 }));

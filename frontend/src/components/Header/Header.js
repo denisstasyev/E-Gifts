@@ -34,7 +34,7 @@ const Header = props => {
       <div className={classes.topic}>
         <Typography variant="h4">{props.topic}</Typography>
         <Typography variant="body2">
-          {props.topic === "E-Gifts"
+          {props.topic === "E-Gifts" || props.isSmallMobile
             ? "Brings gifts to AR & VR!"
             : "E-Gifts - Brings gifts to AR & VR!"}
         </Typography>
@@ -83,7 +83,8 @@ const Header = props => {
 };
 
 const mapStateToProps = state => ({
-  isPartlyMobile: state.settingsReducer.isPartlyMobile
+  isPartlyMobile: state.settingsReducer.isPartlyMobile,
+  isSmallMobile: state.settingsReducer.isSmallMobile
 });
 
 export default connect(

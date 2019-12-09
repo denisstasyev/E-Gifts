@@ -90,7 +90,9 @@ const SignUp = props => {
         dateToString(values.birthDate),
         values.username,
         values.password,
-        values.rememberMe
+        values.rememberMe,
+        props.sentGiftGUID,
+        props.receivedGiftGUID
       );
     } else {
       props.handleError("Check Form Data");
@@ -256,7 +258,9 @@ const SignUp = props => {
 
 const mapStateToProps = state => ({
   errorMessage: state.userReducer.errorMessage,
-  isAuth: state.userReducer.isAuth
+  isAuth: state.userReducer.isAuth,
+  sentGiftGUID: state.userReducer.sentGiftGUID,
+  receivedGiftGUID: state.userReducer.receivedGiftGUID
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -269,7 +273,9 @@ const mapDispatchToProps = dispatch => ({
     birthDate,
     username,
     password,
-    rememberMe
+    rememberMe,
+    sentGiftGUID,
+    receivedGiftGUID
   ) =>
     dispatch(
       userActionCreators.signUp(
@@ -279,7 +285,9 @@ const mapDispatchToProps = dispatch => ({
         birthDate,
         username,
         password,
-        rememberMe
+        rememberMe,
+        sentGiftGUID,
+        receivedGiftGUID
       )
     ),
   handleRedirect: () =>

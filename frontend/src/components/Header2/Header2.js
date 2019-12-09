@@ -51,8 +51,8 @@ const Header = props => {
             <ProfileIcon className={classes.icon} />
             Profile
           </Button>
-          <LightToggleIcon />
         </div>
+        <LightToggleIcon />
       </Toolbar>
     </Container>
   ) : null;

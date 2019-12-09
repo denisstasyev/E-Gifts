@@ -25,8 +25,12 @@ import { Header } from "components/Header";
 import { MyBox } from "components/MyBox";
 import { MyTwoBoxes } from "components/MyTwoBoxes";
 
+import { USER_SET_RECEIVED_GIFT_GUID } from "store/actionTypes";
+
+import * as config from "configs/backendAPI";
+
 import { addOnLoadAnimation, resolveContent } from "utils/animations";
-import { getViewGift } from "utils/view";
+import { getViewGift, addGiftToCollection } from "utils/view";
 
 import { useStyles } from "./styles";
 import { resolveToTop } from "./animations";
@@ -70,17 +74,19 @@ const ViewGift = props => {
 
   const [isValidGift, setIsValidGift] = React.useState(true);
   const [modelURL, setModelURL] = React.useState("");
+  const [modelURLApple, setModelURLApple] = React.useState("");
   const [text, setText] = React.useState("");
 
-  const link = props.location.pathname.substring(
+  const GUID = props.location.pathname.substring(
     props.location.pathname.lastIndexOf("/") + 1,
     props.location.pathname.length
   );
 
   React.useEffect(() => {
-    getViewGift(link).then(result => {
+    getViewGift(GUID).then(result => {
       setIsValidGift(result.isValidGift);
       setModelURL(result.modelURL);
+      setModelURLApple(result.modelURLApple);
       setText(result.text);
     });
     // eslint-disable-next-line
@@ -89,7 +95,7 @@ const ViewGift = props => {
   const [mode, setMode] = React.useState("welcome");
   const [boom, setBoom] = React.useState(false);
 
-  const handleOpen = props => {
+  const handleOpen = () => {
     resolveToTop();
     setBoom(true);
     setTimeout(() => {
@@ -155,7 +161,7 @@ const ViewGift = props => {
                       </Typography>
                     )}
                   </Ticker>
-                  <ModelViewerComponent //! .glb models much better than .gltf
+                  <ModelViewerComponent
                     style={{
                       width: "100%",
                       height: "100%",
@@ -167,10 +173,9 @@ const ViewGift = props => {
                     autoplay
                     // shadow-intensity={1}
                     background-color={theme.palette.background.paper}
-                    // camera-orbit="-20deg 75deg 2m"
                     alt="3D model"
-                    src={require("static/models/Bee.glb")}
-                    ios-src={require("static/models/bee2.usdz")}
+                    src={`${config.BACKEND_SERVER}/${modelURL}`}
+                    ios-src={`${config.BACKEND_SERVER}/${modelURLApple}`}
                     magic-leap
                     ar
                   >
@@ -204,37 +209,43 @@ const ViewGift = props => {
                     props.isAuth ? (
                       <>
                         <Typography className={classes.text}>
-                          You can save this E-Gift to your Profile
+                          You can add this E-Gift to your Collection
                         </Typography>
                         <div className={classes.fab}>
                           <Fab
                             variant="extended"
                             size="small"
                             color="primary"
+                            onClick={() => {
+                              addGiftToCollection(GUID, props.token);
+                            }}
                             component={Link}
                             to="/profile"
                           >
                             <AccountIcon className={classes.icon} />
-                            Save
+                            Add
                           </Fab>
                         </div>
                       </>
                     ) : (
                       <>
                         <Typography className={classes.text}>
-                          You can Sign Up or Sign In in the Profile to save sent
-                          E-Gift to your Collection
+                          You can Sign Up or Sign In to save sent E-Gift to your
+                          Collection
                         </Typography>
                         <div className={classes.fab}>
                           <Fab
                             variant="extended"
                             size="small"
                             color="primary"
+                            onClick={() => {
+                              props.setReceivedGiftGUID(GUID);
+                            }}
                             component={Link}
                             to="/profile"
                           >
                             <AccountIcon className={classes.icon} />
-                            Profile
+                            Sign Up or Sign In
                           </Fab>
                         </div>
                       </>
@@ -272,10 +283,17 @@ const ViewGift = props => {
 };
 
 const mapStateToProps = state => ({
-  isAuth: state.userReducer.isAuth
+  isAuth: state.userReducer.isAuth,
+  token: state.userReducer.token
+});
+
+const mapDispatchToProps = dispatch => ({
+  setReceivedGiftGUID: receivedGiftGUID => {
+    dispatch({ type: USER_SET_RECEIVED_GIFT_GUID, receivedGiftGUID });
+  }
 });
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ViewGift);

@@ -79,11 +79,23 @@ export const authCheck = () => {
   };
 };
 
-export const signIn = (username, password, rememberMe) => {
+export const signIn = (
+  username,
+  password,
+  rememberMe,
+  sentGiftGUID,
+  receivedGiftGUID
+) => {
   return dispatch => {
     axios
       .get(
-        `${config.BACKEND_SERVER}/login?login=${username}&password=${password}`
+        sentGiftGUID === ""
+          ? receivedGiftGUID === ""
+            ? `${config.BACKEND_SERVER}/login?login=${username}&password=${password}`
+            : `${config.BACKEND_SERVER}/login?login=${username}&password=${password}&owned_gift_guid=${receivedGiftGUID}`
+          : receivedGiftGUID === ""
+          ? `${config.BACKEND_SERVER}/login?login=${username}&password=${password}&sent_gift_guid=${sentGiftGUID}`
+          : `${config.BACKEND_SERVER}/login?login=${username}&password=${password}&sent_gift_guid=${sentGiftGUID}&owned_gift_guid=${receivedGiftGUID}`
       )
       .then(response => {
         if (response[config.DATA][config.RESULT]) {
@@ -108,12 +120,20 @@ export const signUp = (
   birthDate,
   username,
   password,
-  rememberMe
+  rememberMe,
+  sentGiftGUID,
+  receivedGiftGUID
 ) => {
   return dispatch => {
     axios
       .get(
-        `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}&first_name=${firstName}&last_name=${lastName}&mail=${mail}&birth_date=${birthDate}`
+        sentGiftGUID === ""
+          ? receivedGiftGUID === ""
+            ? `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}&first_name=${firstName}&last_name=${lastName}&mail=${mail}&birth_date=${birthDate}`
+            : `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}&first_name=${firstName}&last_name=${lastName}&mail=${mail}&birth_date=${birthDate}&owned_gift_guid=${receivedGiftGUID}`
+          : receivedGiftGUID === ""
+          ? `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}&first_name=${firstName}&last_name=${lastName}&mail=${mail}&birth_date=${birthDate}&sent_gift_guid=${sentGiftGUID}`
+          : `${config.BACKEND_SERVER}/reg?login=${username}&password=${password}&first_name=${firstName}&last_name=${lastName}&mail=${mail}&birth_date=${birthDate}&sent_gift_guid=${sentGiftGUID}&owned_gift_guid=${receivedGiftGUID}`
       )
       .then(response => {
         if (response[config.DATA][config.RESULT]) {
@@ -141,5 +161,11 @@ export const signOut = () => {
   return dispatch => {
     dispatch({ type: actionTypes.USER_AUTH_EXIT });
     clearLocalStorage();
+  };
+};
+
+export const updateUser = () => {
+  return dispatch => {
+    // dispatch({ type: actionTypes.USER_AUTH_EXIT });
   };
 };

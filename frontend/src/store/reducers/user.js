@@ -8,7 +8,11 @@ const initialState = {
   birthDate: null,
   token: null,
   errorMessage: null,
-  isAuth: false
+  isAuth: false,
+  sentGiftGUID: "",
+  receivedGiftGUID: ""
+  // sentGifts: [],
+  // receivedGifts: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -22,6 +26,8 @@ const userReducer = (state = initialState, action) => {
       state.token = action.token;
       state.errorMessage = null;
       state.isAuth = true;
+      state.sentGiftGUID = "";
+      state.receivedGiftGUID = "";
       return Object.assign({}, state);
     case actionTypes.USER_AUTH_FAIL:
       state.errorMessage = action.errorMessage;
@@ -39,6 +45,14 @@ const userReducer = (state = initialState, action) => {
       state.token = null;
       state.errorMessage = null;
       state.isAuth = false;
+      state.sentGiftGUID = "";
+      state.receivedGiftGUID = "";
+      return Object.assign({}, state);
+    case actionTypes.USER_SET_SENT_GIFT_GUID:
+      state.sentGiftGUID = action.sentGiftGUID;
+      return Object.assign({}, state);
+    case actionTypes.USER_SET_RECEIVED_GIFT_GUID:
+      state.receivedGiftGUID = action.receivedGiftGUID;
       return Object.assign({}, state);
     default:
       return state;

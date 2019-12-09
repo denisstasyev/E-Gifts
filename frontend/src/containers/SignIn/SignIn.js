@@ -58,7 +58,13 @@ const SignIn = props => {
     if (values.username.length < 5 || values.password.length < 5) {
       props.handleError("Wrong username or password");
     } else {
-      props.handleSubmit(values.username, values.password, values.rememberMe);
+      props.handleSubmit(
+        values.username,
+        values.password,
+        values.rememberMe,
+        props.sentGiftGUID,
+        props.receivedGiftGUID
+      );
     }
   };
 
@@ -155,14 +161,30 @@ const SignIn = props => {
 
 const mapStateToProps = state => ({
   errorMessage: state.userReducer.errorMessage,
-  isAuth: state.userReducer.isAuth
+  isAuth: state.userReducer.isAuth,
+  sentGiftGUID: state.userReducer.sentGiftGUID,
+  receivedGiftGUID: state.userReducer.receivedGiftGUID
 });
 
 const mapDispatchToProps = dispatch => ({
   handleError: errorMessage =>
     dispatch(userActionCreators.authFail(errorMessage)),
-  handleSubmit: (username, password, rememberMe) =>
-    dispatch(userActionCreators.signIn(username, password, rememberMe)),
+  handleSubmit: (
+    username,
+    password,
+    rememberMe,
+    sentGiftGUID,
+    receivedGiftGUID
+  ) =>
+    dispatch(
+      userActionCreators.signIn(
+        username,
+        password,
+        rememberMe,
+        sentGiftGUID,
+        receivedGiftGUID
+      )
+    ),
   handleRedirect: () =>
     dispatch({
       type: USER_CLEAN_ERROR
