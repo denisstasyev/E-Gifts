@@ -2,40 +2,39 @@ import axios from "axios";
 
 import * as config from "configs/backendAPI";
 
-export const getGiftViewLink = async (id, text, isAuth) => {
-  // if (!isAuth) {
-  let giftViewLink = await axios
-    .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${id}&text=${text}`)
-    .then(response => {
-      if (response[config.DATA][config.RESULT]) {
-        return response[config.DATA][config.GIFT_VIEW_LINK];
-      } else {
-        console.log("Cannot buy gift :(");
-      }
-    })
-    .catch(() => {
-      console.log("Cannot buy gift: network problem");
-      //TODO: dispatch(loadFail("Network problem, try again later"));
-    });
-  //Add gift to user
-  // } else {
-  //   axios
-  //     .get(
-  //       `${config.BACKEND_SERVER}/buy_gift_ref?id=${props.id}&text=${text}&authorization_token${props.token}`
-  //     )
-  //     .then(response => {
-  //       if (response[config.DATA][config.RESULT]) {
-  //         setLink(response[config.DATA][config.GIFT_VIEW_LINK]);
-  //       } else {
-  //         console.log("Cannot buy gift :(");
-  //       }
-  //     })
-  //     .catch(() => {
-  //       console.log("Cannot buy gift: network problem");
-  //       //TODO: dispatch(loadFail("Network problem, try again later"));
-  //     });
-  //Send api call to add myself
-  // }
+export const getGiftViewLink = async (id, text, isAuth, token) => {
+  let giftViewLink;
+  if (!isAuth) {
+    giftViewLink = await axios
+      .get(`${config.BACKEND_SERVER}/buy_gift_ref?id=${id}&text=${text}`)
+      .then(response => {
+        if (response[config.DATA][config.RESULT]) {
+          return response[config.DATA][config.GIFT_VIEW_LINK];
+        } else {
+          console.log("Cannot buy gift :(");
+        }
+      })
+      .catch(() => {
+        console.log("Cannot buy gift: network problem");
+        //TODO: dispatch(loadFail("Network problem, try again later"));
+      });
+  } else {
+    giftViewLink = await axios
+      .get(
+        `${config.BACKEND_SERVER}/buy_gift_ref?id=${id}&text=${text}&token=${token}`
+      )
+      .then(response => {
+        if (response[config.DATA][config.RESULT]) {
+          return response[config.DATA][config.GIFT_VIEW_LINK];
+        } else {
+          console.log("Cannot buy gift :(");
+        }
+      })
+      .catch(() => {
+        console.log("Cannot buy gift: network problem");
+        //TODO: dispatch(loadFail("Network problem, try again later"));
+      });
+  }
   return giftViewLink;
 };
 

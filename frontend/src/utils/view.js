@@ -30,3 +30,20 @@ export const getViewGift = async link => {
     });
   return viewGift;
 };
+
+export const addGiftToCollection = (guid, token) => {
+  axios
+    .get(
+      `${config.BACKEND_SERVER}/add_gift_ref_to_own_collection?guid=${guid}&token=${token}`
+    )
+    .then(response => {
+      if (response[config.DATA][config.RESULT]) {
+      } else {
+        console.log("Cannot add gift :(");
+      }
+    })
+    .catch(() => {
+      console.log("Cannot add gift: network problem");
+      //TODO: dispatch(loadFail("Network problem, try again later"));
+    });
+};
