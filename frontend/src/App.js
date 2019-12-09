@@ -13,6 +13,7 @@ import { ViewGift } from "containers/ViewGift";
 import { Profile } from "containers/Profile";
 import { SignUp } from "containers/SignUp";
 import { SignIn } from "containers/SignIn";
+import { Demo } from "containers/Demo";
 import { NotFound } from "containers/NotFound";
 
 import { Navigation } from "components/Navigation";
@@ -132,6 +133,7 @@ const App = props => {
           <Route exact path="/profile" component={Profile} />
           <Route path="/profile/signup" component={SignUp} />
           <Route path="/profile/signin" component={SignIn} />
+          <Route path="/demo" component={Demo} />
           <Route path="*" component={NotFound} />
         </Switch>
         <Navigation />
