@@ -114,9 +114,17 @@ namespace EGifts.Handlers
                 Reference = $"{BaseUrl}{guid}",
             };
             gift.PurchasesCount++;
-            
-            user?.SentGifts.Add(reference);
-            if (null != self) user.ReceivedGifts.Add(reference);
+
+            if (null != user)
+            {
+                user.SentGifts.Add(reference);
+                reference.Sender = user;
+            }
+            if (null != self)
+            {
+                user.ReceivedGifts.Add(reference);
+                reference.Owner = user;
+            }
             
             dbContext.GiftReferences.Add(reference);
             dbContext.SaveChanges();

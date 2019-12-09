@@ -74,6 +74,16 @@ namespace EGifts.Handlers
                 };
             }
 
+            if (null == user)
+            {
+                return new ErrorMessage
+                {
+                    Result = false,
+                    ResultMessage = ResourcesErrorMessages.AuthError,
+                };
+                
+            }
+
             using var dbContext = new MainDbContext();
             var reference = dbContext.GetGiftReference(guid);
             if (null == reference)
@@ -94,6 +104,7 @@ namespace EGifts.Handlers
             }
             
             user.ReceivedGifts.Add(reference);
+            reference.Owner = user;
             dbContext.SaveChanges();
             
             return new UserDataMessage
