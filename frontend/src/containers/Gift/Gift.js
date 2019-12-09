@@ -50,6 +50,8 @@ import { ButtonFixed } from "components/ButtonFixed";
 import { MyBox } from "components/MyBox";
 import { MyBoxCard } from "components/MyBoxCard";
 
+import { USER_SET_SENT_GIFT_GUID } from "store/actionTypes";
+
 import * as giftActionCreators from "store/actions/gift";
 
 import * as config from "configs/backendAPI";
@@ -119,8 +121,13 @@ const Gift = props => {
   };
 
   const handleBuy = () => {
-    getGiftViewLink(props.id, text, props.isAuth).then(link => {
+    getGiftViewLink(props.id, text, props.isAuth, props.token).then(link => {
       setLink(link);
+      if (!props.isAuth) {
+        props.setSentGiftGUID(
+          link.substring(link.lastIndexOf("/") + 1, link.length)
+        );
+      }
     });
   };
 
@@ -656,7 +663,7 @@ const Gift = props => {
                         to="/profile"
                       >
                         <AccountIcon className={classes.icon} />
-                        Profile
+                        Visit Profile
                       </Fab>
                     </div>
                   </>
@@ -675,7 +682,7 @@ const Gift = props => {
                         to="/profile"
                       >
                         <AccountIcon className={classes.icon} />
-                        Profile
+                        Sign Up or Sign In
                       </Fab>
                     </div>
                   </>
@@ -726,6 +733,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getGift: id => {
     dispatch(giftActionCreators.getGift(id));
+  },
+  setSentGiftGUID: sentGiftGUID => {
+    dispatch({ type: USER_SET_SENT_GIFT_GUID, sentGiftGUID });
   }
 });
 
