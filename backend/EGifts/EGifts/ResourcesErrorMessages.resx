@@ -123,6 +123,9 @@
   <data name="AuthTimeout" xml:space="preserve">
     <value>User authorization token timed out</value>
   </data>
+  <data name="EmailNotValid" xml:space="preserve">
+    <value>Current e-mail is not valid</value>
+  </data>
   <data name="GiftReferenceOwned" xml:space="preserve">
     <value>The gift olready owned</value>
   </data>

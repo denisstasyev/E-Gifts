@@ -17,6 +17,6 @@ namespace EGifts.Messages
         
         [JsonIgnore]
         public string ToJsonString => JsonSerializer.Serialize(this, GetType(),
-            new JsonSerializerOptions {WriteIndented = true, IgnoreReadOnlyProperties = true});
+            new JsonSerializerOptions {WriteIndented = true});
     }
 }

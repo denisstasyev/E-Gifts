@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using EGifts.DataBase;
 using EGifts.Messages;
 using EGifts.Messages.MessageNames;
@@ -49,10 +50,7 @@ namespace EGifts.Handlers
             {
                 Result = true,
                 ModelUrl = gift.ModelUrl,
-                ScaleX = gift.ScaleX,
-                ScaleY = gift.ScaleY,
-                ScaleZ = gift.ScaleZ,
-                Light = gift.Light,
+                ModelUrlApple = gift.ModelUrlApple,
                 Text = reference.Text
             };
         }

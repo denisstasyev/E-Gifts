@@ -20,8 +20,9 @@ using Microsoft.Extensions.Hosting;
 using System.Text.Json;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
+using EGifts.Handlers;
 
-namespace EGifts.Handlers
+namespace EGifts
 {
     public class Startup
     {
@@ -32,6 +33,7 @@ namespace EGifts.Handlers
 
         public Startup(IConfiguration configuration)
         {
+            ConfigurationManager.Configure(configuration);
             MainDbContext.ConnectionString = configuration.GetConnectionString("DefaultConnection");
 
             using var dbContext = new MainDbContext();
@@ -54,7 +56,7 @@ namespace EGifts.Handlers
                     context.SaveChanges();
                 }
 
-                //context.TestCreateGiftsTags();
+                //context.TestCreateGiftsTags1();
             }
             catch (Exception e)
             {
@@ -90,6 +92,13 @@ namespace EGifts.Handlers
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
+
+            app.Map("/error", ap => ap.Run(async context =>
+            {
+                await context.Response.WriteAsync($"Error in request: {context.Request.Query["code"]}");
+            }));
+
             app.UseCors(MyAllowSpecificOrigins);
 
             app.UseStaticFiles(new StaticFileOptions
@@ -101,81 +110,105 @@ namespace EGifts.Handlers
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/login", async context =>
+                endpoints.MapGet("/api/login", async context =>
                 {
                     var handler = new LoginHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_profile", async context =>
+                {
+                    var handler = new GetProfile();
+                    var result = handler.Handle(context);
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                });//.RequireCors(MyAllowSpecificOrigins);
 
-                endpoints.MapGet("/reg", async context =>
+                endpoints.MapGet("/api/reg", async context =>
                 {
                     var handler = new RegistrationHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/get_gallery", async context =>
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_gallery", async context =>
                 {
                     var handler = new GetGalleryHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/get_gallery_by_tags", async context =>
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_gallery_popular", async context =>
+                {
+                    var handler = new GetGalleryPopularHandler();
+                    var result = handler.Handle(context);
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_gallery_last", async context =>
+                {
+                    var handler = new GetGalleryLastHandler();
+                    var result = handler.Handle(context);
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_gallery_by_tags", async context =>
                 {
                     var handler = new GetGalleryByTagsHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/get_tags", async context =>
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_tags", async context =>
                 {
                     var handler = new GetTagsHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/get_model_by_ref", async context =>
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_model_by_ref", async context =>
                 {
                     var handler = new GetModelByRefHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/buy_gift_ref", async context =>
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/buy_gift_ref", async context => //"e-gifts.site/view/603abfd4-d985-4da9-b4cb-136be0fa1b07"
                 {
                     var handler = new BuyGiftRefHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/get_gift", async context =>
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/get_gift", async context =>
                 {
                     var handler = new GetGiftHandler();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
-                endpoints.MapGet("/add_gift_ref_to_own_collection", async context =>
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/add_gift_ref_to_own_collection", async context =>
                 {
                     var handler = new AddGiftRefToOwnCollection();
                     var result = handler.Handle(context);
-                    if (result is ErrorMessage errorMessage)
-                        context.Response.StatusCode = errorMessage.ErrorCode;
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
                     await context.Response.WriteAsync(result.ToJsonString);
-                }).RequireCors(MyAllowSpecificOrigins);
+                });//.RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapGet("/api/send_by_email", async context =>
+                {
+                    var handler = new SendRefByEmailHandler();
+                    var result = handler.Handle(context);
+                    //if (result is ErrorMessage errorMessage) context.Response.StatusCode = errorMessage.ErrorCode;
+                    await context.Response.WriteAsync(result.ToJsonString);
+                });//.RequireCors(MyAllowSpecificOrigins);
             });
-            app.Run(async (context) => { await context.Response.WriteAsync("hello"); });
+
+            app.Map("", ap => ap.Run(async context =>
+            {
+                await context.Response.WriteAsync($"DefaultConnection");
+            }));
+            //app.Run(async (context) => { await context.Response.WriteAsync("DefaultConnection"); });
         }
     }
 }

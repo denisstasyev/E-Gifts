@@ -147,9 +147,19 @@ namespace EGifts.Handlers
                 LastName = lastName,
                 PasswordHash = password,
                 Tokens = new List<Token> {token},
+                RegistrationDate = DateTime.Now,
             };
-            if (null != giftReference) user.SentGifts.Add(giftReference);
-            if (null != ownedGiftReference) user.ReceivedGifts.Add(ownedGiftReference);
+            if (null != giftReference)
+            {
+                user.SentGifts.Add(giftReference);
+                giftReference.Sender = user;
+            }
+
+            if (null != ownedGiftReference)
+            {
+                user.ReceivedGifts.Add(ownedGiftReference);
+                ownedGiftReference.Owner = user;
+            }
 
             dbContext.Users.Add(user);
             dbContext.SaveChanges();

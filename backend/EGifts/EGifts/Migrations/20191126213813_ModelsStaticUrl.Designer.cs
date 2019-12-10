@@ -3,15 +3,17 @@ using System;
 using EGifts.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EGifts.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191126213813_ModelsStaticUrl")]
+    partial class ModelsStaticUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +34,6 @@ namespace EGifts.Migrations
                     b.Property<double>("Cost")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -47,16 +46,10 @@ namespace EGifts.Migrations
                     b.Property<int>("Light")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ModelUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ModelUrlApple")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<long>("PurchasesCount")
+                    b.Property<long>("PurchasesNumber")
                         .HasColumnType("bigint");
 
                     b.Property<float>("ScaleX")
@@ -218,12 +211,17 @@ namespace EGifts.Migrations
                     b.Property<long?>("GiftId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("GiftId1")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GiftId");
+
+                    b.HasIndex("GiftId1");
 
                     b.ToTable("StaticUrls");
                 });
@@ -386,8 +384,12 @@ namespace EGifts.Migrations
             modelBuilder.Entity("EGifts.DataBase.DatabaseClasses.StaticUrl", b =>
                 {
                     b.HasOne("EGifts.DataBase.DatabaseClasses.Gift", null)
-                        .WithMany("StaticUrls")
+                        .WithMany("ModelUrls")
                         .HasForeignKey("GiftId");
+
+                    b.HasOne("EGifts.DataBase.DatabaseClasses.Gift", null)
+                        .WithMany("StaticUrls")
+                        .HasForeignKey("GiftId1");
                 });
 
             modelBuilder.Entity("EGifts.DataBase.DatabaseClasses.Token", b =>

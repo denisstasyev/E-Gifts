@@ -15,7 +15,7 @@ namespace EGifts.Handlers
     class BuyGiftRefHandler : IRequestHandler
     {
         //TODO: вынести в бд!
-        const string BaseUrl = "e-gifts.site/view/";
+        const string BaseUrl = "https://e-gifts.site/view/";
         public BaseMessage Handle(HttpContext context)
         {
             var requestData = context.Request.Query;
@@ -40,11 +40,11 @@ namespace EGifts.Handlers
             var self = requestData.GetNullableValue(GiftNames.SelfGift);
 
             User user = null;
-            if (requestData.ContainsKey(CommonNames.AuthorizationToken))
+            if (requestData.ContainsKey(CommonNames.Token))
             {
                 try
                 {
-                    var token = new Guid(requestData[CommonNames.AuthorizationToken]);
+                    var token = new Guid(requestData[CommonNames.Token]);
                     user = new Authorizator().Authorize(token);
                 }
                 catch (NotAuthorizedException)
@@ -113,12 +113,23 @@ namespace EGifts.Handlers
                 Text = text,
                 Reference = $"{BaseUrl}{guid}",
             };
-            gift.PurchasesNumber++;
-            
-            user?.SentGifts.Add(reference);
-            if (null != self) user.ReceivedGifts.Add(reference);
-            
             dbContext.GiftReferences.Add(reference);
+            //gift.PurchasesCount++;
+            dbContext.SaveChanges();
+            reference = dbContext.GiftReferences.FirstOrDefault(g => g.Guid == guid);
+
+            if (null != user)
+            {
+                user = dbContext.Users.FirstOrDefault(u => u.Id == user.Id);
+                //user.SentGifts.Add(reference);
+                reference.Sender = user;
+                if (null != self)
+                {
+                    //user.ReceivedGifts.Add(reference);
+                    reference.Owner = user;
+                }
+            }
+            
             dbContext.SaveChanges();
             return new BuyGiftRefResponse()
             {

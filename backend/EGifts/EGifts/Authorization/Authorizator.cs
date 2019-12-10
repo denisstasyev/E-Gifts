@@ -19,7 +19,7 @@ namespace EGifts.Authorization
                 throw new AuthTimeoutException();
             }
 
-            return token.User;
+            return dbContext.GetUser(token.User);
         }
     }
 }

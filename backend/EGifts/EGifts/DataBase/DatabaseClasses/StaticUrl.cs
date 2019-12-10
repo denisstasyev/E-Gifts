@@ -15,8 +15,10 @@ namespace EGifts.DataBase.DatabaseClasses
         {
             Name = url;
         }
+
         [JsonIgnore]
         public long Id { get; set; }
+
         [JsonPropertyName(GiftNames.ImageUrl)]
         public string Name { get; set; }
     }

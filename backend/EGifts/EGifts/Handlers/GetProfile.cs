@@ -1,4 +1,9 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using EGifts.Authorization;
 using EGifts.DataBase;
 using EGifts.DataBase.DatabaseClasses;
@@ -9,19 +14,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace EGifts.Handlers
 {
-    public class AddGiftRefToOwnCollection: IRequestHandler
+    public class GetProfile : IRequestHandler
     {
         public BaseMessage Handle(HttpContext context)
         {
             var requestData = context.Request.Query;
-            if (!requestData.ContainsKey(GiftNames.Guid))
-            {
-                return new ErrorMessage
-                {
-                    Result = false,
-                    ResultMessage = ResourcesErrorMessages.NoParameters,
-                };
-            }
             if (!requestData.ContainsKey(CommonNames.Token))
             {
                 return new ErrorMessage
@@ -31,12 +28,10 @@ namespace EGifts.Handlers
                 };
             }
 
-            Guid guid;
             User user;
             try
             {
                 var token = new Guid(requestData[CommonNames.Token]);
-                guid = new Guid( requestData[GiftNames.Guid].ToString());
                 user = new Authorizator().Authorize(token);
             }
             catch (NotAuthorizedException)
@@ -81,35 +76,12 @@ namespace EGifts.Handlers
                     Result = false,
                     ResultMessage = ResourcesErrorMessages.AuthError,
                 };
-                
             }
-
-            using var dbContext = new MainDbContext();
-            var reference = dbContext.GetGiftReference(guid);
-            if (null == reference)
-            {
-                return new ErrorMessage
-                {
-                    Result = false,
-                    ResultMessage = ResourcesErrorMessages.ReferenceNotValid,
-                };
-            }
-            if (null != reference.Owner)
-            {
-                return new ErrorMessage
-                {
-                    Result = false,
-                    ResultMessage = ResourcesErrorMessages.GiftReferenceOwned,
-                };
-            }
-            
-            user.ReceivedGifts.Add(reference);
-            reference.Owner = user;
-            dbContext.SaveChanges();
-            
-            return new UserDataMessage
+            // TODO: б из юзера одной функой получать этот ответ? Или пересечёт транспорт и бд? (
+            return new LoginResponseMessage
             {
                 Result = true,
+                ResultMessage = "",
                 User = user,
             };
         }

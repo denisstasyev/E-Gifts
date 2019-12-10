@@ -10,6 +10,8 @@ namespace EGifts.Messages
     {
         [JsonPropertyName(GiftNames.ModelUrl)]
         public string ModelUrl { get; set; }
+        [JsonPropertyName(GiftNames.ModelUrlApple)]
+        public string ModelUrlApple { get; set; }
         [JsonPropertyName(GiftNames.Text)]
         public string Text { get; set; }
         [JsonPropertyName(GiftNames.ScaleX)] 
