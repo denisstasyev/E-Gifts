@@ -27,7 +27,7 @@
     "react-ticker": "^1.2.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "three": "^0.111.0"
+    "three": "^0.125.0"
   },
   "scripts": {
     "start": "react-scripts start",
